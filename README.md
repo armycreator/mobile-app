@@ -1,2 +1,3 @@
-# mobile-app
-Armycreator mobile app
+# Armycreator mobile app
+
+Will be released soon
