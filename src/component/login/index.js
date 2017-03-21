@@ -1,5 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  View,
+} from 'react-native';
 
 class Login extends Component {
   constructor(props) {
@@ -16,6 +24,7 @@ class Login extends Component {
       username: null,
       password: null,
       errorMessage: null,
+      loginStatus: null,
     };
   }
 
@@ -24,12 +33,23 @@ class Login extends Component {
 
     event.preventDefault();
 
-    this.setState((prevProps) => ({ errorMessage: null }));
+    console.log('will login');
+
+    this.setState((prevProps) => ({
+      errorMessage: null,
+      loginStatus: 'IN_PROGRESS',
+    }));
 
     sdk.tokenStorage.generateToken(this.state)
-      .then(onLogged)
+      .then(() => {
+        this.setState(() => ({ loginStatus: 'SUCCEEDED' }));
+        return onLogged();
+      })
       .catch((e) => {
-        this.setState((prevProps) => ({ errorMessage: e.error_description }));
+        this.setState((prevProps) => ({
+          errorMessage: e.error_description,
+          loginStatus: 'FAILED',
+        }));
       })
     ;
   }
@@ -53,6 +73,9 @@ class Login extends Component {
   }
 
   render() {
+    const isLoginButtonDisabled = !(this.state.username && this.state.password);
+
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -85,8 +108,16 @@ class Login extends Component {
               <Text>{this.state.errorMessage}</Text>
             }
 
-            <TouchableHighlight style={styles.primaryButton} onPress={this.handleLogin}>
-              <Text style={styles.primaryButtonText}>Valider</Text>
+            <TouchableHighlight
+              style={styles.primaryButton}
+              onPress={this.handleLogin}
+              disabled={isLoginButtonDisabled}
+            >
+              {this.state.loginStatus !== 'IN_PROGRESS' ?
+                <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Valider</Text> :
+                <ActivityIndicator color="#ffffff" />
+              }
+
             </TouchableHighlight>
           </View>
         </KeyboardAvoidingView>
@@ -133,6 +164,10 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     color: '#ffffff',
     textAlign: 'center',
+  },
+
+  buttonDisabled: {
+    opacity: .5,
   },
 
   label: {
