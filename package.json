@@ -22,6 +22,7 @@
     "expo": "^15.0.0",
     "react": "~15.4.0",
     "react-native": "0.42.3",
+    "react-router-native": "^4.0.0",
     "rest-client-sdk": "^0.12.0"
   }
 }
