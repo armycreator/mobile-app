@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableHighlight, View } from 'react-native';
 import Login from './component/login';
 import sdk from './Sdk';
 
@@ -7,6 +7,7 @@ import sdk from './Sdk';
 //   .then(console.log)
 //   .catch(console.error)
 // ;
+// global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
 
 export default class App extends React.Component {
   constructor(props) {
@@ -28,7 +29,11 @@ export default class App extends React.Component {
     }
 
     return (
-      <Text>Coucou</Text>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <TouchableHighlight onPress={() => this.setState({ isLogged: false })} style={{ backgroundColor: '#aaaaaa' }}>
+          <Text>Coucou</Text>
+        </TouchableHighlight>
+      </View>
     );
   }
 }

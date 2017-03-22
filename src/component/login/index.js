@@ -33,14 +33,13 @@ class Login extends Component {
 
     event.preventDefault();
 
-    console.log('will login');
-
     this.setState((prevProps) => ({
       errorMessage: null,
       loginStatus: 'IN_PROGRESS',
     }));
 
-    sdk.tokenStorage.generateToken(this.state)
+    const formData =  { username: this.state.username, password: this.state.password };
+    sdk.tokenStorage.generateToken(formData)
       .then(() => {
         this.setState(() => ({ loginStatus: 'SUCCEEDED' }));
         return onLogged();
@@ -75,7 +74,6 @@ class Login extends Component {
   render() {
     const isLoginButtonDisabled = !(this.state.username && this.state.password);
 
-
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -88,6 +86,7 @@ class Login extends Component {
               autoCapitalize="none"
               autoFocus
               style={styles.input}
+              defaultValue={this.state.username}
               onChange={this.handleUsernameChange}
               onSubmitEditing={this.handleUsernameSubmit}
               returnKeyType="next"
@@ -99,6 +98,7 @@ class Login extends Component {
               textDecorationLine="none"
               style={styles.input}
               secureTextEntry
+              defaultValue={this.state.password}
               onChange={this.handlePasswordChange}
               returnKeyType="go"
               onSubmitEditing={this.handleLogin}
@@ -115,9 +115,19 @@ class Login extends Component {
             >
               {this.state.loginStatus !== 'IN_PROGRESS' ?
                 <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Valider</Text> :
-                <ActivityIndicator color="#ffffff" />
+                <View>
+                  <ActivityIndicator color="#ffffff" />
+                </View>
               }
 
+            </TouchableHighlight>
+
+            <TouchableHighlight
+              style={{ backgroundColor: 'red', marginTop: 20 }}
+              onPress={() => this.setState({ username: 'test', password: 'test', loginStatus: null })}
+              disabled={this.state.loginStatus !== null}
+            >
+              <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Debug Fill</Text>
             </TouchableHighlight>
           </View>
         </KeyboardAvoidingView>
