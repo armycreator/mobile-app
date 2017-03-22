@@ -5,6 +5,13 @@ class UserClient extends AbstractClient {
     return '/v1/users';
   }
 
+  findMe() {
+    const url = `${this.sdk.config.segment}/me`;
+
+    return this.createEntityFromJsonResponse(this.authorizedFetch(url), 'item');
+  }
+
+
   getName() {
     return 'User';
   }

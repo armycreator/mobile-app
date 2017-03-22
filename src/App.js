@@ -13,9 +13,24 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleLogged = this.handleLogged.bind(this);
+
     this.state = {
       isLogged: false,
+      user: null,
     };
+  }
+
+  handleLogged() {
+    sdk.user.findMe()
+      .then((user) => {
+        this.setState({
+          isLogged: true,
+          user,
+        });
+      })
+      .catch(console.error)
+    ;
   }
 
   render() {
@@ -23,7 +38,7 @@ export default class App extends React.Component {
       return (
         <Login
           sdk={sdk}
-          onLogged={() => this.setState({ isLogged: true })}
+          onLogged={this.handleLogged}
         />
       );
     }
@@ -31,7 +46,7 @@ export default class App extends React.Component {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <TouchableHighlight onPress={() => this.setState({ isLogged: false })} style={{ backgroundColor: '#aaaaaa' }}>
-          <Text>Coucou</Text>
+          <Text>Coucou {this.state.user.get('username')}</Text>
         </TouchableHighlight>
       </View>
     );
