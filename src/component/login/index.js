@@ -127,7 +127,7 @@ class Login extends Component {
 
             <TouchableHighlight
               style={{ backgroundColor: 'red', marginTop: 20 }}
-              onPress={() => this.setState({ username: 'test', password: 'test', loginStatus: null })}
+              onPress={() => this.setState({ username: 'testjdu', password: 'testjdu', loginStatus: null })}
               disabled={this.state.loginStatus !== null}
             >
               <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Debug Fill</Text>

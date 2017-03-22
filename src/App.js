@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
+import { NativeRouter, Route, Link } from 'react-router-native';
 import Login from './component/login';
 import sdk from './Sdk';
 
@@ -8,6 +9,19 @@ import sdk from './Sdk';
 //   .catch(console.error)
 // ;
 // global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
+
+function Coucou({ onPress, user }) {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <TouchableHighlight
+        onPress={onPress}
+        style={{ backgroundColor: '#aaaaaa' }}
+      >
+        <Text>Coucou {user.get('username')}</Text>
+      </TouchableHighlight>
+    </View>
+  );
+}
 
 export default class App extends React.Component {
   constructor(props) {
@@ -34,6 +48,22 @@ export default class App extends React.Component {
   }
 
   render() {
+    return (
+      <NativeRouter>
+        <View>
+          <Link to="/login">
+            <Text>Login</Text>
+          </Link>
+          <Link to="/me">
+            <Text>Me</Text>
+          </Link>
+
+          <Route path="/login" component={Login} />
+          <Route path="/me" component={Coucou} />
+        </View>
+      </NativeRouter>
+    );
+
     if (!this.state.isLogged) {
       return (
         <Login
@@ -44,11 +74,10 @@ export default class App extends React.Component {
     }
 
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <TouchableHighlight onPress={() => this.setState({ isLogged: false })} style={{ backgroundColor: '#aaaaaa' }}>
-          <Text>Coucou {this.state.user.get('username')}</Text>
-        </TouchableHighlight>
-      </View>
+      <Coucou
+        onPress={() => this.setState({ isLogged: false })}
+        user={this.state.user}
+      />
     );
   }
 }
