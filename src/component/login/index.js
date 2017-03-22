@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import colors from '../../colors';
 
 class Login extends Component {
   constructor(props) {
@@ -105,7 +106,9 @@ class Login extends Component {
             />
 
             {this.state.errorMessage &&
-              <Text>{this.state.errorMessage}</Text>
+              <View style={styles.errorMessage}>
+                <Text style={styles.errorMessageText}>{this.state.errorMessage}</Text>
+              </View>
             }
 
             <TouchableHighlight
@@ -116,7 +119,7 @@ class Login extends Component {
               {this.state.loginStatus !== 'IN_PROGRESS' ?
                 <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Valider</Text> :
                 <View>
-                  <ActivityIndicator color="#ffffff" />
+                  <ActivityIndicator color={colors.white} />
                 </View>
               }
 
@@ -144,15 +147,15 @@ Login.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2e2f2a',
+    backgroundColor: colors.background,
   },
 
   header: {
-    backgroundColor: '#eb9e34',
+    backgroundColor: colors.secondary,
   },
 
   headerText: {
-    color: '#ffffff',
+    color: colors.white,
   },
 
   content: {
@@ -163,16 +166,16 @@ const styles = StyleSheet.create({
   loginForm: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
   },
 
   primaryButton: {
-    backgroundColor: '#457F78',
+    backgroundColor: colors.primary,
     paddingVertical: 20,
   },
 
   primaryButtonText: {
-    color: '#ffffff',
+    color: colors.white,
     textAlign: 'center',
   },
 
@@ -189,6 +192,16 @@ const styles = StyleSheet.create({
     // textAlignVertical: 'top',
     // borderColor: 'gray',
     // borderWidth: 1,
+  },
+
+  errorMessage: {
+    backgroundColor: colors.danger,
+    padding: 10,
+    marginBottom: 10,
+  },
+  errorMessageText: {
+    color: colors.white,
+    textAlign: 'center',
   },
 });
 
