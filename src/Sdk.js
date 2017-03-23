@@ -1,3 +1,5 @@
+// @flow
+
 import RestClientSdk, { TokenStorage, PasswordGenerator } from 'rest-client-sdk';
 import { AsyncStorage } from 'react-native';
 import UserClient from './Entity/User';

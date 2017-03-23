@@ -1,18 +1,21 @@
+// @flow
+
+import { Map } from 'immutable';
 import { AbstractClient } from 'rest-client-sdk';
 
 class UserClient extends AbstractClient {
-  getPathBase() {
+  getPathBase(): string {
     return '/v1/users';
   }
 
-  findMe() {
+  findMe(): Promise<any> {
     const url = `${this.sdk.config.segment}/me`;
 
     return this.createEntityFromJsonResponse(this.authorizedFetch(url), 'item');
   }
 
 
-  getName() {
+  getName(): string {
     return 'User';
   }
 }
