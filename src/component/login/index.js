@@ -1,4 +1,7 @@
+// @flow
+
 import React, { Component, PropTypes } from 'react';
+import RestClientSdk from 'rest-client-sdk';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -10,26 +13,46 @@ import {
 } from 'react-native';
 import colors from '../../colors';
 
+type Props = {
+  sdk: RestClientSdk,
+  onLogged: function,
+};
+
+type NativeEvent = {
+  nativeEvent: Object,
+};
+
 class Login extends Component {
-  constructor(props) {
+  props: Props;
+
+  state: {
+      username: string,
+      password: string,
+      errorMessage: ?string,
+      loginStatus: ?string,
+  }
+
+  passwordRef: ?Object;
+
+  constructor(props: Props) {
     super(props);
 
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleUsernameChange = this.handleUsernameChange.bind(this);
-    this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    (this: any).handleLogin = this.handleLogin.bind(this);
+    (this: any).handleUsernameChange = this.handleUsernameChange.bind(this);
+    (this: any).handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
+    (this: any).handlePasswordChange = this.handlePasswordChange.bind(this);
 
     this.passwordRef = null;
 
     this.state = {
-      username: null,
-      password: null,
+      username: '',
+      password: '',
       errorMessage: null,
       loginStatus: null,
     };
   }
 
-  handleLogin(event) {
+  handleLogin(event: Event) {
     const { sdk, onLogged } = this.props;
 
     event.preventDefault();
@@ -54,7 +77,7 @@ class Login extends Component {
     ;
   }
 
-  handleUsernameChange(event) {
+  handleUsernameChange(event: NativeEvent) {
     this.setState({
       username: event.nativeEvent.text,
     });
@@ -66,7 +89,7 @@ class Login extends Component {
     }
   }
 
-  handlePasswordChange(event) {
+  handlePasswordChange(event: NativeEvent) {
     this.setState({
       password: event.nativeEvent.text,
     });
@@ -138,11 +161,6 @@ class Login extends Component {
     );
   }
 }
-
-Login.propTypes = {
-  sdk: PropTypes.object.isRequired,
-  onLogged: PropTypes.func.isRequired,
-};
 
 const styles = StyleSheet.create({
   container: {
