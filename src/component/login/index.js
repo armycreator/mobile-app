@@ -100,9 +100,6 @@ class Login extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Connection</Text>
-        </View>
         <KeyboardAvoidingView behavior="padding" style={styles.content}>
           <View style={styles.loginForm}>
             <Text style={styles.label}>Utilisateur</Text>
@@ -148,7 +145,7 @@ class Login extends Component {
             </TouchableHighlight>
 
             <TouchableHighlight
-              style={{ backgroundColor: 'red', marginTop: 20 }}
+              style={{ backgroundColor: 'red', marginTop: 20, padding: 20 }}
               onPress={() => this.setState({ username: 'testjdu', password: 'testjdu', loginStatus: null })}
               disabled={this.state.loginStatus !== null}
             >
@@ -165,14 +162,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-  },
-
-  header: {
-    backgroundColor: colors.secondary,
-  },
-
-  headerText: {
-    color: colors.white,
   },
 
   content: {
