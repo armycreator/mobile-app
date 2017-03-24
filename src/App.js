@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
-import { NativeRouter, Route, Link } from 'react-router-native';
 import Login from './component/login';
 import sdk from './Sdk';
 
@@ -48,22 +47,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    return (
-      <NativeRouter>
-        <View>
-          <Link to="/login">
-            <Text>Login</Text>
-          </Link>
-          <Link to="/me">
-            <Text>Me</Text>
-          </Link>
-
-          <Route path="/login" component={Login} />
-          <Route path="/me" component={Coucou} />
-        </View>
-      </NativeRouter>
-    );
-
     if (!this.state.isLogged) {
       return (
         <Login
