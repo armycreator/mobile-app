@@ -1,6 +1,5 @@
 // @flow
 
-import { Map } from 'immutable';
 import { AbstractClient } from 'rest-client-sdk';
 
 class UserClient extends AbstractClient {

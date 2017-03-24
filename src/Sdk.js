@@ -2,6 +2,7 @@
 
 import RestClientSdk, { TokenStorage, PasswordGenerator } from 'rest-client-sdk';
 import { AsyncStorage } from 'react-native';
+import ArmyClient from './Entity/Army';
 import UserClient from './Entity/User';
 import { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../config';
 
@@ -15,6 +16,7 @@ const tokenGenerator = new PasswordGenerator(tokenGeneratorConfig);
 const storage = AsyncStorage;
 const tokenStorage = new TokenStorage(tokenGenerator, storage);
 
+
 const config = {
       path: 'api.armycreator.net',
       scheme: 'https',
@@ -26,6 +28,7 @@ const config = {
 
 const clients = {
   user: UserClient,
+  army: ArmyClient,
   // ...
 };
 
