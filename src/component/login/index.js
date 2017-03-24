@@ -15,7 +15,7 @@ import colors from '../../colors';
 
 type Props = {
   sdk: RestClientSdk,
-  onLogged: function,
+  onLogged: Function,
 };
 
 type NativeEvent = {
@@ -145,7 +145,6 @@ class Login extends Component {
                   <ActivityIndicator color={colors.white} />
                 </View>
               }
-
             </TouchableHighlight>
 
             <TouchableHighlight
