@@ -99,71 +99,64 @@ class Login extends Component {
     const isLoginButtonDisabled = !(this.state.username && this.state.password);
 
     return (
-      <View style={styles.container}>
-        <KeyboardAvoidingView behavior="padding" style={styles.content}>
-          <View style={styles.loginForm}>
-            <Text style={styles.label}>Utilisateur</Text>
-            <TextInput
-              autoCapitalize="none"
-              autoFocus
-              style={styles.input}
-              defaultValue={this.state.username}
-              onChange={this.handleUsernameChange}
-              onSubmitEditing={this.handleUsernameSubmit}
-              returnKeyType="next"
-            />
-            <Text style={styles.label}>Mot de passe</Text>
-            <TextInput
-              ref={(ref) => this.passwordRef = ref}
-              autoCapitalize="none"
-              textDecorationLine="none"
-              style={styles.input}
-              secureTextEntry
-              defaultValue={this.state.password}
-              onChange={this.handlePasswordChange}
-              returnKeyType="go"
-              onSubmitEditing={this.handleLogin}
-            />
+      <KeyboardAvoidingView behavior="padding" style={styles.content}>
+        <View style={styles.loginForm}>
+          <Text style={styles.label}>Utilisateur</Text>
+          <TextInput
+            autoCapitalize="none"
+            autoFocus
+            style={styles.input}
+            defaultValue={this.state.username}
+            onChange={this.handleUsernameChange}
+            onSubmitEditing={this.handleUsernameSubmit}
+            returnKeyType="next"
+          />
+          <Text style={styles.label}>Mot de passe</Text>
+          <TextInput
+            ref={(ref) => this.passwordRef = ref}
+            autoCapitalize="none"
+            textDecorationLine="none"
+            style={styles.input}
+            secureTextEntry
+            defaultValue={this.state.password}
+            onChange={this.handlePasswordChange}
+            returnKeyType="go"
+            onSubmitEditing={this.handleLogin}
+          />
 
-            {this.state.errorMessage &&
-              <View style={styles.errorMessage}>
-                <Text style={styles.errorMessageText}>{this.state.errorMessage}</Text>
+          {this.state.errorMessage &&
+            <View style={styles.errorMessage}>
+              <Text style={styles.errorMessageText}>{this.state.errorMessage}</Text>
+            </View>
+          }
+
+          <TouchableHighlight
+            style={styles.primaryButton}
+            onPress={this.handleLogin}
+            disabled={isLoginButtonDisabled}
+          >
+            {this.state.loginStatus !== 'IN_PROGRESS' ?
+              <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Valider</Text> :
+              <View>
+                <ActivityIndicator color={colors.white} />
               </View>
             }
+          </TouchableHighlight>
 
-            <TouchableHighlight
-              style={styles.primaryButton}
-              onPress={this.handleLogin}
-              disabled={isLoginButtonDisabled}
-            >
-              {this.state.loginStatus !== 'IN_PROGRESS' ?
-                <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Valider</Text> :
-                <View>
-                  <ActivityIndicator color={colors.white} />
-                </View>
-              }
-            </TouchableHighlight>
-
-            <TouchableHighlight
-              style={{ backgroundColor: 'red', marginTop: 20, padding: 20 }}
-              onPress={() => this.setState({ username: 'testjdu', password: 'testjdu', loginStatus: null })}
-              disabled={this.state.loginStatus !== null}
-            >
-              <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Debug Fill</Text>
-            </TouchableHighlight>
-          </View>
-        </KeyboardAvoidingView>
-      </View>
+          <TouchableHighlight
+            style={{ backgroundColor: 'red', marginTop: 20, padding: 20 }}
+            onPress={() => this.setState({ username: 'testjdu', password: 'testjdu', loginStatus: null })}
+            disabled={this.state.loginStatus !== null}
+          >
+            <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Debug Fill</Text>
+          </TouchableHighlight>
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-
   content: {
     flex: 1,
     justifyContent: 'center',

@@ -1,14 +1,35 @@
 // @flow
 import React, { Component } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, ListView, Text, View } from 'react-native';
 import { List, Map } from 'immutable';
 import RestClientSdk from 'rest-client-sdk';
+import styled from 'styled-components/native';
 import colors from '../colors';
 
 type ArmyListProps = {
   sdk: RestClientSdk,
   user: Map<any, any>,
 };
+
+const Container = styled.View`
+  flex: 1;
+`;
+
+const Army = styled.View`
+  background-color: ${colors.background};
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom-width: 1;
+  border-bottom-color: ${colors.black};
+  padding: 15;
+`;
+const ArmyName = styled.Text`
+  color: ${colors.white};
+`;
+const ArmyPoints = styled.Text`
+  color: ${colors.softGrey};
+`;
 
 class ArmyList extends Component {
   props: ArmyListProps;
@@ -20,6 +41,8 @@ class ArmyList extends Component {
   constructor(props: ArmyListProps) {
     super(props);
 
+    this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     this.state = {
       armyList: null,
     };
@@ -29,28 +52,41 @@ class ArmyList extends Component {
     const { sdk, user } = this.props;
 
     return sdk.army.findByUser(user)
-      .then((armyList) => this.setState({ armyList }))
+      .then((data) => this.setState({
+        armyList: this.dataSource.cloneWithRows(
+          data.get('items').toArray()
+        ),
+      }))
       .catch(console.error)
     ;
+  }
+
+  renderRow(army) {
+    return (
+      <Army key={army.get('id')}>
+        <ArmyName>{army.get('name')}</ArmyName>
+        <ArmyPoints>
+          {army.get('active_points')}
+          {' pts'}
+        </ArmyPoints>
+      </Army>
+    );
   }
 
   render () {
     const { user } = this.props;
 
-    if (!this.state.armyList) {
+    if (this.state.armyList === null) {
       return (<View>
         <ActivityIndicator color={colors.primary} />
       </View>);
     }
 
     return (
-      <View>
-        {this.state.armyList.get('items').map(item =>
-          <View key={item.get('id')}>
-            <Text>{item.get('name')}</Text>
-          </View>
-        )}
-      </View>
+      <ListView
+        dataSource={this.state.armyList}
+        renderRow={this.renderRow}
+      />
     );
   }
 }
