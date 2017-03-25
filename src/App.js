@@ -1,9 +1,10 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Text, TouchableHighlight, StatusBar, StyleSheet, View } from 'react-native';
+import { Text, TouchableHighlight, StatusBar, View } from 'react-native';
 import { Map } from 'immutable'
 import NavigationBar from 'react-native-navbar';
+import styled from 'styled-components/native';
 import Login from './component/login';
 import ArmyList from './component/ArmyList';
 import sdk from './Sdk';
@@ -15,6 +16,10 @@ import colors from './colors';
 // ;
 // global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
 
+const Container = styled.View`
+  flex: 1;
+  background-color: ${colors.background};
+`;
 
 export default class App extends Component {
   state: {
@@ -47,11 +52,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <Container>
         <StatusBar hidden />
 
         <NavigationBar
-          title={{title: this.state.title, tintColor: '#fff' }}
+          title={{title: this.state.title, tintColor: colors.white }}
           tintColor={colors.secondary}
         />
 
@@ -60,7 +65,7 @@ export default class App extends Component {
             sdk={sdk}
             onLogged={this.handleLogged}
           /> :
-          (<View>
+          (<Container>
             <ArmyList
               sdk={sdk}
               user={this.state.user}
@@ -71,18 +76,9 @@ export default class App extends Component {
             >
               <Text>Logout</Text>
             </TouchableHighlight>
-          </View>)
+          </Container>)
         }
-      </View>
+      </Container>
     );
   }
 }
-
-function AppLoaded() {
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
