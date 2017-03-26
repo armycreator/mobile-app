@@ -4,9 +4,11 @@ import React, { Component } from 'react';
 import { Text, TouchableHighlight, StatusBar, View } from 'react-native';
 import { Map } from 'immutable'
 import NavigationBar from 'react-native-navbar';
+import SideMenu from 'react-native-side-menu';
 import styled from 'styled-components/native';
 import Login from './component/login';
 import ArmyList from './component/ArmyList';
+import Menu from './component/Menu';
 import sdk from './Sdk';
 import colors from './colors';
 
@@ -25,6 +27,7 @@ export default class App extends Component {
   state: {
     user: ?Map<any, any>,
     title: string,
+      isMenuOpen: boolean,
   };
 
 
@@ -36,6 +39,7 @@ export default class App extends Component {
     this.state = {
       user: null,
       title: 'Armycreator',
+      isMenuOpen: false,
     };
   }
 
@@ -51,34 +55,36 @@ export default class App extends Component {
   }
 
   render() {
+    const menu = <Menu
+      onLogout={() => this.setState({ user: null, isMenuOpen: false })}
+    />;
+
     return (
-      <Container>
+      <SideMenu menu={menu} isOpen={this.state.isMenuOpen}>
         <StatusBar hidden />
 
         <NavigationBar
-          title={{title: this.state.title, tintColor: colors.white }}
+          title={{ title: this.state.title, tintColor: colors.white }}
           tintColor={colors.secondary}
+          leftButton={{
+            title: '🍔',
+            handler: () => { this.setState({ isMenuOpen: true }); },
+          }}
         />
 
-        {!this.state.user ?
-          <Login
-            sdk={sdk}
-            onLogged={this.handleLogged}
-          /> :
-          (<Container>
+        <Container>
+          {!this.state.user ?
+            <Login
+              sdk={sdk}
+              onLogged={this.handleLogged}
+            /> :
             <ArmyList
               sdk={sdk}
               user={this.state.user}
             />
-            <TouchableHighlight
-              onPress={() => this.setState({ user: null })}
-              style={{ backgroundColor: 'red', padding: 30, marginTop: 30 }}
-            >
-              <Text>Logout</Text>
-            </TouchableHighlight>
-          </Container>)
-        }
-      </Container>
+          }
+        </Container>
+      </SideMenu>
     );
   }
 }
