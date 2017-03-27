@@ -35,6 +35,7 @@ export default class App extends Component {
     super(props);
 
     (this: any).handleLogged = this.handleLogged.bind(this);
+    (this: any).toggleMenu = this.toggleMenu.bind(this);
 
     this.state = {
       user: null,
@@ -54,13 +55,22 @@ export default class App extends Component {
     ;
   }
 
+  toggleMenu(isOpen) {
+    this.setState({ isMenuOpen: isOpen });
+  }
+
   render() {
     const menu = <Menu
       onLogout={() => this.setState({ user: null, isMenuOpen: false })}
+      user={this.state.user}
     />;
 
     return (
-      <SideMenu menu={menu} isOpen={this.state.isMenuOpen}>
+      <SideMenu
+        menu={menu}
+        isOpen={this.state.isMenuOpen}
+        onChange={this.toggleMenu}
+      >
         <StatusBar hidden />
 
         <NavigationBar
