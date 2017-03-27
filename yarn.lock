@@ -3094,9 +3094,9 @@ jest-environment-node@^19.0.2:
     jest-mock "^19.0.0"
     jest-util "^19.0.2"
 
-jest-expo@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-0.3.0.tgz#95a90bfdbde0f5521676814eed111f35100a64f2"
+jest-expo@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-0.3.1.tgz#b04ba289b54cf03bb7442cdc7500532f7fd9360b"
   dependencies:
     babel-jest "^19.0.0"
     jest "^19.0.2"
@@ -4307,7 +4307,7 @@ react-deep-force-update@^1.0.0:
   version "0.12.2"
   resolved "https://github.com/exponent/react-native-maps/archive/v0.12.2-exp.1.tar.gz#1984bfe5a8a341dd3b44ad565cfcd1b25a5c2b03"
 
-react-native-navbar@^1.6.3:
+"react-native-navbar@^1.6.3,!=1.7.0":
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/react-native-navbar/-/react-native-navbar-1.6.3.tgz#36ad8b2d2c64fe3f3530378e712ce1ccc60bd18a"
 
