@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { ActivityIndicator, ListView, Text, View } from 'react-native';
+import { ActivityIndicator, ListView, Text, TouchableHighlight, View } from 'react-native';
 import { List, Map } from 'immutable';
 import RestClientSdk from 'rest-client-sdk';
 import styled from 'styled-components/native';
@@ -9,6 +9,7 @@ import colors from '../colors';
 type ArmyListProps = {
   sdk: RestClientSdk,
   user: Map<any, any>,
+  onSelectArmy: Function,
 };
 
 const Container = styled.View`
@@ -42,6 +43,7 @@ class ArmyList extends Component {
     super(props);
 
     this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    (this: any).renderRow = this.renderRow.bind(this);
 
     this.state = {
       armyList: null,
@@ -63,13 +65,15 @@ class ArmyList extends Component {
 
   renderRow(army) {
     return (
-      <Army key={army.get('id')}>
-        <ArmyName>{army.get('name')}</ArmyName>
-        <ArmyPoints>
-          {army.get('active_points')}
-          {' pts'}
-        </ArmyPoints>
-      </Army>
+      <TouchableHighlight onPress={() => this.props.onSelectArmy(army)}>
+        <Army key={army.get('id')}>
+          <ArmyName>{army.get('name')}</ArmyName>
+          <ArmyPoints>
+            {army.get('active_points')}
+            {' pts'}
+          </ArmyPoints>
+        </Army>
+      </TouchableHighlight>
     );
   }
 
