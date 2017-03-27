@@ -8,6 +8,7 @@ import SideMenu from 'react-native-side-menu';
 import styled from 'styled-components/native';
 import Login from './component/login';
 import ArmyList from './component/ArmyList';
+import Army from './component/Army';
 import Menu from './component/Menu';
 import sdk from './Sdk';
 import colors from './colors';
@@ -27,7 +28,8 @@ export default class App extends Component {
   state: {
     user: ?Map<any, any>,
     title: string,
-      isMenuOpen: boolean,
+    isMenuOpen: boolean,
+    army: ?Map<any, any>,
   };
 
 
@@ -36,11 +38,13 @@ export default class App extends Component {
 
     (this: any).handleLogged = this.handleLogged.bind(this);
     (this: any).toggleMenu = this.toggleMenu.bind(this);
+    (this: any).handleArmySelection = this.handleArmySelection.bind(this);
 
     this.state = {
       user: null,
       title: 'Armycreator',
       isMenuOpen: false,
+      army: null,
     };
   }
 
@@ -59,7 +63,13 @@ export default class App extends Component {
     this.setState({ isMenuOpen: isOpen });
   }
 
+  handleArmySelection(army) {
+    this.setState({ army });
+  }
+
   render() {
+    const { army, title } = this.state;
+
     const menu = <Menu
       onLogout={() => this.setState({ user: null, isMenuOpen: false })}
       user={this.state.user}
@@ -74,7 +84,7 @@ export default class App extends Component {
         <StatusBar hidden />
 
         <NavigationBar
-          title={{ title: this.state.title, tintColor: colors.white }}
+          title={{ title: army ? army.get('name') : title, tintColor: colors.white }}
           tintColor={colors.secondary}
           leftButton={{
             title: '🍔',
@@ -87,10 +97,14 @@ export default class App extends Component {
             <Login
               sdk={sdk}
               onLogged={this.handleLogged}
-            /> :
+            />
+            : !!army ?
+              <Army army={army} sdk={sdk} />
+            :
             <ArmyList
               sdk={sdk}
               user={this.state.user}
+              onSelectArmy={this.handleArmySelection}
             />
           }
         </Container>
