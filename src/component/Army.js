@@ -28,8 +28,8 @@ const TitleProgressBar = styled.View`
   top: 0;
   bottom: 0;
   left: 0;
-  width: ${props => `${props.percentage}%`}
-  background-color: ${(props) => props.active ? colors.primary : colors.slateGray};
+  width: ${({ percentage }) => `${percentage}%`}
+  background-color: ${({ active }) => active ? colors.primary : colors.slateGray};
 `;
 
 const Title = styled.Text`
@@ -59,6 +59,8 @@ const SquadContainer = styled.View`
   padding: 15;
   flex-direction: row;
   justify-content: space-between;
+  border-top-width: ${({ isFirst }) => isFirst ? 0 : 1};
+  border-top-color: ${colors.black};
 `;
 
 const Squad = styled.Text`
@@ -83,8 +85,8 @@ function SquadListByType({ squadListByType }) {
         <UnitType>{unitType.get('name')}</UnitType>
       </UnitTypeContainer>
 
-      {squadList.map(squad =>
-        <SquadContainer key={squad.get('id')}>
+      {squadList.map((squad, key) =>
+        <SquadContainer key={squad.get('id')} isFirst={key === 0}>
           <Squad>
             {squad.get('name')}
           </Squad>
