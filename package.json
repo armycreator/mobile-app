@@ -2,12 +2,6 @@
   "name": "mobile-app",
   "version": "0.1.0",
   "private": true,
-  "devDependencies": {
-    "flow-bin": "^0.38.0",
-    "jest-expo": "^0.3.1",
-    "react-native-scripts": "0.0.25",
-    "react-test-renderer": "~15.4.1"
-  },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
     "start": "react-native-scripts start",
@@ -25,9 +19,15 @@
     "immutable": "^3.8.1",
     "react": "~15.4.0",
     "react-native": "0.42.3",
-    "react-native-navbar": "^1.6.3,!=1.7.0",
+    "react-native-navbar": "~1.6.3 || ^1.7.1",
     "react-native-side-menu": "^0.20.1",
     "rest-client-sdk": "^0.12.0",
     "styled-components": "^1.4.4"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.38.0",
+    "jest-expo": "^0.3.1",
+    "react-native-scripts": "0.0.26",
+    "react-test-renderer": "~15.4.1"
   }
 }
