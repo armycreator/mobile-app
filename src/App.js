@@ -68,6 +68,7 @@ export default class App extends Component {
 
     const menu = <Menu
       onLogout={() => this.setState({ user: null, isMenuOpen: false })}
+      onArmyList={() => this.setState({ army: null, isMenuOpen: false })}
       user={this.state.user}
     />;
 
