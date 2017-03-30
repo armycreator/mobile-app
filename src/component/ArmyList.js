@@ -29,7 +29,7 @@ const ArmyName = styled.Text`
   color: ${colors.white};
 `;
 const ArmyPoints = styled.Text`
-  color: ${colors.softGrey};
+  color: ${colors.softGray};
 `;
 
 class ArmyList extends Component {

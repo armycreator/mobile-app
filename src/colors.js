@@ -4,7 +4,8 @@ export default {
 
   background: '#2e2f2a',
 
-  softGrey: '#70695f',
+  softGray: '#70695f',
+  slateGray: '#242c2b',
 
   danger: '#ad4040',
   primary: '#457F78',
