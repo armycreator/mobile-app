@@ -2,7 +2,8 @@ export default {
   white: '#fff',
   black: '#000',
 
-  background: '#2e2f2a',
+  background: '#181818',
+  lightBackground: '#20211d',
 
   softGray: '#70695f',
   slateGray: '#242c2b',
