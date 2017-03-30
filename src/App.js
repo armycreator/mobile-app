@@ -49,6 +49,7 @@ export default class App extends Component {
       .then((user) => {
         this.setState({
           user,
+          title: 'Mes dernières listes',
         });
       })
       .catch(console.error)
@@ -60,52 +61,54 @@ export default class App extends Component {
   }
 
   handleArmySelection(army) {
-    this.setState({ army });
+    this.setState({ army, title: army.get('name') });
   }
 
   render() {
     const { army, title } = this.state;
 
     const menu = <Menu
-      onLogout={() => this.setState({ user: null, isMenuOpen: false })}
-      onArmyList={() => this.setState({ army: null, isMenuOpen: false })}
+      onLogout={() => this.setState({ title: 'Connexion', user: null, isMenuOpen: false })}
+      onArmyList={() => this.setState({ title: 'Mes dernières listes', army: null, isMenuOpen: false })}
       user={this.state.user}
     />;
 
     return (
-      <SideMenu
-        menu={menu}
-        isOpen={this.state.isMenuOpen}
-        onChange={this.toggleMenu}
-      >
-        <StatusBar hidden />
+      <Container>
+        <SideMenu
+          menu={menu}
+          isOpen={this.state.isMenuOpen}
+          onChange={this.toggleMenu}
+        >
+          <StatusBar hidden />
 
-        <NavigationBar
-          title={{ title: army ? army.get('name') : title, tintColor: colors.white }}
-          tintColor={colors.secondary}
-          leftButton={{
-            title: '🍔',
-            handler: () => { this.setState({ isMenuOpen: true }); },
-          }}
-        />
+          <NavigationBar
+            title={{ title, tintColor: colors.white }}
+            tintColor={colors.secondary}
+            leftButton={{
+              title: '🍔',
+              handler: () => { this.setState({ isMenuOpen: true }); },
+            }}
+          />
 
-        <Container>
-          {!this.state.user ?
-            <Login
-              sdk={sdk}
-              onLogged={this.handleLogged}
-            />
-            : !!army ?
-              <Army army={army} sdk={sdk} />
-            :
-            <ArmyList
-              sdk={sdk}
-              user={this.state.user}
-              onSelectArmy={this.handleArmySelection}
-            />
-          }
-        </Container>
-      </SideMenu>
+          <Container>
+            {!this.state.user ?
+              <Login
+                sdk={sdk}
+                onLogged={this.handleLogged}
+              />
+              : !!army ?
+                <Army army={army} sdk={sdk} />
+              :
+              <ArmyList
+                sdk={sdk}
+                user={this.state.user}
+                onSelectArmy={this.handleArmySelection}
+              />
+            }
+          </Container>
+        </SideMenu>
+      </Container>
     );
   }
 }
