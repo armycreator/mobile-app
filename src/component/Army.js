@@ -16,16 +16,86 @@ type ArmyState = {
 };
 
 const TitleContainer = styled.View`
-  backgroundColor: ${colors.black};
+  background-color: ${colors.black};
   padding-vertical: 15;
   padding-horizontal: 10;
   flex-direction: row;
   justify-content: space-between;
 `;
+
+const TitleProgressBar = styled.View`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: ${props => `${props.percentage}%`}
+  background-color: ${(props) => props.active ? colors.primary : colors.slateGray};
+`;
+
 const Title = styled.Text`
   color: ${colors.white};
   text-align: center;
 `;
+
+const ArmyDescription = styled.Text`
+  color: ${colors.softGray};
+  padding: 15;
+`;
+
+const UnitTypeContainer = styled.View`
+  background-color: ${colors.slateGray};
+  border-top-width: 1;
+  border-top-color: ${colors.black};
+  border-bottom-width: 1;
+  border-bottom-color: ${colors.black};
+  padding-horizontal: 15;
+  padding-vertical: 5;
+`;
+const UnitType = styled.Text`
+  color: ${colors.secondary};
+`;
+
+const SquadContainer = styled.View`
+  padding: 15;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const Squad = styled.Text`
+  color: ${colors.white};
+`;
+
+const SquadPoints = styled.Text`
+  color: ${colors.softGray};
+`;
+
+function SquadListByType({ squadListByType }) {
+  const unitType = squadListByType.get('unitType');
+  const squadList = squadListByType.get('squadList');
+
+  if (squadList.size <= 0) {
+    return null;
+  }
+
+  return (
+    <View key={unitType.get('id')}>
+      <UnitTypeContainer>
+        <UnitType>{unitType.get('name')}</UnitType>
+      </UnitTypeContainer>
+
+      {squadList.map(squad =>
+        <SquadContainer key={squad.get('id')}>
+          <Squad>
+            {squad.get('name')}
+          </Squad>
+          <SquadPoints>
+            666 pts
+          </SquadPoints>
+        </SquadContainer>
+      )}
+    </View>
+  );
+}
 
 class Army extends Component {
   props: ArmyProps;
@@ -54,30 +124,41 @@ class Army extends Component {
     const { army } = this.props;
     const { armyDetail } = this.state;
 
+
     if (!armyDetail) {
       return null;
     }
-    console.log(armyDetail.getIn(['_embedded', 'squad_list_by_type']).first().get('unitType'));
+    console.log(JSON.stringify(armyDetail, null, 2));
+
+    const maxPoints = army.get('wanted_points') || army.get('points');
+
+    const pointsPercentage = maxPoints && 100 * army.get('points') / maxPoints;
+
+    const activePointsPercentage = 100 * army.get('active_points') / army.get('points');
 
     return (
       <View>
         <TitleContainer>
-          <Title>{army.get('name')}</Title>
+          {pointsPercentage > 0 &&
+            <TitleProgressBar percentage={pointsPercentage} />
+          }
+          {activePointsPercentage > 0 &&
+            <TitleProgressBar percentage={activePointsPercentage} active />
+          }
+          <Title>{army.getIn(['_embedded', 'breed', 'name'])}</Title>
           <Title>
             {armyDetail.get('points')}{' points'}
           </Title>
         </TitleContainer>
 
-        <Text>{armyDetail.get('description')}</Text>
+        <ArmyDescription>{armyDetail.get('description')}</ArmyDescription>
 
-        {armyDetail.getIn(['_embedded', 'squad_list_by_type']).map(tmp => {
-          const unitType = tmp.get('unitType');
-          const squatList = tmp.get('squatList');
-
-          return (<View key={unitType.get('id')}>
-            <Text>{unitType.get('name')}</Text>
-          </View>);
-        })}
+        {armyDetail.getIn(['_embedded', 'squad_list_by_type']).map(squadListByType =>
+          <SquadListByType
+            key={squadListByType.getIn([ 'unitType', 'id' ])}
+            squadListByType={squadListByType}
+          />
+        )}
       </View>
     );
   }
