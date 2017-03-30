@@ -13,10 +13,6 @@ import Menu from './component/Menu';
 import sdk from './Sdk';
 import colors from './colors';
 
-// sdk.user.find(2)
-//   .then(console.log)
-//   .catch(console.error)
-// ;
 // global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
 
 const Container = styled.View`
