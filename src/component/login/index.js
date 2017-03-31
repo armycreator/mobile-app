@@ -11,6 +11,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import Button from '../Button';
 import colors from '../../colors';
 
 type Props = {
@@ -130,8 +131,8 @@ class Login extends Component {
             </View>
           }
 
-          <TouchableHighlight
-            style={styles.primaryButton}
+          <Button
+            color="primary"
             onPress={this.handleLogin}
             disabled={isLoginButtonDisabled}
           >
@@ -141,15 +142,15 @@ class Login extends Component {
                 <ActivityIndicator color={colors.white} />
               </View>
             }
-          </TouchableHighlight>
+          </Button>
 
-          <TouchableHighlight
-            style={{ backgroundColor: 'red', marginTop: 20, padding: 20 }}
+          <Button
+            color="danger"
             onPress={() => this.setState({ username: 'testjdu', password: 'testjdu', loginStatus: null })}
             disabled={this.state.loginStatus !== null}
           >
             <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Debug Fill</Text>
-          </TouchableHighlight>
+          </Button>
         </View>
       </KeyboardAvoidingView>
     );
