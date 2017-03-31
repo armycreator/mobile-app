@@ -130,7 +130,6 @@ class Army extends Component {
     if (!armyDetail) {
       return null;
     }
-    console.log(JSON.stringify(armyDetail, null, 2));
 
     const maxPoints = army.get('wanted_points') || army.get('points');
 

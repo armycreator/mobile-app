@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { Text, TouchableHighlight, StatusBar, View } from 'react-native';
+import { NativeRouter, Redirect, Route, Link } from 'react-router-native';
 import { Map } from 'immutable'
 import NavigationBar from 'react-native-navbar';
 import SideMenu from 'react-native-side-menu';
@@ -73,42 +74,80 @@ export default class App extends Component {
       user={this.state.user}
     />;
 
+
     return (
-      <Container>
-        <SideMenu
-          menu={menu}
-          isOpen={this.state.isMenuOpen}
-          onChange={this.toggleMenu}
-        >
-          <StatusBar hidden />
+      <NativeRouter>
+        <Container>
+          <SideMenu
+            menu={menu}
+            isOpen={this.state.isMenuOpen}
+            onChange={this.toggleMenu}
+          >
+            <StatusBar hidden />
 
-          <NavigationBar
-            title={{ title, tintColor: colors.white }}
-            tintColor={colors.secondary}
-            leftButton={{
-              title: '🍔',
-              handler: () => { this.setState({ isMenuOpen: true }); },
-            }}
-          />
+            <NavigationBar
+              title={{ title, tintColor: colors.white }}
+              tintColor={colors.secondary}
+              leftButton={{
+                title: '🍔',
+                handler: () => { this.setState({ isMenuOpen: true }); },
+              }}
+            />
 
-          <Container>
-            {!this.state.user ?
-              <Login
-                sdk={sdk}
-                onLogged={this.handleLogged}
+            <Container>
+              {!this.state.user &&
+                <Redirect to={{
+                  pathname: '/login',
+                }} />
+              }
+
+              <Route
+                exact
+                path="/login"
+                component={({ location }) => {
+                  if (this.state.user) {
+                    return <Redirect to={{ pathname: '/armies/' }} />;
+                  }
+
+                  return <Login
+                    sdk={sdk}
+                    onLogged={this.handleLogged}
+                  />
+                }}
               />
-              : !!army ?
-                <Army army={army} sdk={sdk} />
-              :
-              <ArmyList
-                sdk={sdk}
-                user={this.state.user}
-                onSelectArmy={this.handleArmySelection}
-              />
-            }
-          </Container>
-        </SideMenu>
-      </Container>
+              {this.state.user &&
+                <View>
+                  <Route
+                    exact
+                    path="/armies/"
+                    component={({ location }) => {
+                      if (this.state.army) {
+                        return <Redirect to={{ pathname: '/armies/8' }} />
+                      }
+
+                      return <ArmyList
+                        sdk={sdk}
+                        user={this.state.user}
+                        onSelectArmy={this.handleArmySelection}
+                      />;
+                    }}
+                  />
+                  <Route
+                    exact
+                    path="/armies/:id"
+                    component={({ location }) => {
+                      if (!this.state.army) {
+                        return <Redirect to={{ pathname: '/armies/' }} />
+                      }
+                      return <Army army={army} sdk={sdk} />;
+                    }}
+                  />
+                </View>
+              }
+            </Container>
+          </SideMenu>
+        </Container>
+      </NativeRouter>
     );
   }
 }
