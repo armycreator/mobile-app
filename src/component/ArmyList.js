@@ -1,10 +1,13 @@
 // @flow
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { ActivityIndicator, ListView, Text, TouchableHighlight, View } from 'react-native';
 import { List, Map } from 'immutable';
 import RestClientSdk from 'rest-client-sdk';
 import styled from 'styled-components/native';
+import { push } from 'react-router-redux';
 import colors from '../colors';
+import sdk from '../Sdk';
 
 type ArmyListProps = {
   sdk: RestClientSdk,
@@ -95,4 +98,16 @@ class ArmyList extends Component {
   }
 }
 
-export default ArmyList;
+const mapStateToProps = (state) => ({
+  sdk,
+  user,
+});
+
+const mapDispatchToProps = {
+  onSelectArmy: () => push('/armies/8'),
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ArmyList);

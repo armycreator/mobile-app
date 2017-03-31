@@ -21,6 +21,7 @@ import Menu from './component/Menu';
 import sdk from './Sdk';
 import colors from './colors';
 import reducer from './reducer';
+import Routes from './routes';
 
 // global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
 const history = createHistory();
@@ -131,37 +132,7 @@ export default class App extends Component {
               />
 
               <Container>
-                {this.state.user &&
-                  <View>
-                    <Route
-                      exact
-                      path="/armies/"
-                      component={({ location }) => {
-                        return <ArmyList
-                          sdk={sdk}
-                          user={this.state.user}
-                          onSelectArmy={this.handleArmySelection}
-                        />;
-                      }}
-                    />
-                    <Route
-                      exact
-                      path="/armies/:id"
-                      component={({ location }) => {
-                        return <Army army={army} sdk={sdk} />;
-                      }}
-                    />
-                  </View>
-                }
-                <Route
-                  exact path="/login"
-                  component={({ location }) => {
-                    return <Login
-                      sdk={sdk}
-                      onLogged={this.handleLogged}
-                    />
-                  }}
-                />
+                <Routes history={history} />
               </Container>
             </SideMenu>
           </Container>

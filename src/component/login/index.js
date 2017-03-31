@@ -1,7 +1,9 @@
 // @flow
 
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import RestClientSdk from 'rest-client-sdk';
+import { push } from 'react-router-redux';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -13,6 +15,7 @@ import {
 } from 'react-native';
 import Button from '../Button';
 import colors from '../../colors';
+import sdk from '../../Sdk';
 
 type Props = {
   sdk: RestClientSdk,
@@ -55,6 +58,7 @@ class Login extends Component {
 
   handleLogin(event: Event) {
     const { sdk, onLogged } = this.props;
+    console.log(onLogged);
 
     event.preventDefault();
 
@@ -206,4 +210,15 @@ const styles = StyleSheet.create({
 });
 
 
-export default Login;
+const mapStateToProps = (state) => ({
+  sdk
+});
+
+const mapDispatchToProps = {
+  onLogged: () => push('/armies')
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);
