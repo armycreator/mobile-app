@@ -2,7 +2,14 @@
 
 import React, { Component } from 'react';
 import { Text, TouchableHighlight, StatusBar, View } from 'react-native';
-import { NativeRouter, Redirect, Route, Link } from 'react-router-native';
+import { Redirect, Route, Link } from 'react-router-native';
+import { composeWithDevTools } from 'remote-redux-devtools';
+import { applyMiddleware, createStore } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import createHistory from 'history/createMemoryHistory';
+import { ConnectedRouter, routerMiddleware, push } from 'react-router-redux';
+
 import { Map } from 'immutable'
 import NavigationBar from 'react-native-navbar';
 import SideMenu from 'react-native-side-menu';
@@ -13,8 +20,27 @@ import Army from './component/Army';
 import Menu from './component/Menu';
 import sdk from './Sdk';
 import colors from './colors';
+import reducer from './reducer';
 
 // global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
+const history = createHistory();
+const composeEnhancers = composeWithDevTools({
+  // Specify here name, actionsBlacklist, actionsCreators and other options
+});
+
+const middlewares = [
+  thunk,
+  routerMiddleware(history)
+];
+
+const store = createStore(
+  reducer,
+  composeEnhancers(
+    applyMiddleware(...middlewares)
+  )
+);
+
+store.dispatch(push('/login'));
 
 const Container = styled.View`
   flex: 1;
@@ -34,6 +60,7 @@ export default class App extends Component {
     super(props);
 
     (this: any).handleLogged = this.handleLogged.bind(this);
+    (this: any).handleLogout = this.handleLogout.bind(this);
     (this: any).toggleMenu = this.toggleMenu.bind(this);
     (this: any).handleArmySelection = this.handleArmySelection.bind(this);
 
@@ -51,8 +78,10 @@ export default class App extends Component {
         this.setState({
           user,
           title: 'Mes dernières listes',
+          isMenuOpen: false,
         });
       })
+      .then(store.dispatch(push('/armies/')))
       .catch(console.error)
     ;
   }
@@ -63,91 +92,81 @@ export default class App extends Component {
 
   handleArmySelection(army) {
     this.setState({ army, title: army.get('name') });
+    store.dispatch(push('/armies/8'));
+  }
+
+  handleLogout() {
+    this.setState({ title: 'Connexion', user: null, isMenuOpen: false });
+    store.dispatch(push('/login'));
   }
 
   render() {
     const { army, title } = this.state;
 
     const menu = <Menu
-      onLogout={() => this.setState({ title: 'Connexion', user: null, isMenuOpen: false })}
-      onArmyList={() => this.setState({ title: 'Mes dernières listes', army: null, isMenuOpen: false })}
+      onLogout={this.handleLogout}
+      onArmyList={this.handleLogged}
       user={this.state.user}
     />;
 
 
     return (
-      <NativeRouter>
-        <Container>
-          <SideMenu
-            menu={menu}
-            isOpen={this.state.isMenuOpen}
-            onChange={this.toggleMenu}
-          >
-            <StatusBar hidden />
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <Container>
+            <SideMenu
+              menu={menu}
+              isOpen={this.state.isMenuOpen}
+              onChange={this.toggleMenu}
+            >
+              <StatusBar hidden />
 
-            <NavigationBar
-              title={{ title, tintColor: colors.white }}
-              tintColor={colors.secondary}
-              leftButton={{
-                title: '🍔',
-                handler: () => { this.setState({ isMenuOpen: true }); },
-              }}
-            />
-
-            <Container>
-              {!this.state.user &&
-                <Redirect to={{
-                  pathname: '/login',
-                }} />
-              }
-
-              <Route
-                exact
-                path="/login"
-                component={({ location }) => {
-                  if (this.state.user) {
-                    return <Redirect to={{ pathname: '/armies/' }} />;
-                  }
-
-                  return <Login
-                    sdk={sdk}
-                    onLogged={this.handleLogged}
-                  />
+              <NavigationBar
+                title={{ title, tintColor: colors.white }}
+                tintColor={colors.secondary}
+                leftButton={{
+                  title: '🍔',
+                  handler: () => { this.setState({ isMenuOpen: true }); },
                 }}
               />
-              {this.state.user &&
-                <View>
-                  <Route
-                    exact
-                    path="/armies/"
-                    component={({ location }) => {
-                      if (this.state.army) {
-                        return <Redirect to={{ pathname: '/armies/8' }} />
-                      }
 
-                      return <ArmyList
-                        sdk={sdk}
-                        user={this.state.user}
-                        onSelectArmy={this.handleArmySelection}
-                      />;
-                    }}
-                  />
-                  <Route
-                    exact
-                    path="/armies/:id"
-                    component={({ location }) => {
-                      if (!this.state.army) {
-                        return <Redirect to={{ pathname: '/armies/' }} />
-                      }
-                      return <Army army={army} sdk={sdk} />;
-                    }}
-                  />
-                </View>
-              }
-            </Container>
-          </SideMenu>
-        </Container>
-      </NativeRouter>
+              <Container>
+                {this.state.user &&
+                  <View>
+                    <Route
+                      exact
+                      path="/armies/"
+                      component={({ location }) => {
+                        return <ArmyList
+                          sdk={sdk}
+                          user={this.state.user}
+                          onSelectArmy={this.handleArmySelection}
+                        />;
+                      }}
+                    />
+                    <Route
+                      exact
+                      path="/armies/:id"
+                      component={({ location }) => {
+                        return <Army army={army} sdk={sdk} />;
+                      }}
+                    />
+                  </View>
+                }
+                <Route
+                  exact path="/login"
+                  component={({ location }) => {
+                    return <Login
+                      sdk={sdk}
+                      onLogged={this.handleLogged}
+                    />
+                  }}
+                />
+              </Container>
+            </SideMenu>
+          </Container>
+        </ConnectedRouter>
+      </Provider>
     );
   }
 }

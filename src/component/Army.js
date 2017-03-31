@@ -104,7 +104,7 @@ class Army extends Component {
 
   state: ArmyState;
 
-  constructor(props) {
+  constructor(props: ArmyProps) {
     super(props);
 
     this.state = {
@@ -116,9 +116,9 @@ class Army extends Component {
     const { army, sdk } = this.props;
 
     return sdk.army.find(army.get('id'))
-      .then((data) => this.setState({
+      .then((data) => this.setState(() => ({
         armyDetail: data,
-      }))
+      })))
       .catch(console.error)
   }
 
