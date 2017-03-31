@@ -1,13 +1,14 @@
 // @flow
 import React from 'react';
-import { View, TouchableHighlight, Text } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components/native';
 import NavigationBar from 'react-native-navbar';
 import colors from '../colors';
+import Button from './Button';
 
 const MenuContainer = styled.View`
-  background-color: ${colors.lightBackground};
   flex: 1;
+  background-color: ${colors.lightBackground};
   border-right-width: 1;
   border-right-color: ${colors.black};
 `;
@@ -20,22 +21,26 @@ function Menu({ user, onLogout, onArmyList }) {
     />
 
     {user &&
-      <MenuContainer>
-        <TouchableHighlight
+      <View>
+        <TouchableOpacity
           onPress={onArmyList}
-          style={{ padding: 30, marginTop: 30 }}
+          style={{ padding: 15, borderBottomWidth: 1 }}
         >
-          <Text>Mes listes</Text>
-        </TouchableHighlight>
+          <Text style={{ color: colors.white }}>Mes listes</Text>
+        </TouchableOpacity>
 
 
-        <TouchableHighlight
-          onPress={onLogout}
-          style={{ backgroundColor: 'red', padding: 30, marginTop: 30 }}
-        >
-          <Text>Logout</Text>
-        </TouchableHighlight>
-      </MenuContainer>
+        <View style={{ paddingHorizontal: 10 }}>
+          <Button
+            color="danger"
+            onPress={onLogout}
+          >
+            <Text style={{ color: colors.white, textAlign: 'center' }}>
+              Déconnexion
+            </Text>
+          </Button>
+        </View>
+      </View>
     }
   </MenuContainer>);
 };
