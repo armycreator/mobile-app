@@ -54,11 +54,11 @@ class ArmyList extends Component {
     const { sdk, user } = this.props;
 
     return sdk.army.findByUser(user)
-      .then((data) => this.setState({
+      .then((data) => this.setState(() => ({
         armyList: this.dataSource.cloneWithRows(
           data.get('items').toArray()
         ),
-      }))
+      })))
       .catch(console.error)
     ;
   }
