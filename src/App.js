@@ -14,9 +14,6 @@ import { Map } from 'immutable'
 import NavigationBar from 'react-native-navbar';
 import SideMenu from 'react-native-side-menu';
 import styled from 'styled-components/native';
-import Login from './component/login';
-import ArmyList from './component/ArmyList';
-import Army from './component/Army';
 import Menu from './component/Menu';
 import sdk from './Sdk';
 import colors from './colors';
