@@ -2,8 +2,6 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import RestClientSdk from 'rest-client-sdk';
-import { push } from 'react-router-redux';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -13,13 +11,12 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import { login } from '../../action/login';
 import Button from '../Button';
 import colors from '../../colors';
-import sdk from '../../Sdk';
 
 type Props = {
-  sdk: RestClientSdk,
-  onLogged: Function,
+  login: Function,
 };
 
 type NativeEvent = {
@@ -57,8 +54,7 @@ class Login extends Component {
   }
 
   handleLogin(event: Event) {
-    const { sdk, onLogged } = this.props;
-    console.log(onLogged);
+    const { login } = this.props;
 
     event.preventDefault();
 
@@ -67,11 +63,9 @@ class Login extends Component {
       loginStatus: 'IN_PROGRESS',
     }));
 
-    const formData =  { username: this.state.username, password: this.state.password };
-    sdk.tokenStorage.generateToken(formData)
+    login(this.state.username, this.state.password)
       .then(() => {
         this.setState(() => ({ loginStatus: 'SUCCEEDED' }));
-        return onLogged();
       })
       .catch((e) => {
         this.setState((prevProps) => ({
@@ -211,11 +205,10 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = (state) => ({
-  sdk
 });
 
 const mapDispatchToProps = {
-  onLogged: () => push('/armies')
+  login,
 };
 
 export default connect(
