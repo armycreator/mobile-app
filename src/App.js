@@ -57,7 +57,7 @@ export default class App extends Component {
   constructor(props: {}) {
     super(props);
 
-    (this: any).handleLogged = this.handleLogged.bind(this);
+    // (this: any).handleLogged = this.handleLogged.bind(this);
     (this: any).handleLogout = this.handleLogout.bind(this);
     (this: any).toggleMenu = this.toggleMenu.bind(this);
     (this: any).handleArmySelection = this.handleArmySelection.bind(this);
@@ -70,19 +70,19 @@ export default class App extends Component {
     };
   }
 
-  handleLogged() {
-    sdk.user.findMe()
-      .then((user) => {
-        this.setState({
-          user,
-          title: 'Mes dernières listes',
-          isMenuOpen: false,
-        });
-      })
-      .then(store.dispatch(push('/armies/')))
-      .catch(console.error)
-    ;
-  }
+  // handleLogged() {
+  //   sdk.user.findMe()
+  //     .then((user) => {
+  //       this.setState({
+  //         user,
+  //         title: 'Mes dernières listes',
+  //         isMenuOpen: false,
+  //       });
+  //     })
+  //     .then(store.dispatch(push('/armies/')))
+  //     .catch(console.error)
+  //   ;
+  // }
 
   toggleMenu(isOpen) {
     this.setState({ isMenuOpen: isOpen });
@@ -103,7 +103,7 @@ export default class App extends Component {
 
     const menu = <Menu
       onLogout={this.handleLogout}
-      onArmyList={this.handleLogged}
+      onArmyList={() => null}
       user={this.state.user}
     />;
 
