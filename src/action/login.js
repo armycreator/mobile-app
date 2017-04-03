@@ -1,6 +1,5 @@
 // @flow
 import { push } from 'react-router-redux';
-import RestClientSdk from 'rest-client-sdk';
 import sdk from '../Sdk';
 
 export function login(username: string, password: string) {
@@ -8,7 +7,15 @@ export function login(username: string, password: string) {
     const formData =  { username, password };
 
     return sdk.tokenStorage.generateToken(formData)
-      .then(() => dispatch(push('/armies')))
+      .then(() => sdk.user.findMe())
+      .then((user) => {
+        dispatch({
+          type: 'RECEIVE_ME',
+          user,
+        });
+      })
+      .then(() => dispatch(push('/armies/')))
+      .catch(console.error)
     ;
   };
 }
