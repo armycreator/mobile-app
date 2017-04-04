@@ -1,11 +1,9 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { AndroidBackButton, Router, Route, Switch } from 'react-router-native';
-import { ConnectedRouter } from 'react-router-redux';
+import { Text } from 'react-native';
+import { Route, Switch } from 'react-router-native';
 import NavigationBar from 'react-native-navbar';
 import styled from 'styled-components/native';
 import HamburgerMenu from './component/HamburgerMenu';
-import Layout from './component/Layout';
 import ArmyList from './component/ArmyList';
 import Army from './component/Army';
 import Login from './component/login';
@@ -38,7 +36,7 @@ const NavigationBarText = styled.Text`
   color: ${colors.white};
 `;
 
-function NavigationBarTitle() {
+export function NavigationBarTitle({ onMenuPress }) {
   const title = <Switch>
     {routes.map((route, index) =>
       <Route
@@ -55,36 +53,23 @@ function NavigationBarTitle() {
       title={title}
       tintColor={colors.secondary}
       leftButton={<HamburgerMenu
-        onPress={() => this.setState({ isMenuOpen: true })}
+        onPress={onMenuPress}
       />}
     />
   );
 }
 
-const Container = styled.View`
-  flex: 1;
-  background-color: ${colors.background};
-`;
-
-export default function Routes({ history }) {
-  return (<ConnectedRouter history={history}>
-    <AndroidBackButton>
-      <Layout>
-        <Container>
-          <NavigationBarTitle />
-
-          <Switch>
-            {routes.map((route, index) =>
-              <Route
-                key={index}
-                path={route.path}
-                exact={route.exact}
-                component={route.main}
-              />
-            )}
-          </Switch>
-        </Container>
-      </Layout>
-    </AndroidBackButton>
-  </ConnectedRouter>);
+export function MainView() {
+  return (
+    <Switch>
+      {routes.map((route, index) =>
+        <Route
+          key={index}
+          path={route.path}
+          exact={route.exact}
+          component={route.main}
+        />
+      )}
+    </Switch>
+  );
 }
