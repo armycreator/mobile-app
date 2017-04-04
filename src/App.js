@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { Text, TouchableHighlight, StatusBar, View } from 'react-native';
-import { Redirect, Route, Link } from 'react-router-native';
 import { composeWithDevTools } from 'remote-redux-devtools';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -15,6 +14,7 @@ import NavigationBar from 'react-native-navbar';
 import SideMenu from 'react-native-side-menu';
 import styled from 'styled-components/native';
 import Menu from './component/Menu';
+import HamburgerMenu from './component/HamburgerMenu';
 import sdk from './Sdk';
 import colors from './colors';
 import reducer from './reducer';
@@ -38,8 +38,6 @@ const store = createStore(
   )
 );
 
-store.dispatch(push('/login'));
-
 const Container = styled.View`
   flex: 1;
   background-color: ${colors.background};
@@ -57,10 +55,8 @@ export default class App extends Component {
   constructor(props: {}) {
     super(props);
 
-    // (this: any).handleLogged = this.handleLogged.bind(this);
     (this: any).handleLogout = this.handleLogout.bind(this);
     (this: any).toggleMenu = this.toggleMenu.bind(this);
-    (this: any).handleArmySelection = this.handleArmySelection.bind(this);
 
     this.state = {
       user: null,
@@ -70,27 +66,8 @@ export default class App extends Component {
     };
   }
 
-  // handleLogged() {
-  //   sdk.user.findMe()
-  //     .then((user) => {
-  //       this.setState({
-  //         user,
-  //         title: 'Mes dernières listes',
-  //         isMenuOpen: false,
-  //       });
-  //     })
-  //     .then(store.dispatch(push('/armies/')))
-  //     .catch(console.error)
-  //   ;
-  // }
-
   toggleMenu(isOpen) {
     this.setState({ isMenuOpen: isOpen });
-  }
-
-  handleArmySelection(army) {
-    this.setState({ army, title: army.get('name') });
-    store.dispatch(push('/armies/8'));
   }
 
   handleLogout() {
@@ -122,10 +99,9 @@ export default class App extends Component {
               <NavigationBar
                 title={{ title, tintColor: colors.white }}
                 tintColor={colors.secondary}
-                leftButton={{
-                  title: '🍔',
-                  handler: () => { this.setState({ isMenuOpen: true }); },
-                }}
+                leftButton={<HamburgerMenu
+                  onPress={() => this.setState({ isMenuOpen: true })}
+                />}
               />
 
               <Container>
