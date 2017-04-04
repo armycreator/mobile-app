@@ -14,6 +14,8 @@ export default function armyCreatorReducer(state = initialState, action) {
         return state.set('me', action.user);
       case 'LAST_ARMY_LIST_RECEIVE':
         return state.set('lastArmyList', action.armyList);
+      case 'ARMY_DETAIL_RECEIVE':
+        return state.set('currentArmyDetail', action.armyDetail);
       default:
         return state;
   }

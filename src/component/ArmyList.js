@@ -19,6 +19,12 @@ const Container = styled.View`
   flex: 1;
 `;
 
+const ActivityIndicatorContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Army = styled.View`
   background-color: ${colors.background};
   flex: 1;
@@ -80,9 +86,9 @@ class ArmyList extends Component {
     const { armyList, user } = this.props;
 
     if (!armyList) {
-      return (<View>
+      return (<ActivityIndicatorContainer>
         <ActivityIndicator color={colors.primary} />
-      </View>);
+      </ActivityIndicatorContainer>);
     }
 
     return (
@@ -100,7 +106,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  onSelectArmy: () => push('/armies/8'),
+  onSelectArmy: (army) => push('/armies/8', { army }),
   findArmyForUser,
 };
 
