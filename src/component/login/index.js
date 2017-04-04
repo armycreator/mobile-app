@@ -64,9 +64,6 @@ class Login extends Component {
     }));
 
     login(this.state.username, this.state.password)
-      .then(() => {
-        this.setState(() => ({ loginStatus: 'SUCCEEDED' }));
-      })
       .catch((e) => {
         this.setState((prevProps) => ({
           errorMessage: e.error_description,
@@ -145,9 +142,11 @@ class Login extends Component {
           <Button
             color="danger"
             onPress={() => this.setState({ username: 'testjdu', password: 'testjdu', loginStatus: null })}
-            disabled={this.state.loginStatus !== null}
+            disabled={this.state.loginStatus === 'IN_PROGRESS'}
           >
-            <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Debug Fill</Text>
+            <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>
+              Debug Fill
+            </Text>
           </Button>
         </View>
       </KeyboardAvoidingView>
@@ -187,9 +186,6 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    // textAlignVertical: 'top',
-    // borderColor: 'gray',
-    // borderWidth: 1,
   },
 
   errorMessage: {

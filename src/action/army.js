@@ -19,3 +19,16 @@ export function findArmyForUser(user: User) {
     ;
   };
 }
+
+export function fetchArmyDetail(id: number) {
+  return dispatch => {
+    return sdk.army.find(id)
+      .then((armyDetail) => {
+        dispatch({
+          type: 'ARMY_DETAIL_RECEIVE',
+          armyDetail,
+        });
+      })
+      .catch(console.error)
+  };
+}

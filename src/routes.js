@@ -3,9 +3,15 @@ import { AndroidBackButton, Router, Route } from 'react-router-native';
 import { ConnectedRouter } from 'react-router-redux';
 import Layout from './component/Layout';
 import ArmyList from './component/ArmyList';
+import Army from './component/Army';
 import Login from './component/login';
 
 const routes = [
+  {
+    path: '/armies/:id',
+    exact: true,
+    main: ({ location }) => <Army army={location.state.army} />
+  },
   {
     path: '/armies/',
     exact: true,

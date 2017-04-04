@@ -2,13 +2,16 @@
 
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import RestClientSdk from 'rest-client-sdk';
 import colors from '../colors';
+import { fetchArmyDetail } from '../action/army';
 
 type ArmyProps = {
   army: Map<any, any>,
-  sdk: RestClientSdk,
+  armyDetail: ?Map<any, any>,
+  fetchArmyDetail: Function,
 };
 
 type ArmyState = {
@@ -106,25 +109,16 @@ class Army extends Component {
 
   constructor(props: ArmyProps) {
     super(props);
-
-    this.state = {
-      armyDetail: null,
-    };
   }
 
   componentDidMount() {
-    const { army, sdk } = this.props;
+    const { army, fetchArmyDetail } = this.props;
 
-    return sdk.army.find(army.get('id'))
-      .then((data) => this.setState(() => ({
-        armyDetail: data,
-      })))
-      .catch(console.error)
+    fetchArmyDetail(army.get('id'));
   }
 
   render() {
-    const { army } = this.props;
-    const { armyDetail } = this.state;
+    const { army, armyDetail } = this.props;
 
 
     if (!armyDetail) {
@@ -165,4 +159,15 @@ class Army extends Component {
   }
 };
 
-export default Army;
+const mapStateToProps = (state) => ({
+  armyDetail: state.app.get('currentArmyDetail'),
+});
+
+const mapDispatchToProps = {
+  fetchArmyDetail,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Army);
