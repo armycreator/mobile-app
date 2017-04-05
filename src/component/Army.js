@@ -7,10 +7,11 @@ import styled from 'styled-components/native';
 import RestClientSdk from 'rest-client-sdk';
 import colors from '../colors';
 import { fetchArmyDetail } from '../action/army';
+import { Army as ArmyEntity } from '../entity';
 
 type ArmyProps = {
-  army: Map<any, any>,
-  armyDetail: ?Map<any, any>,
+  army: ArmyEntity,
+  armyDetail: ?ArmyEntity,
   fetchArmyDetail: Function,
 };
 
@@ -105,8 +106,6 @@ function SquadListByType({ squadListByType }) {
 class Army extends Component {
   props: ArmyProps;
 
-  state: ArmyState;
-
   constructor(props: ArmyProps) {
     super(props);
   }
@@ -114,7 +113,7 @@ class Army extends Component {
   componentDidMount() {
     const { army, fetchArmyDetail } = this.props;
 
-    fetchArmyDetail(army.get('id'));
+    fetchArmyDetail(army.id);
   }
 
   render() {
@@ -125,11 +124,11 @@ class Army extends Component {
       return null;
     }
 
-    const maxPoints = army.get('wanted_points') || army.get('points');
+    const maxPoints = army.wanted_points || army.points;
 
-    const pointsPercentage = maxPoints && 100 * army.get('points') / maxPoints;
+    const pointsPercentage = maxPoints && 100 * army.points / maxPoints;
 
-    const activePointsPercentage = 100 * army.get('active_points') / army.get('points');
+    const activePointsPercentage = 100 * army.active_points / army.points;
 
     return (
       <View>
@@ -142,11 +141,11 @@ class Army extends Component {
           }
           <Title>{army.getIn(['_embedded', 'breed', 'name'])}</Title>
           <Title>
-            {armyDetail.get('points')}{' points'}
+            {armyDetail.points}{' points'}
           </Title>
         </TitleContainer>
 
-        <ArmyDescription>{armyDetail.get('description')}</ArmyDescription>
+        <ArmyDescription>{armyDetail.description}</ArmyDescription>
 
         {armyDetail.getIn(['_embedded', 'squad_list_by_type']).map(squadListByType =>
           <SquadListByType

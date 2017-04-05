@@ -16,7 +16,11 @@ const HamburgerMenuImage = styled.Image`
   height: 30;
 `;
 
-export default function HamburgerMenu({ onPress }) {
+type HamburgerMenuType = {
+  onPress: Function,
+};
+
+export default function HamburgerMenu({ onPress }: HamburgerMenuType) {
   return (<TouchableOpacity onPress={onPress}>
     <HamburgerMenuContainer>
       <HamburgerMenuImage source={menuImage} />

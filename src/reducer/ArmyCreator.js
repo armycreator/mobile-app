@@ -1,14 +1,22 @@
 // @flow
 import { Map } from 'immutable';
-import User from '../Entity/User';
+import { User } from '../entity';
 
 type State = Map<string, any>;
 
 const initialState: State = Map({
-  currentUser: null,
+  me: null,
 });
 
-export default function armyCreatorReducer(state = initialState, action) {
+
+type ActionType = {
+  type: string,
+  armyList?: Map<any, any>,
+  armyDetail?: Map<any, any>,
+  user: User,
+}
+
+export default function armyCreatorReducer(state:State = initialState, action: ActionType) {
   switch(action.type) {
       case 'RECEIVE_ME':
         return state.set('me', action.user);

@@ -1,9 +1,9 @@
 // @flow
-import User from '../Entity/User';
+import User from '../entity/User';
 import sdk from '../Sdk';
 
 export function findArmyForUser(user: User) {
-  return dispatch => {
+  return (dispatch: Function) => {
     return sdk.army.findByUser(user)
       .then((armyList) => {
         dispatch({
@@ -21,7 +21,7 @@ export function findArmyForUser(user: User) {
 }
 
 export function fetchArmyDetail(id: number) {
-  return dispatch => {
+  return (dispatch: Function) => {
     return sdk.army.find(id)
       .then((armyDetail) => {
         dispatch({

@@ -41,7 +41,7 @@ export default class App extends Component {
     };
   }
 
-  toggleMenu(isOpen) {
+  toggleMenu(isOpen: boolean) {
     this.setState({ isMenuOpen: isOpen });
   }
 
