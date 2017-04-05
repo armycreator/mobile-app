@@ -7,10 +7,11 @@ import styled from 'styled-components/native';
 import { push } from 'react-router-redux';
 import colors from '../colors';
 import { findArmyForUser } from '../action/army';
+import { Collection } from '../entity';
 
 type ArmyListProps = {
   user: Map<any, any>,
-  armyList: List<any>,
+  armyList: Collection,
   onSelectArmy: Function,
   findArmyForUser: Function,
 };
@@ -43,6 +44,8 @@ const ArmyPoints = styled.Text`
 
 class ArmyList extends Component {
   props: ArmyListProps;
+
+  dataSource: ListView.DataSource;
 
   constructor(props: ArmyListProps) {
     super(props);
@@ -79,7 +82,7 @@ class ArmyList extends Component {
   }
 
   getArmyListDataSource() {
-    return this.dataSource.cloneWithRows(this.props.armyList.get('items').toArray());
+    return this.dataSource.cloneWithRows(this.props.armyList.items.toArray());
   }
 
   render () {

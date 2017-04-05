@@ -8,7 +8,7 @@ import styled from 'styled-components/native';
 import NavigationBar from 'react-native-navbar';
 import colors from '../colors';
 import Button from './Button';
-import User from '../Entity/User';
+import User from '../entity/User';
 
 const MenuContainer = styled.View`
   flex: 1;
