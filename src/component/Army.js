@@ -139,7 +139,7 @@ class Army extends Component {
           {activePointsPercentage > 0 &&
             <TitleProgressBar percentage={activePointsPercentage} active />
           }
-          <Title>{army.getIn(['_embedded', 'breed', 'name'])}</Title>
+          <Title>{army.breed.name}</Title>
           <Title>
             {armyDetail.points}{' points'}
           </Title>
