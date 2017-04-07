@@ -9,7 +9,14 @@
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
-    "test": "node node_modules/jest/bin/jest.js --watch"
+    "test": "node node_modules/jest/bin/jest.js --watch",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --single-quote --trailing-comma es5 --parser flow --write",
+      "git add"
+    ]
   },
   "jest": {
     "preset": "jest-expo"
@@ -32,7 +39,9 @@
   },
   "devDependencies": {
     "flow-bin": "^0.38.0",
+    "husky": "^0.13.3",
     "jest-expo": "^0.3.1",
+    "lint-staged": "^3.4.0",
     "react-native-scripts": "0.0.26",
     "react-test-renderer": "~15.4.1",
     "remote-redux-devtools": "^0.5.7"
