@@ -27,12 +27,11 @@ class Login extends Component {
   props: Props;
 
   state: {
-      username: string,
-      password: string,
-      errorMessage: ?string,
-      loginStatus: ?string,
-  }
-
+    username: string,
+    password: string,
+    errorMessage: ?string,
+    loginStatus: ?string,
+  };
   passwordRef: ?Object;
 
   constructor(props: Props) {
@@ -58,19 +57,17 @@ class Login extends Component {
 
     event.preventDefault();
 
-    this.setState((prevProps) => ({
+    this.setState(prevProps => ({
       errorMessage: null,
       loginStatus: 'IN_PROGRESS',
     }));
 
-    login(this.state.username, this.state.password)
-      .catch((e) => {
-        this.setState((prevProps) => ({
-          errorMessage: e.error_description,
-          loginStatus: 'FAILED',
-        }));
-      })
-    ;
+    login(this.state.username, this.state.password).catch(e => {
+      this.setState(prevProps => ({
+        errorMessage: e.error_description,
+        loginStatus: 'FAILED',
+      }));
+    });
   }
 
   handleUsernameChange(event: NativeEvent) {
@@ -109,7 +106,7 @@ class Login extends Component {
           />
           <Text style={styles.label}>Mot de passe</Text>
           <TextInput
-            ref={(ref) => this.passwordRef = ref}
+            ref={ref => this.passwordRef = ref}
             autoCapitalize="none"
             textDecorationLine="none"
             style={styles.input}
@@ -122,29 +119,46 @@ class Login extends Component {
 
           {this.state.errorMessage &&
             <View style={styles.errorMessage}>
-              <Text style={styles.errorMessageText}>{this.state.errorMessage}</Text>
-            </View>
-          }
+              <Text style={styles.errorMessageText}>
+                {this.state.errorMessage}
+              </Text>
+            </View>}
 
           <Button
             color="primary"
             onPress={this.handleLogin}
             disabled={isLoginButtonDisabled}
           >
-            {this.state.loginStatus !== 'IN_PROGRESS' ?
-              <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Valider</Text> :
-              <View>
-                <ActivityIndicator color={colors.white} />
-              </View>
-            }
+            {this.state.loginStatus !== 'IN_PROGRESS'
+              ? <Text
+                  style={[
+                    styles.primaryButtonText,
+                    isLoginButtonDisabled && styles.buttonDisabled,
+                  ]}
+                >
+                  Valider
+                </Text>
+              : <View>
+                  <ActivityIndicator color={colors.white} />
+                </View>}
           </Button>
 
           <Button
             color="danger"
-            onPress={() => this.setState({ username: 'testjdu', password: 'testjdu', loginStatus: null })}
+            onPress={() =>
+              this.setState({
+                username: 'testjdu',
+                password: 'testjdu',
+                loginStatus: null,
+              })}
             disabled={this.state.loginStatus === 'IN_PROGRESS'}
           >
-            <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>
+            <Text
+              style={[
+                styles.primaryButtonText,
+                isLoginButtonDisabled && styles.buttonDisabled,
+              ]}
+            >
               Debug Fill
             </Text>
           </Button>
@@ -177,7 +191,7 @@ const styles = StyleSheet.create({
   },
 
   buttonDisabled: {
-    opacity: .5,
+    opacity: 0.5,
   },
 
   label: {
@@ -199,15 +213,10 @@ const styles = StyleSheet.create({
   },
 });
 
-
-const mapStateToProps = (state) => ({
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = {
   login,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

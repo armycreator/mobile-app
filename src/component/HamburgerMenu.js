@@ -21,9 +21,11 @@ type HamburgerMenuType = {
 };
 
 export default function HamburgerMenu({ onPress }: HamburgerMenuType) {
-  return (<TouchableOpacity onPress={onPress}>
-    <HamburgerMenuContainer>
-      <HamburgerMenuImage source={menuImage} />
-    </HamburgerMenuContainer>
-  </TouchableOpacity>);
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <HamburgerMenuContainer>
+        <HamburgerMenuImage source={menuImage} />
+      </HamburgerMenuContainer>
+    </TouchableOpacity>
+  );
 }

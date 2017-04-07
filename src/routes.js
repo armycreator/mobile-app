@@ -15,7 +15,9 @@ const routes = [
     exact: true,
     main: ({ location }) => <Army army={location.state.army} />,
     title: ({ location }) => {
-      return <NavigationBarText>{location.state.army.get('name')}</NavigationBarText>;
+      return (
+        <NavigationBarText>{location.state.army.get('name')}</NavigationBarText>
+      );
     },
   },
   {
@@ -29,47 +31,43 @@ const routes = [
     title: () => <NavigationBarText>Connexion</NavigationBarText>,
   },
 ];
-
 const NavigationBarText = styled.Text`
   font-size: 17;
   letter-spacing: 0.5;
   color: ${colors.white};
 `;
-
 export function NavigationBarTitle({ onMenuPress }) {
-  const title = <Switch>
-    {routes.map((route, index) =>
-      <Route
-        key={index}
-        path={route.path}
-        exact={route.exact}
-        component={route.title}
-      />
-    )}
-  </Switch>;
-
+  const title = (
+    <Switch>
+      {routes.map((route, index) => (
+        <Route
+          key={index}
+          path={route.path}
+          exact={route.exact}
+          component={route.title}
+        />
+      ))}
+    </Switch>
+  );
   return (
     <NavigationBar
       title={title}
       tintColor={colors.secondary}
-      leftButton={<HamburgerMenu
-        onPress={onMenuPress}
-      />}
+      leftButton={<HamburgerMenu onPress={onMenuPress} />}
     />
   );
 }
-
 export function MainView() {
   return (
     <Switch>
-      {routes.map((route, index) =>
+      {routes.map((route, index) => (
         <Route
           key={index}
           path={route.path}
           exact={route.exact}
           component={route.main}
         />
-      )}
+      ))}
     </Switch>
   );
 }

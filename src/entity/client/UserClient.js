@@ -13,7 +13,6 @@ class UserClient extends AbstractClient {
     return this.createEntityFromJsonResponse(this.authorizedFetch(url), 'item');
   }
 
-
   getName(): string {
     return 'User';
   }

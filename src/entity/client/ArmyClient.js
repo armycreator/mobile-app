@@ -15,7 +15,6 @@ class ArmyClient extends AbstractClient {
     return this.createEntityFromJsonResponse(this.authorizedFetch(url), 'list');
   }
 
-
   getName(): string {
     return 'Army';
   }

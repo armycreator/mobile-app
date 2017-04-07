@@ -11,7 +11,7 @@ type ArmyProps = {
   wanted_points: ?number,
   breed: ?Breed,
   _embedded: ?Map<any, any>,
-}
+};
 
 const defaultValue: ArmyProps = {
   id: null,

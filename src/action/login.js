@@ -4,17 +4,17 @@ import sdk from '../Sdk';
 
 export function login(username: string, password: string) {
   return (dispatch: Function) => {
-    const formData =  { username, password };
+    const formData = { username, password };
 
-    return sdk.tokenStorage.generateToken(formData)
+    return sdk.tokenStorage
+      .generateToken(formData)
       .then(() => sdk.user.findMe())
-      .then((user) => {
+      .then(user => {
         dispatch({
           type: 'RECEIVE_ME',
           user,
         });
       })
-      .then(() => dispatch(push('/armies/')))
-    ;
+      .then(() => dispatch(push('/armies/')));
   };
 }

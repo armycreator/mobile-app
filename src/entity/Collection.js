@@ -6,7 +6,7 @@ type CollectionProps = {
   num_items_per_page: number,
   total_count: number,
   items: List<any>,
-}
+};
 
 const defaultValue: CollectionProps = {
   current_page_number: 1,
@@ -15,6 +15,4 @@ const defaultValue: CollectionProps = {
   items: List(),
 };
 
-export default class Collection extends Record(defaultValue) {
-}
-
+export default class Collection extends Record(defaultValue) {}

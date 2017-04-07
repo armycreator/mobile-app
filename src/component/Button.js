@@ -3,7 +3,6 @@ import { TouchableHighlight } from 'react-native';
 import styled from 'styled-components/native';
 import colors from '../colors';
 
-
 const BaseButton = styled.TouchableHighlight`
   border-width: 1;
   background-color: ${({ color }) => colors[color] || colors.softGray};
@@ -15,9 +14,11 @@ const BaseButton = styled.TouchableHighlight`
 `;
 
 function Button({ children, ...props }) {
-  return <BaseButton {...props}>
-    {children}
-  </BaseButton>
+  return (
+    <BaseButton {...props}>
+      {children}
+    </BaseButton>
+  );
 }
 
 export default Button;

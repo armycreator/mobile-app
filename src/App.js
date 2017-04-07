@@ -5,7 +5,7 @@ import { Text, TouchableHighlight, StatusBar, View } from 'react-native';
 import { AndroidBackButton } from 'react-router-native';
 import { Provider } from 'react-redux';
 import { ConnectedRouter, push } from 'react-router-redux';
-import { Map } from 'immutable'
+import { Map } from 'immutable';
 import SideMenu from 'react-native-side-menu';
 import createHistory from 'history/createMemoryHistory';
 import styled from 'styled-components/native';
@@ -30,7 +30,6 @@ export default class App extends Component {
     isMenuOpen: boolean,
   };
 
-
   constructor(props: {}) {
     super(props);
 
@@ -49,7 +48,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <AndroidBackButton >
+          <AndroidBackButton>
             <Container>
               <StatusBar hidden />
               <SideMenu
@@ -58,12 +57,14 @@ export default class App extends Component {
                 onChange={this.toggleMenu}
               >
                 <Layout>
-                  <NavigationBarTitle onMenuPress={() => this.setState({ isMenuOpen: true })} />
+                  <NavigationBarTitle
+                    onMenuPress={() => this.setState({ isMenuOpen: true })}
+                  />
                   <MainView />
                 </Layout>
               </SideMenu>
             </Container>
-          </AndroidBackButton >
+          </AndroidBackButton>
         </ConnectedRouter>
       </Provider>
     );

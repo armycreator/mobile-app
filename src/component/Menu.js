@@ -20,50 +20,41 @@ const MenuContainer = styled.View`
 type Props = { user: ?User, onLogout: Function, onArmyList: Function };
 
 function Menu({ user, onLogout, onArmyList }: Props) {
-  return (<MenuContainer>
-    <NavigationBar
-      title={{ title: 'Menu', tintColor: colors.white }}
-      tintColor={colors.secondary}
-    />
+  return (
+    <MenuContainer>
+      <NavigationBar
+        title={{ title: 'Menu', tintColor: colors.white }}
+        tintColor={colors.secondary}
+      />
 
-    {user &&
-      <View>
-        <Link to="/armies">
-          <TouchableOpacity
-            onPress={onArmyList}
-            style={{ padding: 15, borderBottomWidth: 1 }}
-          >
-            <Text style={{ color: colors.white }}>Mes listes</Text>
-          </TouchableOpacity>
-        </Link>
+      {user &&
+        <View>
+          <Link to="/armies">
+            <TouchableOpacity
+              onPress={onArmyList}
+              style={{ padding: 15, borderBottomWidth: 1 }}
+            >
+              <Text style={{ color: colors.white }}>Mes listes</Text>
+            </TouchableOpacity>
+          </Link>
 
+          <View style={{ paddingHorizontal: 10 }}>
+            <Button color="danger" onPress={onLogout}>
+              <Text style={{ color: colors.white, textAlign: 'center' }}>
+                Déconnexion
+              </Text>
+            </Button>
+          </View>
+        </View>}
+    </MenuContainer>
+  );
+}
 
-        <View style={{ paddingHorizontal: 10 }}>
-          <Button
-            color="danger"
-            onPress={onLogout}
-          >
-            <Text style={{ color: colors.white, textAlign: 'center' }}>
-              Déconnexion
-            </Text>
-          </Button>
-        </View>
-      </View>
-    }
-  </MenuContainer>);
-};
-
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: state.app.get('me'),
 });
-
 const mapDispatchToProps = {
   onLogout: () => dispatch => dispatch(push('/login')),
   onArmyList: () => dispatch => dispatch(push('/armies')),
 };
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Menu);
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
