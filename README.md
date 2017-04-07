@@ -1,6 +1,6 @@
 # Armycreator mobile app
 
-Armycreator][https://www.armycreator.net() mobile application.
+[Armycreator](https://www.armycreator.net) mobile application.
 
 This application uses [React Native](https://facebook.github.io/react-native/). If you do not know it, you may want to be familiar with it.
 
