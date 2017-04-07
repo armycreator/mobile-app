@@ -1,10 +1,14 @@
 // @flow
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import { Link } from 'react-router-native';
 import styled from 'styled-components/native';
 import NavigationBar from 'react-native-navbar';
 import colors from '../colors';
 import Button from './Button';
+import User from '../entity/User';
 
 const MenuContainer = styled.View`
   flex: 1;
@@ -13,7 +17,9 @@ const MenuContainer = styled.View`
   border-right-color: ${colors.black};
 `;
 
-function Menu({ user, onLogout, onArmyList }) {
+type Props = { user: ?User, onLogout: Function, onArmyList: Function };
+
+function Menu({ user, onLogout, onArmyList }: Props) {
   return (<MenuContainer>
     <NavigationBar
       title={{ title: 'Menu', tintColor: colors.white }}
@@ -22,12 +28,14 @@ function Menu({ user, onLogout, onArmyList }) {
 
     {user &&
       <View>
-        <TouchableOpacity
-          onPress={onArmyList}
-          style={{ padding: 15, borderBottomWidth: 1 }}
-        >
-          <Text style={{ color: colors.white }}>Mes listes</Text>
-        </TouchableOpacity>
+        <Link to="/armies">
+          <TouchableOpacity
+            onPress={onArmyList}
+            style={{ padding: 15, borderBottomWidth: 1 }}
+          >
+            <Text style={{ color: colors.white }}>Mes listes</Text>
+          </TouchableOpacity>
+        </Link>
 
 
         <View style={{ paddingHorizontal: 10 }}>
@@ -45,4 +53,17 @@ function Menu({ user, onLogout, onArmyList }) {
   </MenuContainer>);
 };
 
-export default Menu;
+
+const mapStateToProps = (state) => ({
+  user: state.app.get('me'),
+});
+
+const mapDispatchToProps = {
+  onLogout: () => dispatch => dispatch(push('/login')),
+  onArmyList: () => dispatch => dispatch(push('/armies')),
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Menu);

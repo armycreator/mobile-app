@@ -1,19 +1,29 @@
 // @flow
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { ActivityIndicator, ListView, Text, TouchableHighlight, View } from 'react-native';
 import { List, Map } from 'immutable';
-import RestClientSdk from 'rest-client-sdk';
 import styled from 'styled-components/native';
+import { push } from 'react-router-redux';
 import colors from '../colors';
+import { findArmyForUser } from '../action/army';
+import { Collection } from '../entity';
 
 type ArmyListProps = {
-  sdk: RestClientSdk,
   user: Map<any, any>,
+  armyList: Collection,
   onSelectArmy: Function,
+  findArmyForUser: Function,
 };
 
 const Container = styled.View`
   flex: 1;
+`;
+
+const ActivityIndicatorContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Army = styled.View`
@@ -35,30 +45,24 @@ const ArmyPoints = styled.Text`
 class ArmyList extends Component {
   props: ArmyListProps;
 
-  state: {
-    armyList: ?Map<any, any>,
-  };
+  dataSource: ListView.DataSource;
 
   constructor(props: ArmyListProps) {
     super(props);
 
     this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     (this: any).renderRow = this.renderRow.bind(this);
-
-    this.state = {
-      armyList: null,
-    };
   }
 
   componentDidMount() {
-    const { sdk, user } = this.props;
+    const { findArmyForUser, user } = this.props;
 
-    return sdk.army.findByUser(user)
-      .then((data) => this.setState({
-        armyList: this.dataSource.cloneWithRows(
-          data.get('items').toArray()
-        ),
-      }))
+    return findArmyForUser(user)
+      // .then((data) => this.setState(() => ({
+      //   armyList: this.dataSource.cloneWithRows(
+      //     data.get('items').toArray()
+      //   ),
+      // })))
       .catch(console.error)
     ;
   }
@@ -77,22 +81,39 @@ class ArmyList extends Component {
     );
   }
 
-  render () {
-    const { user } = this.props;
+  getArmyListDataSource() {
+    return this.dataSource.cloneWithRows(this.props.armyList.items.toArray());
+  }
 
-    if (this.state.armyList === null) {
-      return (<View>
+  render () {
+    const { armyList, user } = this.props;
+
+    if (!armyList) {
+      return (<ActivityIndicatorContainer>
         <ActivityIndicator color={colors.primary} />
-      </View>);
+      </ActivityIndicatorContainer>);
     }
 
     return (
       <ListView
-        dataSource={this.state.armyList}
+        dataSource={this.getArmyListDataSource()}
         renderRow={this.renderRow}
       />
     );
   }
 }
 
-export default ArmyList;
+const mapStateToProps = (state) => ({
+  user: state.app.get('me'),
+  armyList: state.app.get('lastArmyList'),
+});
+
+const mapDispatchToProps = {
+  onSelectArmy: (army) => push('/armies/8', { army }),
+  findArmyForUser,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ArmyList);

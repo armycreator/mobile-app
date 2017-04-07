@@ -2,9 +2,10 @@
 
 import RestClientSdk, { TokenStorage, PasswordGenerator } from 'rest-client-sdk';
 import { AsyncStorage } from 'react-native';
-import ArmyClient from './Entity/Army';
-import UserClient from './Entity/User';
+import ArmyClient from './entity/client/ArmyClient';
+import UserClient from './entity/client/UserClient';
 import { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../config';
+import entityFactory from './entity/entityFactory';
 
 const tokenGeneratorConfig = {
   path: 'oauth2.armycreator.net/oauth/v2/token',
@@ -32,6 +33,11 @@ const clients = {
   // ...
 };
 
-const sdk = new RestClientSdk(tokenStorage, config, clients);
+const sdk = new RestClientSdk(
+  tokenStorage,
+  config,
+  clients,
+  entityFactory
+);
 
 export default sdk;

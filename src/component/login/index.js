@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component, PropTypes } from 'react';
-import RestClientSdk from 'rest-client-sdk';
+import { connect } from 'react-redux';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -11,12 +11,12 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import { login } from '../../action/login';
 import Button from '../Button';
 import colors from '../../colors';
 
 type Props = {
-  sdk: RestClientSdk,
-  onLogged: Function,
+  login: Function,
 };
 
 type NativeEvent = {
@@ -54,7 +54,7 @@ class Login extends Component {
   }
 
   handleLogin(event: Event) {
-    const { sdk, onLogged } = this.props;
+    const { login } = this.props;
 
     event.preventDefault();
 
@@ -63,12 +63,7 @@ class Login extends Component {
       loginStatus: 'IN_PROGRESS',
     }));
 
-    const formData =  { username: this.state.username, password: this.state.password };
-    sdk.tokenStorage.generateToken(formData)
-      .then(() => {
-        this.setState(() => ({ loginStatus: 'SUCCEEDED' }));
-        return onLogged();
-      })
+    login(this.state.username, this.state.password)
       .catch((e) => {
         this.setState((prevProps) => ({
           errorMessage: e.error_description,
@@ -147,9 +142,11 @@ class Login extends Component {
           <Button
             color="danger"
             onPress={() => this.setState({ username: 'testjdu', password: 'testjdu', loginStatus: null })}
-            disabled={this.state.loginStatus !== null}
+            disabled={this.state.loginStatus === 'IN_PROGRESS'}
           >
-            <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>Debug Fill</Text>
+            <Text style={[styles.primaryButtonText, isLoginButtonDisabled && styles.buttonDisabled]}>
+              Debug Fill
+            </Text>
           </Button>
         </View>
       </KeyboardAvoidingView>
@@ -189,9 +186,6 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    // textAlignVertical: 'top',
-    // borderColor: 'gray',
-    // borderWidth: 1,
   },
 
   errorMessage: {
@@ -206,4 +200,14 @@ const styles = StyleSheet.create({
 });
 
 
-export default Login;
+const mapStateToProps = (state) => ({
+});
+
+const mapDispatchToProps = {
+  login,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);
