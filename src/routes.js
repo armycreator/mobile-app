@@ -15,9 +15,7 @@ const routes = [
     exact: true,
     main: ({ location }) => <Army army={location.state.army} />,
     title: ({ location }) => {
-      return (
-        <NavigationBarText>{location.state.army.get('name')}</NavigationBarText>
-      );
+      return <NavigationBarText>{location.state.army.name}</NavigationBarText>;
     },
   },
   {

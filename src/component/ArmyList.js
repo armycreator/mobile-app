@@ -79,10 +79,10 @@ class ArmyList extends Component {
   renderRow(army) {
     return (
       <TouchableHighlight onPress={() => this.props.onSelectArmy(army)}>
-        <Army key={army.get('id')}>
-          <ArmyName>{army.get('name')}</ArmyName>
+        <Army key={army.id}>
+          <ArmyName>{army.name}</ArmyName>
           <ArmyPoints>
-            {army.get('active_points')}
+            {army.active_points}
             {' pts'}
           </ArmyPoints>
         </Army>
