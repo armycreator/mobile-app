@@ -1,5 +1,5 @@
 // @flow
-import { fromJS, Map, Record } from 'immutable';
+import { Record } from 'immutable';
 
 type BreedProps = {
   id: ?number,

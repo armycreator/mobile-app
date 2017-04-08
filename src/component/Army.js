@@ -76,23 +76,23 @@ const SquadPoints = styled.Text`
 `;
 
 function SquadListByType({ squadListByType }) {
-  const unitType = squadListByType.get('unitType');
-  const squadList = squadListByType.get('squadList');
+  const unitType = squadListByType.unitType;
+  const squadList = squadListByType.squadList;
 
   if (squadList.size <= 0) {
     return null;
   }
 
   return (
-    <View key={unitType.get('id')}>
+    <View key={unitType.id}>
       <UnitTypeContainer>
-        <UnitType>{unitType.get('name')}</UnitType>
+        <UnitType>{unitType.name}</UnitType>
       </UnitTypeContainer>
 
       {squadList.map((squad, key) => (
-        <SquadContainer key={squad.get('id')} isFirst={key === 0}>
+        <SquadContainer key={squad.id} isFirst={key === 0}>
           <Squad>
-            {squad.get('name')}
+            {squad.name}
           </Squad>
           <SquadPoints>
             666 pts
@@ -144,14 +144,12 @@ class Army extends Component {
 
         <ArmyDescription>{armyDetail.description}</ArmyDescription>
 
-        {armyDetail
-          .getIn(['_embedded', 'squad_list_by_type'])
-          .map(squadListByType => (
-            <SquadListByType
-              key={squadListByType.getIn(['unitType', 'id'])}
-              squadListByType={squadListByType}
-            />
-          ))}
+        {armyDetail.squadListByType.map(squadListByType => (
+          <SquadListByType
+            key={squadListByType.unitType.id}
+            squadListByType={squadListByType}
+          />
+        ))}
       </View>
     );
   }

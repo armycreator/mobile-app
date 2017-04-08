@@ -7,7 +7,7 @@ export default function entityFactory(input, listOrItem, clientName = null) {
     let data = input;
 
     if (data.items && data.items.length > 0) {
-      data.items = List(data.items.map(item => convertItem(item, clientName)));
+      data.items = List(data.items).map(item => convertItem(item, clientName));
     }
 
     return new Collection(data);
