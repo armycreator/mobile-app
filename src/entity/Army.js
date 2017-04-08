@@ -26,13 +26,13 @@ const defaultValue: ArmyProps = {
 
 export default class Army extends Record(defaultValue) {
   constructor(input: any) {
-    const data = input;
+    const extraData = {
+      breed: new Breed(input._embedded.breed),
+      squadListByType: List(input._embedded.squad_list_by_type).map(
+        squadListByType => new SquadListByType(squadListByType)
+      ),
+    };
 
-    data.breed = new Breed(data._embedded.breed);
-    data.squadListByType = List(data._embedded.squad_list_by_type).map(
-      squadListByType => new SquadListByType(squadListByType)
-    );
-
-    super(data);
+    super(Object.assign({}, input, extraData));
   }
 }
