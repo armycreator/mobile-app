@@ -89,7 +89,7 @@ function SquadListByType({ squadListByType }) {
         <UnitType>{unitType.get('name')}</UnitType>
       </UnitTypeContainer>
 
-      {squadList.map((squad, key) =>
+      {squadList.map((squad, key) => (
         <SquadContainer key={squad.get('id')} isFirst={key === 0}>
           <Squad>
             {squad.get('name')}
@@ -98,7 +98,7 @@ function SquadListByType({ squadListByType }) {
             666 pts
           </SquadPoints>
         </SquadContainer>
-      )}
+      ))}
     </View>
   );
 }
@@ -119,7 +119,6 @@ class Army extends Component {
   render() {
     const { army, armyDetail } = this.props;
 
-
     if (!armyDetail) {
       return null;
     }
@@ -134,11 +133,9 @@ class Army extends Component {
       <View>
         <TitleContainer>
           {pointsPercentage > 0 &&
-            <TitleProgressBar percentage={pointsPercentage} />
-          }
+            <TitleProgressBar percentage={pointsPercentage} />}
           {activePointsPercentage > 0 &&
-            <TitleProgressBar percentage={activePointsPercentage} active />
-          }
+            <TitleProgressBar percentage={activePointsPercentage} active />}
           <Title>{army.breed.name}</Title>
           <Title>
             {armyDetail.points}{' points'}
@@ -147,18 +144,20 @@ class Army extends Component {
 
         <ArmyDescription>{armyDetail.description}</ArmyDescription>
 
-        {armyDetail.getIn(['_embedded', 'squad_list_by_type']).map(squadListByType =>
-          <SquadListByType
-            key={squadListByType.getIn([ 'unitType', 'id' ])}
-            squadListByType={squadListByType}
-          />
-        )}
+        {armyDetail
+          .getIn(['_embedded', 'squad_list_by_type'])
+          .map(squadListByType => (
+            <SquadListByType
+              key={squadListByType.getIn(['unitType', 'id'])}
+              squadListByType={squadListByType}
+            />
+          ))}
       </View>
     );
   }
-};
+}
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   armyDetail: state.app.get('currentArmyDetail'),
 });
 
@@ -166,7 +165,4 @@ const mapDispatchToProps = {
   fetchArmyDetail,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Army);
+export default connect(mapStateToProps, mapDispatchToProps)(Army);

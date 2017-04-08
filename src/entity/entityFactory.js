@@ -17,7 +17,7 @@ export default function entityFactory(input, listOrItem, clientName = null) {
 }
 
 function convertItem(input, clientName) {
-  switch(clientName) {
+  switch (clientName) {
     case 'User':
       return new User(input);
     case 'Army':

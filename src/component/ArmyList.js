@@ -1,7 +1,13 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ActivityIndicator, ListView, Text, TouchableHighlight, View } from 'react-native';
+import {
+  ActivityIndicator,
+  ListView,
+  Text,
+  TouchableHighlight,
+  View,
+} from 'react-native';
 import { List, Map } from 'immutable';
 import styled from 'styled-components/native';
 import { push } from 'react-router-redux';
@@ -50,21 +56,24 @@ class ArmyList extends Component {
   constructor(props: ArmyListProps) {
     super(props);
 
-    this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.dataSource = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2,
+    });
     (this: any).renderRow = this.renderRow.bind(this);
   }
 
   componentDidMount() {
     const { findArmyForUser, user } = this.props;
 
-    return findArmyForUser(user)
-      // .then((data) => this.setState(() => ({
-      //   armyList: this.dataSource.cloneWithRows(
-      //     data.get('items').toArray()
-      //   ),
-      // })))
-      .catch(console.error)
-    ;
+    return (
+      findArmyForUser(user)
+        // .then((data) => this.setState(() => ({
+        //   armyList: this.dataSource.cloneWithRows(
+        //     data.get('items').toArray()
+        //   ),
+        // })))
+        .catch(console.error)
+    );
   }
 
   renderRow(army) {
@@ -85,13 +94,15 @@ class ArmyList extends Component {
     return this.dataSource.cloneWithRows(this.props.armyList.items.toArray());
   }
 
-  render () {
+  render() {
     const { armyList, user } = this.props;
 
     if (!armyList) {
-      return (<ActivityIndicatorContainer>
-        <ActivityIndicator color={colors.primary} />
-      </ActivityIndicatorContainer>);
+      return (
+        <ActivityIndicatorContainer>
+          <ActivityIndicator color={colors.primary} />
+        </ActivityIndicatorContainer>
+      );
     }
 
     return (
@@ -103,17 +114,14 @@ class ArmyList extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: state.app.get('me'),
   armyList: state.app.get('lastArmyList'),
 });
 
 const mapDispatchToProps = {
-  onSelectArmy: (army) => push('/armies/8', { army }),
+  onSelectArmy: army => push('/armies/8', { army }),
   findArmyForUser,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ArmyList);
+export default connect(mapStateToProps, mapDispatchToProps)(ArmyList);

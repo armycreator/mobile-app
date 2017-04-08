@@ -1,6 +1,9 @@
 // @flow
 
-import RestClientSdk, { TokenStorage, PasswordGenerator } from 'rest-client-sdk';
+import RestClientSdk, {
+  TokenStorage,
+  PasswordGenerator,
+} from 'rest-client-sdk';
 import { AsyncStorage } from 'react-native';
 import ArmyClient from './entity/client/ArmyClient';
 import UserClient from './entity/client/UserClient';
@@ -17,14 +20,13 @@ const tokenGenerator = new PasswordGenerator(tokenGeneratorConfig);
 const storage = AsyncStorage;
 const tokenStorage = new TokenStorage(tokenGenerator, storage);
 
-
 const config = {
-      path: 'api.armycreator.net',
-      scheme: 'https',
-      port: 443,
-      segment: '/v1',
-      authorizationType: 'Bearer', // default to "Bearer", but can be "Basic" or anything
-      useDefaultParameters: true,
+  path: 'api.armycreator.net',
+  scheme: 'https',
+  port: 443,
+  segment: '/v1',
+  authorizationType: 'Bearer', // default to "Bearer", but can be "Basic" or anything
+  useDefaultParameters: true,
 };
 
 const clients = {
@@ -33,11 +35,6 @@ const clients = {
   // ...
 };
 
-const sdk = new RestClientSdk(
-  tokenStorage,
-  config,
-  clients,
-  entityFactory
-);
+const sdk = new RestClientSdk(tokenStorage, config, clients, entityFactory);
 
 export default sdk;
