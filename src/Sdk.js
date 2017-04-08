@@ -8,7 +8,7 @@ import { AsyncStorage } from 'react-native';
 import ArmyClient from './entity/client/ArmyClient';
 import UserClient from './entity/client/UserClient';
 import { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../config';
-import entityFactory from './entity/entityFactory';
+import { entityFactory } from './entity/entityFactory';
 
 const tokenGeneratorConfig = {
   path: 'oauth2.armycreator.net/oauth/v2/token',
