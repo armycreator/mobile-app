@@ -6,6 +6,9 @@ type State = Map<string, any>;
 
 const initialState: State = Map({
   me: null,
+  lastArmyList: null,
+  isMenuOpen: false,
+  currentArmyDetail: null,
 });
 
 type ActionType = {

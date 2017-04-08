@@ -10,7 +10,9 @@ class UserClient extends AbstractClient {
   findMe(): Promise<any> {
     const url = `${this.sdk.config.segment}/me`;
 
-    return this.createEntityFromJsonResponse(this.authorizedFetch(url), 'item');
+    const response = this.authorizedFetch(url);
+
+    return this.createEntityFromJsonResponse(response, 'item');
   }
 
   getName(): string {

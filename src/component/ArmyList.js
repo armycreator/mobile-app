@@ -13,10 +13,10 @@ import styled from 'styled-components/native';
 import { push } from 'react-router-redux';
 import colors from '../colors';
 import { findArmyForUser } from '../action/army';
-import { Collection } from '../entity';
+import { Collection, User } from '../entity';
 
 type ArmyListProps = {
-  user: Map<any, any>,
+  user: User,
   armyList: Collection,
   onSelectArmy: Function,
   findArmyForUser: Function,
