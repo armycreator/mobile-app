@@ -114,7 +114,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onSelectArmy: army => push('/armies/8', { army }),
+  onSelectArmy: army => push(`/armies/${army.id}`, { army }),
   findArmyForUser,
 };
 

@@ -1,19 +1,21 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
+import { push } from 'react-router-redux';
 import RestClientSdk from 'rest-client-sdk';
 import colors from '../colors';
 import { fetchArmyDetail, onArmyUnmount } from '../action/army';
-import { Army as ArmyEntity } from '../entity';
+import { Army as ArmyEntity, Squad as SquadEntity } from '../entity';
 
 type ArmyProps = {
   army: ArmyEntity,
   armyDetail: ?ArmyEntity,
   fetchArmyDetail: Function,
   onArmyUnmount: Function,
+  onSelectSquad: Function,
 };
 
 type ArmyState = {
@@ -83,7 +85,7 @@ const SquadListPoints = styled.Text`
   align-self: flex-end;
 `;
 
-function SquadListByType({ squadListByType }) {
+function SquadListByType({ squadListByType, onSelectSquad }) {
   const unitType = squadListByType.unitType;
   const squadList = squadListByType.squadList;
 
@@ -92,7 +94,7 @@ function SquadListByType({ squadListByType }) {
   }
 
   return (
-    <View key={unitType.id}>
+    <View>
       <UnitTypeContainer>
         <UnitType>{unitType.name} pts</UnitType>
 
@@ -104,15 +106,17 @@ function SquadListByType({ squadListByType }) {
       </UnitTypeContainer>
 
       {squadList.map((squad, key) => (
-        <SquadContainer key={squad.id} isFirst={key === 0}>
-          <Squad>
-            {squad.name}
-          </Squad>
-          <SquadPoints>
-            {squad.points} pts
-            {squad.hasInactiveSquad && ` (${squad.activePoints} pts actifs)`}
-          </SquadPoints>
-        </SquadContainer>
+        <TouchableHighlight key={squad.id} onPress={() => onSelectSquad(squad)}>
+          <SquadContainer isFirst={key === 0}>
+            <Squad>
+              {squad.name}
+            </Squad>
+            <SquadPoints>
+              {squad.points} pts
+              {squad.hasInactiveSquad && ` (${squad.activePoints} pts actifs)`}
+            </SquadPoints>
+          </SquadContainer>
+        </TouchableHighlight>
       ))}
     </View>
   );
@@ -138,7 +142,7 @@ class Army extends Component {
   }
 
   render() {
-    const { army, armyDetail } = this.props;
+    const { army, armyDetail, onSelectSquad } = this.props;
 
     if (!armyDetail) {
       return null;
@@ -169,6 +173,7 @@ class Army extends Component {
           <SquadListByType
             key={squadListByType.unitType.id}
             squadListByType={squadListByType}
+            onSelectSquad={onSelectSquad}
           />
         ))}
       </View>
@@ -180,9 +185,15 @@ const mapStateToProps = state => ({
   armyDetail: state.app.get('currentArmyDetail'),
 });
 
+function goToSquad(squad: SquadEntity) {
+  console.log(squad.id);
+  return push(`/squad/${squad.id}`, { squad });
+}
+
 const mapDispatchToProps = {
   fetchArmyDetail,
   onArmyUnmount,
+  onSelectSquad: goToSquad,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Army);

@@ -6,10 +6,19 @@ import styled from 'styled-components/native';
 import HamburgerMenu from './component/HamburgerMenu';
 import ArmyList from './component/ArmyList';
 import Army from './component/Army';
+import Squad from './component/Squad';
 import Login from './component/login';
 import colors from './colors';
 
 const routes = [
+  {
+    path: '/squad/:id',
+    exact: true,
+    main: ({ location }) => <Squad squad={location.state.squad} />,
+    title: ({ location }) => {
+      return <NavigationBarText>TMP Squad</NavigationBarText>;
+    },
+  },
   {
     path: '/armies/:id',
     exact: true,
