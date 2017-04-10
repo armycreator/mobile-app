@@ -7,6 +7,7 @@ import RestClientSdk, {
 import { AsyncStorage } from 'react-native';
 import ArmyClient from './entity/client/ArmyClient';
 import UserClient from './entity/client/UserClient';
+import SquadClient from './entity/client/SquadClient';
 import { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../config';
 import { entityFactory } from './entity';
 
@@ -32,6 +33,7 @@ const config = {
 const clients = {
   user: UserClient,
   army: ArmyClient,
+  squad: SquadClient,
   // ...
 };
 

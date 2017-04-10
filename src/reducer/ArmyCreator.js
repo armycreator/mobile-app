@@ -1,6 +1,6 @@
 // @flow
-import { Map } from 'immutable';
-import { User } from '../entity';
+import { List, Map } from 'immutable';
+import { Army, Squad, User } from '../entity';
 
 type State = Map<string, any>;
 
@@ -9,12 +9,14 @@ const initialState: State = Map({
   lastArmyList: null,
   isMenuOpen: false,
   currentArmyDetail: null,
+  currentSquadDetail: null,
 });
 
 type ActionType = {
   type: string,
-  armyList?: Map<any, any>,
-  armyDetail?: Map<any, any>,
+  armyList?: List<Army>,
+  armyDetail?: Army,
+  squadDetail?: Squad,
   user: User,
 };
 
@@ -31,6 +33,8 @@ export default function armyCreatorReducer(
       return state.set('currentArmyDetail', action.armyDetail);
     case 'ARMY_UNMOUNT':
       return state.set('currentArmyDetail', null);
+    case 'SQUAD_DETAIL_RECEIVE':
+      return state.set('currentSquadDetail', action.squadDetail);
     default:
       return state;
   }

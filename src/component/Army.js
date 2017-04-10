@@ -3,9 +3,9 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
-import styled from 'styled-components/native';
 import { push } from 'react-router-redux';
 import RestClientSdk from 'rest-client-sdk';
+import styled from 'styled-components/native';
 import colors from '../colors';
 import { fetchArmyDetail, onArmyUnmount } from '../action/army';
 import { Army as ArmyEntity, Squad as SquadEntity } from '../entity';
@@ -181,14 +181,13 @@ class Army extends Component {
   }
 }
 
+function goToSquad(squad: SquadEntity) {
+  return push(`/squad/${squad.id}`, { squad });
+}
+
 const mapStateToProps = state => ({
   armyDetail: state.app.get('currentArmyDetail'),
 });
-
-function goToSquad(squad: SquadEntity) {
-  console.log(squad.id);
-  return push(`/squad/${squad.id}`, { squad });
-}
 
 const mapDispatchToProps = {
   fetchArmyDetail,

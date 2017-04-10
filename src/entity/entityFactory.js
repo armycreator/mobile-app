@@ -1,5 +1,5 @@
 import { fromJS, List } from 'immutable';
-import { Army, Collection, User } from './';
+import { Army, Collection, User, Squad } from './';
 
 export default function entityFactory(input, listOrItem, clientName = null) {
   if (listOrItem === 'list') {
@@ -22,6 +22,8 @@ function convertItem(input, clientName) {
       return new User(input);
     case 'Army':
       return new Army(input);
+    case 'Squad':
+      return new Squad(input);
     default:
       return fromJS(input);
   }

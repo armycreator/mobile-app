@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import { routerMiddleware } from 'react-router-redux';
 import reducer from './reducer';
 
-export default function configureStore(history: any) {
+export default function configureStore(initialState: any, history: any) {
   const composeEnhancers = composeWithDevTools(
     {
       // Specify here name, actionsBlacklist, actionsCreators and other options
@@ -17,6 +17,7 @@ export default function configureStore(history: any) {
 
   return createStore(
     reducer,
+    initialState,
     composeEnhancers(applyMiddleware(...middlewares))
   );
 }

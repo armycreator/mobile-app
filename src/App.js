@@ -18,14 +18,15 @@ import Layout from './component/Layout';
 
 // global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
 const history = createHistory();
-const store = configureStore(history);
+const initialState = {};
+const store = configureStore(initialState, history);
 
 const Container = styled.View`
   flex: 1;
   background-color: ${colors.background};
 `;
 
-export default class App extends Component {
+class App extends Component {
   state: {
     isMenuOpen: boolean,
   };
@@ -45,6 +46,8 @@ export default class App extends Component {
   }
 
   render() {
+    const { store } = this.props;
+
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
@@ -70,3 +73,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default () => <App store={store} />;

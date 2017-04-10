@@ -1,5 +1,6 @@
 // @flow
-import { fromJS, Map, Record } from 'immutable';
+import { fromJS, List, Map, Record } from 'immutable';
+import { SquadLine } from './';
 
 type SquadProps = {
   id: ?number,
@@ -7,6 +8,7 @@ type SquadProps = {
   points: number,
   activePoints: number,
   hasInactiveSquad: boolean,
+  squadLineList: ?List<SquadLine>,
 };
 
 const defaultValue: SquadProps = {
@@ -15,6 +17,7 @@ const defaultValue: SquadProps = {
   points: 0,
   activePoints: 0,
   hasInactiveSquad: false,
+  squadLineList: null,
 };
 
 export default class Squad extends Record(defaultValue) {
@@ -23,6 +26,10 @@ export default class Squad extends Record(defaultValue) {
       points: input._embedded.points,
       activePoints: input._embedded.active_points,
       hasInactiveSquad: input._embedded.has_inactive_squad,
+      squadLineList: input._embedded.squad_line_list &&
+        List(input._embedded.squad_line_list).map(
+          squadLine => new SquadLine(squadLine)
+        ),
     });
     return super(data);
   }
