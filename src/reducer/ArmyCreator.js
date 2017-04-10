@@ -29,6 +29,8 @@ export default function armyCreatorReducer(
       return state.set('lastArmyList', action.armyList);
     case 'ARMY_DETAIL_RECEIVE':
       return state.set('currentArmyDetail', action.armyDetail);
+    case 'ARMY_UNMOUNT':
+      return state.set('currentArmyDetail', null);
     default:
       return state;
   }

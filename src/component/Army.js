@@ -6,13 +6,14 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import RestClientSdk from 'rest-client-sdk';
 import colors from '../colors';
-import { fetchArmyDetail } from '../action/army';
+import { fetchArmyDetail, onArmyUnmount } from '../action/army';
 import { Army as ArmyEntity } from '../entity';
 
 type ArmyProps = {
   army: ArmyEntity,
   armyDetail: ?ArmyEntity,
   fetchArmyDetail: Function,
+  onArmyUnmount: Function,
 };
 
 type ArmyState = {
@@ -54,6 +55,8 @@ const UnitTypeContainer = styled.View`
   border-bottom-color: ${colors.black};
   padding-horizontal: 15;
   padding-vertical: 5;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 const UnitType = styled.Text`
   color: ${colors.secondary};
@@ -75,6 +78,11 @@ const SquadPoints = styled.Text`
   color: ${colors.softGray};
 `;
 
+const SquadListPoints = styled.Text`
+  color: ${colors.softGray};
+  align-self: flex-end;
+`;
+
 function SquadListByType({ squadListByType }) {
   const unitType = squadListByType.unitType;
   const squadList = squadListByType.squadList;
@@ -86,7 +94,13 @@ function SquadListByType({ squadListByType }) {
   return (
     <View key={unitType.id}>
       <UnitTypeContainer>
-        <UnitType>{unitType.name}</UnitType>
+        <UnitType>{unitType.name} pts</UnitType>
+
+        <SquadListPoints>
+          {squadListByType.points} pts
+          {squadListByType.hasInactiveSquad &&
+            ` (${squadListByType.activePoints} pts actifs)`}
+        </SquadListPoints>
       </UnitTypeContainer>
 
       {squadList.map((squad, key) => (
@@ -95,7 +109,8 @@ function SquadListByType({ squadListByType }) {
             {squad.name}
           </Squad>
           <SquadPoints>
-            666 pts
+            {squad.points} pts
+            {squad.hasInactiveSquad && ` (${squad.activePoints} pts actifs)`}
           </SquadPoints>
         </SquadContainer>
       ))}
@@ -114,6 +129,12 @@ class Army extends Component {
     const { army, fetchArmyDetail } = this.props;
 
     fetchArmyDetail(army.id);
+  }
+
+  componentWillUnmount() {
+    const { onArmyUnmount } = this.props;
+
+    onArmyUnmount();
   }
 
   render() {
@@ -161,6 +182,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchArmyDetail,
+  onArmyUnmount,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Army);

@@ -63,17 +63,11 @@ class ArmyList extends Component {
   }
 
   componentDidMount() {
-    const { findArmyForUser, user } = this.props;
+    const { armyList, findArmyForUser, user } = this.props;
 
-    return (
-      findArmyForUser(user)
-        // .then((data) => this.setState(() => ({
-        //   armyList: this.dataSource.cloneWithRows(
-        //     data.get('items').toArray()
-        //   ),
-        // })))
-        .catch(console.error)
-    );
+    if (!armyList) {
+      return findArmyForUser(user).catch(console.error);
+    }
   }
 
   renderRow(army) {

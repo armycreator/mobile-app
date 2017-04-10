@@ -33,3 +33,9 @@ export function fetchArmyDetail(id: number) {
       .catch(console.error);
   };
 }
+
+export function onArmyUnmount() {
+  return {
+    type: 'ARMY_UNMOUNT',
+  };
+}
