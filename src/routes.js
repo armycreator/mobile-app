@@ -16,7 +16,7 @@ const routes = [
     exact: true,
     main: ({ location }) => <Squad squad={location.state.squad} />,
     title: ({ location }) => {
-      return <NavigationBarText>TMP Squad</NavigationBarText>;
+      return <NavigationBarText>{location.state.squad.name}</NavigationBarText>;
     },
   },
   {

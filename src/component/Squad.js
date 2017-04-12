@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Switch, Text, View } from 'react-native';
+import { ScrollView, Switch, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import colors from '../colors';
@@ -13,7 +13,6 @@ type ArmyProps = {
 const TitleContainer = styled.View`
   background-color: ${colors.black};
   padding-vertical: 15;
-  padding-horizontal: 10;
   flex-direction: row;
   justify-content: space-between;
 `;
@@ -28,6 +27,7 @@ const TitleProgressBar = styled.View`
 `;
 
 const Title = styled.Text`
+  margin-horizontal: 10;
   color: ${colors.white};
   text-align: center;
 `;
@@ -57,8 +57,30 @@ const SquadLinePoints = styled.Text`
   color: ${colors.softGray};
 `;
 
+const SquadLineStuffView = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10;
+  border-bottom-width: 1;
+  border-bottom-color: ${colors.black};
+`;
+
+const SquadLineStuffText = styled.Text`
+  color: ${colors.white};
+`;
+
 function SquadLineStuff({ squadLineStuff }) {
-  return <Text>{squadLineStuff.number}x Ablative Plating MAR</Text>;
+  return (
+    <SquadLineStuffView>
+      <SquadLineStuffText>
+        {squadLineStuff.number}x {squadLineStuff.unitStuff.stuff.name}
+      </SquadLineStuffText>
+      <SquadLineStuffText>
+        {squadLineStuff.unitStuff.points > 0 &&
+          `${squadLineStuff.unitStuff.points} pts`}
+      </SquadLineStuffText>
+    </SquadLineStuffView>
+  );
 }
 
 class Squad extends PureComponent {
@@ -89,8 +111,9 @@ class Squad extends PureComponent {
       ? 100 * squad.activePoints / squad.points
       : 100;
 
+    console.log(activePointsPercentage);
     return (
-      <View>
+      <ScrollView>
         <TitleContainer>
           {activePointsPercentage > 0 &&
             <TitleProgressBar percentage={activePointsPercentage} active />}
@@ -120,7 +143,7 @@ class Squad extends PureComponent {
               </SquadLineTitleContainer>
 
               <View>
-                {squad.squadLineStuffList.map(squadLineStuff => (
+                {squadLine.squadLineStuffList.map(squadLineStuff => (
                   <SquadLineStuff
                     key={squadLineStuff.id}
                     squadLineStuff={squadLineStuff}
@@ -129,45 +152,7 @@ class Squad extends PureComponent {
               </View>
             </SquadLineContainer>
           ))}
-
-        <View>
-          <View>
-            <Text>
-              1x DREAD Retribution class
-            </Text>
-            <Text>
-              300 pts
-            </Text>
-            <Text>
-              toggle
-            </Text>
-          </View>
-        </View>
-        <View>
-          <Text>1x Ablative Plating MAR</Text>
-          <Text>...</Text>
-          <Text>1x Scatter Weapons - Gun rack | 5 pts</Text>
-          <Text>1x split gfire (fun racks) | 5 pts</Text>
-        </View>
-
-        <View>
-          <View>
-            <Text>
-              1x ESCORT Bcukler Class
-            </Text>
-            <Text>
-              15 pts
-            </Text>
-            <Text>
-              toggle
-            </Text>
-          </View>
-        </View>
-        <View>
-          <Text>1x Primary weapon - gun rack</Text>
-          <Text>1x Difficult targe - MAR</Text>
-        </View>
-      </View>
+      </ScrollView>
     );
   }
 }

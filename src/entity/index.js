@@ -7,6 +7,8 @@ export SquadLineStuff from './SquadLineStuff';
 export SquadListByType from './SquadListByType';
 export UnitType from './UnitType';
 export Unit from './Unit';
+export UnitStuff from './UnitStuff';
+export Stuff from './Stuff';
 export User from './User';
 export UnitGroup from './UnitGroup';
 export entityFactory from './entityFactory';
