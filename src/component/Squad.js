@@ -1,14 +1,12 @@
+// @flow
+
 import React, { PureComponent } from 'react';
 import { ScrollView, Switch, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import colors from '../colors';
-import { fetchSquadDetail } from '../action/squad';
+import { changeSquadLineActiveStatus, fetchSquadDetail } from '../action/squad';
 import { Squad as SquadEntity, SquadLine as SquadLineEntity } from '../entity';
-
-type ArmyProps = {
-  squad: SquadEntity,
-};
 
 const TitleContainer = styled.View`
   background-color: ${colors.black};
@@ -110,11 +108,20 @@ function SquadLineStuff({ squadLineStuff }) {
   );
 }
 
+type SquadProps = {
+  squad: SquadEntity,
+  squadDetail: SquadEntity,
+  fetchSquadDetail: Function,
+  changeSquadLineActiveStatus: Function,
+};
+
 class Squad extends PureComponent {
-  constructor(props) {
+  props: SquadProps;
+
+  constructor(props: SquadProps) {
     super(props);
 
-    this.handleSwitchSquadLine = this.handleSwitchSquadLine.bind(this);
+    (this: any).handleSwitchSquadLine = this.handleSwitchSquadLine.bind(this);
   }
 
   componentDidMount() {
@@ -124,7 +131,7 @@ class Squad extends PureComponent {
   }
 
   handleSwitchSquadLine(squadLine: SquadLineEntity, active: boolean) {
-    console.log(active);
+    this.props.changeSquadLineActiveStatus(squadLine, active);
   }
 
   render() {
@@ -138,7 +145,6 @@ class Squad extends PureComponent {
       ? 100 * squad.activePoints / squad.points
       : 100;
 
-    console.log(activePointsPercentage);
     return (
       <ScrollView>
         <TitleContainer>
@@ -169,6 +175,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchSquadDetail,
+  changeSquadLineActiveStatus,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Squad);

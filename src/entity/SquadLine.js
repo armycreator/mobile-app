@@ -33,4 +33,11 @@ export default class SquadLine extends Record(defaultValue) {
 
     return super(data);
   }
+
+  get(key: string) {
+    if (key === '@id') {
+      return `/v1/squadlines/${this.id}`;
+    }
+    return super.get(key);
+  }
 }
