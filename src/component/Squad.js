@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
-import { Text, View } from 'react-native';
+import { Switch, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import colors from '../colors';
 import { fetchSquadDetail } from '../action/squad';
-import { Squad as SquadEntity } from '../entity';
+import { Squad as SquadEntity, SquadLine as SquadLineEntity } from '../entity';
 
 type ArmyProps = {
   squad: SquadEntity,
@@ -33,6 +33,9 @@ const Title = styled.Text`
 `;
 
 const SquadLineContainer = styled.View`
+`;
+
+const SquadLineTitleContainer = styled.View`
   background-color: ${colors.slateGray};
   border-top-width: 1;
   border-top-color: ${colors.black};
@@ -42,21 +45,37 @@ const SquadLineContainer = styled.View`
   padding-vertical: 5;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 `;
 const SquadLineTitle = styled.Text`
   color: ${colors.secondary};
+  flex: 1;
 `;
 
 const SquadLinePoints = styled.Text`
+  margin-right: 10;
   color: ${colors.softGray};
-  align-self: flex-end;
 `;
 
+function SquadLineStuff({ squadLineStuff }) {
+  return <Text>{squadLineStuff.number}x Ablative Plating MAR</Text>;
+}
+
 class Squad extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.handleSwitchSquadLine = this.handleSwitchSquadLine.bind(this);
+  }
+
   componentDidMount() {
     const { squad, fetchSquadDetail } = this.props;
 
     fetchSquadDetail(squad.id);
+  }
+
+  handleSwitchSquadLine(squadLine: SquadLineEntity, active: boolean) {
+    console.log(active);
   }
 
   render() {
@@ -84,12 +103,30 @@ class Squad extends PureComponent {
         {squad.squadLineList &&
           squad.squadLineList.map(squadLine => (
             <SquadLineContainer key={squadLine.id}>
-              <SquadLineTitle>{squadLine.name} pts</SquadLineTitle>
+              <SquadLineTitleContainer>
+                <SquadLineTitle>
+                  {squadLine.number}x {squadLine.unit.name}
+                </SquadLineTitle>
 
-              <SquadLinePoints>
-                {squadLine.points} pts
-                {squadLine.inactive ? ' inactive' : ' active'}
-              </SquadLinePoints>
+                <SquadLinePoints>
+                  {squadLine.points} pts
+                </SquadLinePoints>
+
+                <Switch
+                  value={!squadLine.inactive}
+                  onValueChange={value =>
+                    this.handleSwitchSquadLine(squadLine, value)}
+                />
+              </SquadLineTitleContainer>
+
+              <View>
+                {squad.squadLineStuffList.map(squadLineStuff => (
+                  <SquadLineStuff
+                    key={squadLineStuff.id}
+                    squadLineStuff={squadLineStuff}
+                  />
+                ))}
+              </View>
             </SquadLineContainer>
           ))}
 

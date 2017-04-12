@@ -46,7 +46,7 @@ class App extends Component {
   }
 
   render() {
-    const { store } = this.props;
+    const { store, history } = this.props;
 
     return (
       <Provider store={store}>
@@ -74,4 +74,4 @@ class App extends Component {
   }
 }
 
-export default () => <App store={store} />;
+export default () => <App store={store} history={history} />;
