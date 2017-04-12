@@ -25,7 +25,6 @@ type ArmyState = {
 const TitleContainer = styled.View`
   background-color: ${colors.black};
   padding-vertical: 15;
-  padding-horizontal: 10;
   flex-direction: row;
   justify-content: space-between;
 `;
@@ -40,6 +39,8 @@ const TitleProgressBar = styled.View`
 `;
 
 const Title = styled.Text`
+  margin-left: ${({ first }) => first ? 10 : 0};
+  margin-right: ${({ last }) => last ? 10 : 0};
   color: ${colors.white};
   text-align: center;
 `;
@@ -149,10 +150,8 @@ class Army extends Component {
     }
 
     const maxPoints = army.wanted_points || army.points;
-
     const pointsPercentage = maxPoints && 100 * army.points / maxPoints;
-
-    const activePointsPercentage = 100 * army.active_points / army.points;
+    const activePointsPercentage = 100 * army.active_points / maxPoints;
 
     return (
       <View>
@@ -161,8 +160,8 @@ class Army extends Component {
             <TitleProgressBar percentage={pointsPercentage} />}
           {activePointsPercentage > 0 &&
             <TitleProgressBar percentage={activePointsPercentage} active />}
-          <Title>{army.breed.name}</Title>
-          <Title>
+          <Title first>{army.breed.name}</Title>
+          <Title last>
             {armyDetail.points}{' points'}
           </Title>
         </TitleContainer>

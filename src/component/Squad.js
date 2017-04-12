@@ -32,9 +32,6 @@ const Title = styled.Text`
   text-align: center;
 `;
 
-const SquadLineContainer = styled.View`
-`;
-
 const SquadLineTitleContainer = styled.View`
   background-color: ${colors.slateGray};
   border-top-width: 1;
@@ -68,6 +65,36 @@ const SquadLineStuffView = styled.View`
 const SquadLineStuffText = styled.Text`
   color: ${colors.white};
 `;
+
+function SquadLine({ squadLine }) {
+  return (
+    <View>
+      <SquadLineTitleContainer>
+        <SquadLineTitle>
+          {squadLine.number}x {squadLine.unit.name}
+        </SquadLineTitle>
+
+        <SquadLinePoints>
+          {squadLine.points} pts
+        </SquadLinePoints>
+
+        <Switch
+          value={!squadLine.inactive}
+          onValueChange={value => this.handleSwitchSquadLine(squadLine, value)}
+        />
+      </SquadLineTitleContainer>
+
+      <View>
+        {squadLine.squadLineStuffList.map(squadLineStuff => (
+          <SquadLineStuff
+            key={squadLineStuff.id}
+            squadLineStuff={squadLineStuff}
+          />
+        ))}
+      </View>
+    </View>
+  );
+}
 
 function SquadLineStuff({ squadLineStuff }) {
   return (
@@ -125,32 +152,7 @@ class Squad extends PureComponent {
 
         {squad.squadLineList &&
           squad.squadLineList.map(squadLine => (
-            <SquadLineContainer key={squadLine.id}>
-              <SquadLineTitleContainer>
-                <SquadLineTitle>
-                  {squadLine.number}x {squadLine.unit.name}
-                </SquadLineTitle>
-
-                <SquadLinePoints>
-                  {squadLine.points} pts
-                </SquadLinePoints>
-
-                <Switch
-                  value={!squadLine.inactive}
-                  onValueChange={value =>
-                    this.handleSwitchSquadLine(squadLine, value)}
-                />
-              </SquadLineTitleContainer>
-
-              <View>
-                {squadLine.squadLineStuffList.map(squadLineStuff => (
-                  <SquadLineStuff
-                    key={squadLineStuff.id}
-                    squadLineStuff={squadLineStuff}
-                  />
-                ))}
-              </View>
-            </SquadLineContainer>
+            <SquadLine key={squadLine.id} squadLine={squadLine} />
           ))}
       </ScrollView>
     );
