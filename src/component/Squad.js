@@ -66,7 +66,7 @@ const SquadLineStuffText = styled.Text`
   color: ${colors.white};
 `;
 
-function SquadLine({ squadLine }) {
+function SquadLine({ squadLine, handleSwitchSquadLine }) {
   return (
     <View>
       <SquadLineTitleContainer>
@@ -80,7 +80,7 @@ function SquadLine({ squadLine }) {
 
         <Switch
           value={!squadLine.inactive}
-          onValueChange={value => this.handleSwitchSquadLine(squadLine, value)}
+          onValueChange={value => handleSwitchSquadLine(squadLine, value)}
         />
       </SquadLineTitleContainer>
 
@@ -152,7 +152,11 @@ class Squad extends PureComponent {
 
         {squad.squadLineList &&
           squad.squadLineList.map(squadLine => (
-            <SquadLine key={squadLine.id} squadLine={squadLine} />
+            <SquadLine
+              key={squadLine.id}
+              squadLine={squadLine}
+              handleSwitchSquadLine={this.handleSwitchSquadLine}
+            />
           ))}
       </ScrollView>
     );
