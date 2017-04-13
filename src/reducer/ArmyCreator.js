@@ -1,8 +1,34 @@
 // @flow
 import { List, Map } from 'immutable';
-import { Army, Squad, User } from '../entity';
+import { Army, Squad, SquadLine, User } from '../entity';
 
 type State = Map<string, any>;
+
+function squadLineDetailReceived(state: State, squadLine: SquadLine) {
+  const squad = state.get('currentSquadDetail');
+  const squadLineList = squad.squadLineList;
+
+  const index = squadLineList.findIndex(
+    tmpSquadLine => tmpSquadLine.id === squadLine.id
+  );
+
+  const newSquadLineList = squadLineList.set(index, squadLine);
+
+  const newActivePoints = squadLine.inactive
+    ? squad.activePoints - squadLine.points
+    : squad.activePoints + squadLine.points;
+
+  const newSquad = squad.merge({
+    squadLineList: newSquadLineList,
+    activePoints: newActivePoints,
+  });
+
+  return setSquadDetail(state, newSquad);
+}
+
+function setSquadDetail(state: State, squad: Squad) {
+  return state.set('currentSquadDetail', squad);
+}
 
 const initialState: State = Map({
   me: null,
@@ -17,6 +43,7 @@ type ActionType = {
   armyList?: List<Army>,
   armyDetail?: Army,
   squadDetail?: Squad,
+  squadLine?: SquadLine,
   user: User,
 };
 
@@ -34,7 +61,9 @@ export default function armyCreatorReducer(
     case 'ARMY_UNMOUNT':
       return state.set('currentArmyDetail', null);
     case 'SQUAD_DETAIL_RECEIVE':
-      return state.set('currentSquadDetail', action.squadDetail);
+      return setSquadDetail(state, action.squadDetail);
+    case 'SQUAD_LINE_DETAIL_RECEIVE':
+      return squadLineDetailReceived(state, action.squadLine);
     default:
       return state;
   }

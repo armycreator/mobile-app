@@ -22,14 +22,19 @@ export function changeSquadLineActiveStatus(
 ) {
   return (dispatch: Function) => {
     const newSquadLine = squadLine.set('inactive', !active);
-    return sdk.squadLine
-      .update(newSquadLine)
-      .then(squadLine => {
-        dispatch({
-          type: 'SQUAD_LINE_DETAIL_RECEIVE',
-          squadLine,
-        });
-      })
-      .catch(console.error);
+
+    dispatch({
+      type: 'SQUAD_LINE_DETAIL_RECEIVE',
+      squadLine: newSquadLine,
+    });
+
+    return (
+      sdk.squadLine.update(newSquadLine)//    dispatch({ // .then(squadLine => {
+      //      type: 'SQUAD_LINE_DETAIL_RECEIVE',
+      //      squadLine,
+      //    });
+      //  })
+      .catch(console.error)
+    );
   };
 }

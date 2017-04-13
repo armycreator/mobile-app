@@ -1,5 +1,5 @@
-import { fromJS, List } from 'immutable';
-import { Army, Collection, User, Squad } from './';
+import { fromJS, List, Record } from 'immutable';
+import * as entities from './';
 
 export default function entityFactory(input, listOrItem, clientName = null) {
   if (listOrItem === 'list') {
@@ -10,21 +10,16 @@ export default function entityFactory(input, listOrItem, clientName = null) {
       data.items = List(data.items).map(item => convertItem(item, clientName));
     }
 
-    return new Collection(data);
+    return new entities.Collection(data);
   } else {
     return convertItem(input, clientName);
   }
 }
 
 function convertItem(input, clientName) {
-  switch (clientName) {
-    case 'User':
-      return new User(input);
-    case 'Army':
-      return new Army(input);
-    case 'Squad':
-      return new Squad(input);
-    default:
-      return fromJS(input);
+  if (typeof entities[clientName] === 'function') {
+    return new entities[clientName](input);
   }
+
+  return fromJS(input);
 }
