@@ -35,12 +35,12 @@ const TitleProgressBar = styled.View`
   bottom: 0;
   left: 0;
   width: ${({ percentage }) => `${percentage}%`}
-  background-color: ${({ active }) => active ? colors.primary : colors.slateGray};
+  background-color: ${({ active }) => (active ? colors.primary : colors.slateGray)};
 `;
 
 const Title = styled.Text`
-  margin-left: ${({ first }) => first ? 10 : 0};
-  margin-right: ${({ last }) => last ? 10 : 0};
+  margin-left: ${({ first }) => (first ? 10 : 0)};
+  margin-right: ${({ last }) => (last ? 10 : 0)};
   color: ${colors.white};
   text-align: center;
 `;
@@ -69,7 +69,7 @@ const SquadContainer = styled.View`
   padding: 15;
   flex-direction: row;
   justify-content: space-between;
-  border-top-width: ${({ isFirst }) => isFirst ? 0 : 1};
+  border-top-width: ${({ isFirst }) => (isFirst ? 0 : 1)};
   border-top-color: ${colors.black};
 `;
 

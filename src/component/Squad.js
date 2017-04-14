@@ -21,7 +21,7 @@ const TitleProgressBar = styled.View`
   bottom: 0;
   left: 0;
   width: ${({ percentage }) => `${percentage}%`}
-  background-color: ${({ active }) => active ? colors.primary : colors.slateGray};
+  background-color: ${({ active }) => (active ? colors.primary : colors.slateGray)};
 `;
 
 const Title = styled.Text`

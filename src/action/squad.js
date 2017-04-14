@@ -29,12 +29,13 @@ export function changeSquadLineActiveStatus(
     });
 
     return (
-      sdk.squadLine.update(newSquadLine)//    dispatch({ // .then(squadLine => {
-      //      type: 'SQUAD_LINE_DETAIL_RECEIVE',
-      //      squadLine,
-      //    });
-      //  })
-      .catch(console.error)
+      sdk.squadLine
+        .update(newSquadLine) //    dispatch({ // .then(squadLine => {
+        //      type: 'SQUAD_LINE_DETAIL_RECEIVE',
+        //      squadLine,
+        //    });
+        //  })
+        .catch(console.error)
     );
   };
 }
