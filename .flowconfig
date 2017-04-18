@@ -26,6 +26,7 @@
 .*/node_modules/reqwest/tests/*
 .*/node_modules/styled-components/dangerfile.js
 .*/node_modules/styled-components/src/test/utils.js
+.*/src/component/Debug.js
 
 ; Ignore missing expo-sdk dependencies (temporarily)
 ; https://github.com/exponent/exponent-sdk/issues/36

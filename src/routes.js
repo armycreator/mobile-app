@@ -8,6 +8,7 @@ import ArmyList from './component/ArmyList';
 import Army from './component/Army';
 import Squad from './component/Squad';
 import Login from './component/login';
+import Debug from './component/Debug';
 import colors from './colors';
 
 const routes = [
@@ -32,6 +33,11 @@ const routes = [
     exact: true,
     main: () => <ArmyList />,
     title: () => <NavigationBarText>Mes dernières listes</NavigationBarText>,
+  },
+  {
+    path: '/debug/:id',
+    main: ({ location, match, id }) => <Debug id={match.params.id} />,
+    title: () => <NavigationBarText>Debug</NavigationBarText>,
   },
   {
     main: () => <Login />,

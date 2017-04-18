@@ -46,6 +46,19 @@ function Menu({ user, onLogout, onArmyList }: Props) {
             </Button>
           </View>
         </View>}
+
+      <View>
+        <Link to="/debug/1" style={{ padding: 15, borderBottomWidth: 1 }}>
+          <Text>
+            debug page
+          </Text>
+        </Link>
+        <Link to="/login" style={{ padding: 15, borderBottomWidth: 1 }}>
+          <Text>
+            Login
+          </Text>
+        </Link>
+      </View>
     </MenuContainer>
   );
 }

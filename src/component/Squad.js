@@ -1,7 +1,14 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { ScrollView, Switch, Text, View } from 'react-native';
+import {
+  Animated,
+  Dimensions,
+  ScrollView,
+  Switch,
+  Text,
+  View,
+} from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import colors from '../colors';
@@ -15,12 +22,11 @@ const TitleContainer = styled.View`
   justify-content: space-between;
 `;
 
-const TitleProgressBar = styled.View`
+const TitleProgressBar = styled(Animated.View)`
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
-  width: ${({ percentage }) => `${percentage}%`}
   background-color: ${({ active }) => (active ? colors.primary : colors.slateGray)};
 `;
 
@@ -122,12 +128,40 @@ class Squad extends PureComponent {
     super(props);
 
     (this: any).handleSwitchSquadLine = this.handleSwitchSquadLine.bind(this);
+
+    const width = Dimensions.get('window').width;
+    const activePointRatio = this.props.squad.points > 0
+      ? this.props.squad.activePoints / this.props.squad.points
+      : 1;
+
+    this.state = {
+      activePointsBarWidth: new Animated.Value(width * activePointRatio),
+    };
   }
 
   componentDidMount() {
     const { squad, fetchSquadDetail } = this.props;
 
     fetchSquadDetail(squad.id);
+  }
+
+  componentDidUpdate(prevProps: SquadProps) {
+    if (!prevProps || !prevProps.squadDetail) {
+      return;
+    }
+
+    const { squadDetail } = this.props;
+
+    if (prevProps.squadDetail.activePoints !== squadDetail.activePoints) {
+      const width = Dimensions.get('window').width;
+      const activePointRatio = squadDetail.points
+        ? squadDetail.activePoints / squadDetail.points
+        : 1;
+
+      Animated.timing(this.state.activePointsBarWidth, {
+        toValue: width * activePointRatio,
+      }).start();
+    }
   }
 
   handleSwitchSquadLine(squadLine: SquadLineEntity, active: boolean) {
@@ -141,15 +175,13 @@ class Squad extends PureComponent {
     }
     const squad = squadDetail;
 
-    const activePointsPercentage = squad.points
-      ? 100 * squad.activePoints / squad.points
-      : 100;
-
     return (
       <ScrollView>
         <TitleContainer>
-          {activePointsPercentage > 0 &&
-            <TitleProgressBar percentage={activePointsPercentage} active />}
+          <TitleProgressBar
+            active
+            style={{ width: this.state.activePointsBarWidth }}
+          />
           <Title>{squad.name}</Title>
           <Title>
             {squad.points}{' points'}

@@ -149,9 +149,9 @@ class Army extends Component {
       return null;
     }
 
-    const maxPoints = army.wanted_points || army.points;
-    const pointsPercentage = maxPoints && 100 * army.points / maxPoints;
-    const activePointsPercentage = 100 * army.active_points / maxPoints;
+    const maxPoints = armyDetail.wanted_points || armyDetail.points;
+    const pointsPercentage = maxPoints && 100 * armyDetail.points / maxPoints;
+    const activePointsPercentage = 100 * armyDetail.active_points / maxPoints;
 
     return (
       <View>
@@ -160,7 +160,7 @@ class Army extends Component {
             <TitleProgressBar percentage={pointsPercentage} />}
           {activePointsPercentage > 0 &&
             <TitleProgressBar percentage={activePointsPercentage} active />}
-          <Title first>{army.breed.name}</Title>
+          <Title first>{armyDetail.breed.name}</Title>
           <Title last>
             {armyDetail.points}{' points'}
           </Title>
