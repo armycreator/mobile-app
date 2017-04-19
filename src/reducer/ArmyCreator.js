@@ -45,6 +45,7 @@ type ActionType = {
   squadDetail?: Squad,
   squadLine?: SquadLine,
   user: User,
+  isOpen?: boolean,
 };
 
 export default function armyCreatorReducer(
@@ -66,6 +67,10 @@ export default function armyCreatorReducer(
       return setSquadDetail(state, action.squadDetail);
     case 'SQUAD_LINE_DETAIL_RECEIVE':
       return squadLineDetailReceived(state, action.squadLine);
+    case 'TOGGLE_MENU':
+      return state.set('isMenuOpen', action.isOpen);
+    case '@@router/LOCATION_CHANGE':
+      return state.set('isMenuOpen', false);
     default:
       return state;
   }
