@@ -137,9 +137,7 @@ class Army extends Component {
   }
 
   componentWillUnmount() {
-    const { onArmyUnmount } = this.props;
-
-    onArmyUnmount();
+    this.props.onArmyUnmount();
   }
 
   render() {

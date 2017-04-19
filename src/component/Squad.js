@@ -12,7 +12,11 @@ import {
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import colors from '../colors';
-import { changeSquadLineActiveStatus, fetchSquadDetail } from '../action/squad';
+import {
+  changeSquadLineActiveStatus,
+  fetchSquadDetail,
+  onSquadUnmount,
+} from '../action/squad';
 import { Squad as SquadEntity, SquadLine as SquadLineEntity } from '../entity';
 
 const TitleContainer = styled.View`
@@ -119,10 +123,17 @@ type SquadProps = {
   squadDetail: SquadEntity,
   fetchSquadDetail: Function,
   changeSquadLineActiveStatus: Function,
+  onSquadUnmount: Function,
+};
+
+type SquadState = {
+  activePointsBarWidth: Animated.Value,
 };
 
 class Squad extends PureComponent {
   props: SquadProps;
+
+  state: SquadState;
 
   constructor(props: SquadProps) {
     super(props);
@@ -162,6 +173,10 @@ class Squad extends PureComponent {
         toValue: width * activePointRatio,
       }).start();
     }
+  }
+
+  componentWillUnmount() {
+    this.props.onSquadUnmount();
   }
 
   handleSwitchSquadLine(squadLine: SquadLineEntity, active: boolean) {
@@ -208,6 +223,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   fetchSquadDetail,
   changeSquadLineActiveStatus,
+  onSquadUnmount,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Squad);

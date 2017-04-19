@@ -60,6 +60,8 @@ export default function armyCreatorReducer(
       return state.set('currentArmyDetail', action.armyDetail);
     case 'ARMY_UNMOUNT':
       return state.set('currentArmyDetail', null);
+    case 'SQUAD_UNMOUNT':
+      return state.set('currentSquadDetail', null);
     case 'SQUAD_DETAIL_RECEIVE':
       return setSquadDetail(state, action.squadDetail);
     case 'SQUAD_LINE_DETAIL_RECEIVE':

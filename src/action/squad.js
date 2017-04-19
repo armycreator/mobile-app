@@ -39,3 +39,9 @@ export function changeSquadLineActiveStatus(
     );
   };
 }
+
+export function onSquadUnmount() {
+  return {
+    type: 'SQUAD_UNMOUNT',
+  };
+}
