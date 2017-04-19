@@ -1,6 +1,7 @@
 // @flow
 
 import { AbstractClient } from 'rest-client-sdk';
+import { User } from '../';
 
 class UserClient extends AbstractClient {
   getPathBase(): string {
@@ -12,11 +13,15 @@ class UserClient extends AbstractClient {
 
     const response = this.authorizedFetch(url);
 
-    return this.createEntityFromJsonResponse(response, 'item');
+    return this.deserializeResponse(response, 'item');
   }
 
   getName(): string {
     return 'User';
+  }
+
+  getEntityURI(entity: User) {
+    return `${this.getPathBase()}/${entity.id}`;
   }
 }
 

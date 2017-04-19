@@ -2550,8 +2550,8 @@ glob@^6.0.1:
     path-is-absolute "^1.0.0"
 
 global@^4.3.0:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/global/-/global-4.3.1.tgz#5f757908c7cbabce54f386ae440e11e26b7916df"
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/global/-/global-4.3.2.tgz#e76989268a6c74c38908b1305b10fc0e394e9d0f"
   dependencies:
     min-document "^2.19.0"
     process "~0.5.1"
@@ -3847,13 +3847,13 @@ mime-db@~1.23.0:
   version "1.23.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.23.0.tgz#a31b4070adaea27d732ea333740a64d0ec9a6659"
 
-mime-types@2.1.11, mime-types@~2.1.7, mime-types@~2.1.9:
+mime-types@2.1.11, mime-types@~2.1.7:
   version "2.1.11"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.11.tgz#c259c471bda808a85d6cd193b430a5fae4473b3c"
   dependencies:
     mime-db "~1.23.0"
 
-mime-types@^2.1.12, mime-types@~2.1.11, mime-types@~2.1.15, mime-types@~2.1.6:
+mime-types@^2.1.12, mime-types@~2.1.11, mime-types@~2.1.15, mime-types@~2.1.6, mime-types@~2.1.9:
   version "2.1.15"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.15.tgz#a4ebf5064094569237b8cf70046776d09fc92aed"
   dependencies:
@@ -5021,11 +5021,10 @@ response-time@~2.3.1:
     depd "~1.1.0"
     on-headers "~1.0.1"
 
-rest-client-sdk@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/rest-client-sdk/-/rest-client-sdk-0.12.0.tgz#01ba0c37e6ad5229c3bb350e684f111fcb1569d8"
+rest-client-sdk@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/rest-client-sdk/-/rest-client-sdk-0.13.0.tgz#3bfa5544f837812fb55678675b23d71be12ced2d"
   dependencies:
-    immutable "^3.8.1"
     urijs "^1.18.1"
 
 rest-facade@^1.2.7:
@@ -5352,8 +5351,8 @@ sntp@1.x.x:
     hoek "2.x.x"
 
 socketcluster-client@^5.1.1:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/socketcluster-client/-/socketcluster-client-5.3.0.tgz#3491f5e7319a9361c54de6f718582b7ffec1fed1"
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/socketcluster-client/-/socketcluster-client-5.3.1.tgz#83eb73bf5cfcd559e372035ab032b0df185936aa"
   dependencies:
     base-64 "0.1.0"
     linked-list "0.1.0"

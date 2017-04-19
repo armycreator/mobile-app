@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import RestClientSdk from 'rest-client-sdk';
 import styled from 'styled-components/native';
 import colors from '../colors';
 import { fetchArmyDetail, onArmyUnmount } from '../action/army';

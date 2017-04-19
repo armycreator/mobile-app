@@ -2,7 +2,7 @@
 
 import { Map } from 'immutable';
 import { AbstractClient } from 'rest-client-sdk';
-import { User } from '../';
+import { Army, User } from '../';
 
 class ArmyClient extends AbstractClient {
   getPathBase(): string {
@@ -12,11 +12,15 @@ class ArmyClient extends AbstractClient {
   findByUser(user: User): Promise<any> {
     const url = `${this.sdk.config.segment}/users/${user.id}/armies`;
 
-    return this.createEntityFromJsonResponse(this.authorizedFetch(url), 'list');
+    return this.deserializeResponse(this.authorizedFetch(url), 'list');
   }
 
   getName(): string {
     return 'Army';
+  }
+
+  getEntityURI(entity: Army) {
+    return `${this.getPathBase()}/${entity.id}`;
   }
 }
 

@@ -10,7 +10,7 @@ import UserClient from './entity/client/UserClient';
 import SquadClient from './entity/client/SquadClient';
 import SquadLineClient from './entity/client/SquadLineClient';
 import { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../config';
-import { entityFactory } from './entity';
+import { Serializer } from './entity';
 
 const tokenGeneratorConfig = {
   path: 'oauth2.armycreator.net/oauth/v2/token',
@@ -39,6 +39,6 @@ const clients = {
   // ...
 };
 
-const sdk = new RestClientSdk(tokenStorage, config, clients, entityFactory);
+const sdk = new RestClientSdk(tokenStorage, config, clients, new Serializer());
 
 export default sdk;
