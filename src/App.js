@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Text, TouchableHighlight, StatusBar, View } from 'react-native';
 import { AndroidBackButton } from 'react-router-native';
 import { Provider } from 'react-redux';
-import { ConnectedRouter, push } from 'react-router-redux';
+import { ConnectedRouter } from 'react-router-redux';
 import { Map } from 'immutable';
 import SideMenu from './component/SideMenu';
 import createHistory from 'history/createMemoryHistory';
