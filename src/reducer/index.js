@@ -1,11 +1,7 @@
-import { routerReducer } from 'react-router-redux';
 import { combineReducers } from 'redux';
-import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import ArmycreatorReducer from './ArmyCreator';
 
-export default function(AppRouteConfigs) {
-  const AppNavigator = StackNavigator(AppRouteConfigs);
-
+export default function(AppNavigator) {
   const navReducer = (state, action) => {
     const newState = AppNavigator.router.getStateForAction(action, state);
     return newState ? newState : state;
@@ -13,7 +9,6 @@ export default function(AppRouteConfigs) {
 
   return combineReducers({
     app: ArmycreatorReducer,
-    routing: routerReducer,
     nav: navReducer,
   });
 }

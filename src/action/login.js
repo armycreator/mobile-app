@@ -1,5 +1,5 @@
 // @flow
-import { push } from 'react-router-redux';
+import { NavigationActions } from 'react-navigation';
 import sdk from '../Sdk';
 
 export function login(username: string, password: string) {
@@ -15,6 +15,8 @@ export function login(username: string, password: string) {
           user,
         });
       })
-      .then(() => dispatch(push('/armies/')));
+      .then(() =>
+        dispatch(NavigationActions.navigate({ routeName: 'ArmyList' }))
+      );
   };
 }

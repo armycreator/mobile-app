@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { List, Map } from 'immutable';
 import styled from 'styled-components/native';
-import { push } from 'react-router-redux';
+import { NavigationActions } from 'react-navigation';
 import colors from '../colors';
 import { findArmyForUser } from '../action/army';
 import { Collection, User } from '../entity';
@@ -114,7 +114,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onSelectArmy: army => push(`/armies/${army.id}`, { army }),
+  onSelectArmy: army =>
+    NavigationActions.navigate({ routeName: 'Army', params: { army } }),
   findArmyForUser,
 };
 

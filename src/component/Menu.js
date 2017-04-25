@@ -1,4 +1,5 @@
 // @flow
+// TODEL
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';

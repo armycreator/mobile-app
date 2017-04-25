@@ -3,24 +3,19 @@
 import { composeWithDevTools } from 'remote-redux-devtools';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { routerMiddleware } from 'react-router-redux';
 import reducer from './reducer';
 
-export default function configureStore(
-  initialState: any,
-  history: any,
-  AppRouteConfigs
-) {
+export default function configureStore(initialState: any, AppNavigator) {
   const composeEnhancers = composeWithDevTools(
     {
       // Specify here name, actionsBlacklist, actionsCreators and other options
     }
   );
 
-  const middlewares = [thunk, routerMiddleware(history)];
+  const middlewares = [thunk];
 
   return createStore(
-    reducer(AppRouteConfigs),
+    reducer(AppNavigator),
     initialState,
     composeEnhancers(applyMiddleware(...middlewares))
   );

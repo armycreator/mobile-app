@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import colors from '../colors';
 import { fetchArmyDetail, onArmyUnmount } from '../action/army';
@@ -178,11 +178,12 @@ class Army extends Component {
 }
 
 function goToSquad(squad: SquadEntity) {
-  return push(`/squad/${squad.id}`, { squad });
+  return NavigationActions.navigate({ routeName: 'Squad', params: { squad } });
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   armyDetail: state.app.get('currentArmyDetail'),
+  army: ownProps.navigation.state.params.army,
 });
 
 const mapDispatchToProps = {

@@ -216,8 +216,9 @@ class Squad extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   squadDetail: state.app.get('currentSquadDetail'),
+  squad: ownProps.navigation.state.params.squad,
 });
 
 const mapDispatchToProps = {
