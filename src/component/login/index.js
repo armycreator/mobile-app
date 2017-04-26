@@ -11,7 +11,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import { login } from '../../action/login';
+import { login, redirectIfLogged } from '../../action/login';
 import Button from '../Button';
 import colors from '../../colors';
 
@@ -45,11 +45,22 @@ class Login extends Component {
     this.passwordRef = null;
 
     this.state = {
+      waitForLogStatus: true,
       username: '',
       password: '',
       errorMessage: null,
       loginStatus: null,
     };
+  }
+
+  componentDidMount() {
+    this.props.redirectIfLogged().then(isLogged => {
+      if (!isLogged) {
+        this.setState(() => ({
+          waitForLogStatus: false,
+        }));
+      }
+    });
   }
 
   handleLogin(event: Event) {
@@ -89,6 +100,10 @@ class Login extends Component {
   }
 
   render() {
+    if (this.state.waitForLogStatus) {
+      return null;
+    }
+
     const isLoginButtonDisabled = !(this.state.username && this.state.password);
 
     return (
@@ -106,7 +121,7 @@ class Login extends Component {
           />
           <Text style={styles.label}>Mot de passe</Text>
           <TextInput
-            ref={ref => this.passwordRef = ref}
+            ref={ref => (this.passwordRef = ref)}
             autoCapitalize="none"
             textDecorationLine="none"
             style={styles.input}
@@ -217,6 +232,7 @@ const mapStateToProps = state => ({});
 
 const mapDispatchToProps = {
   login,
+  redirectIfLogged,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

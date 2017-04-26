@@ -13,6 +13,7 @@ import { connect, Provider } from 'react-redux';
 import Army from './component/Army';
 import ArmyList from './component/ArmyList';
 import Login from './component/login';
+import Logout from './component/login/Logout';
 import Squad from './component/Squad';
 import { Map } from 'immutable';
 import styled from 'styled-components/native';
@@ -38,20 +39,23 @@ const Container = styled.View`
 `;
 
 const MainScreenNavigator = DrawerNavigator({
-  Login: { screen: Login },
   ArmyList: { screen: ArmyList },
+  Login: { screen: Login },
+  Logout: { screen: Logout },
 });
 MainScreenNavigator.navigationOptions = {
   title: 'Army Creator',
 };
 
 const ArmyCreatorApp = {
-  Login: { screen: MainScreenNavigator },
+  ArmyList: { screen: MainScreenNavigator },
   Army: { screen: Army },
   Squad: { screen: Squad },
 };
 
-const AppNavigator = StackNavigator(ArmyCreatorApp);
+const AppNavigator = StackNavigator(ArmyCreatorApp, {
+  initialRouteName: 'ArmyList',
+});
 
 class App extends React.Component {
   componentDidMount() {
@@ -82,6 +86,7 @@ const mapStateToProps = state => ({
 const AppWithNavigationState = connect(mapStateToProps)(App);
 
 const store = configureStore(initialState, AppNavigator);
+store.dispatch({ type: '@@ArmyCreator/INIT' });
 
 class Root extends React.Component {
   render() {

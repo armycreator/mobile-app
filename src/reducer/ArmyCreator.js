@@ -69,8 +69,8 @@ export default function armyCreatorReducer(
       return squadLineDetailReceived(state, action.squadLine);
     case 'TOGGLE_MENU':
       return state.set('isMenuOpen', action.isOpen);
-    case '@@router/LOCATION_CHANGE':
-      return state.set('isMenuOpen', false);
+    case 'LOGOUT':
+      return initialState;
     default:
       return state;
   }
