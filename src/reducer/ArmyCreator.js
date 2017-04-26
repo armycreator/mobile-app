@@ -31,6 +31,7 @@ function setSquadDetail(state: State, squad: Squad) {
 }
 
 const initialState: State = Map({
+  initialized: false,
   me: null,
   lastArmyList: null,
   isMenuOpen: false,
@@ -39,6 +40,7 @@ const initialState: State = Map({
 });
 
 type ActionType = {
+  initialized: boolean,
   type: string,
   armyList?: List<Army>,
   armyDetail?: Army,
@@ -53,6 +55,8 @@ export default function armyCreatorReducer(
   action: ActionType
 ) {
   switch (action.type) {
+    case '@@ArmyCreator/INIT':
+      return state.set('initialized', true);
     case 'RECEIVE_ME':
       return state.set('me', action.user);
     case 'LAST_ARMY_LIST_RECEIVE':
