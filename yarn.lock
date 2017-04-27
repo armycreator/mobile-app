@@ -4031,7 +4031,7 @@ node-notifier@^5.0.1:
     shellwords "^0.1.0"
     which "^1.2.12"
 
-node-uuid@1.4.7, node-uuid@^1.4.7:
+node-uuid@1.4.7:
   version "1.4.7"
   resolved "https://registry.yarnpkg.com/node-uuid/-/node-uuid-1.4.7.tgz#6da5a17668c4b3dd59623bda11cf7fa4c1f60a6f"
 
@@ -4412,6 +4412,10 @@ process@~0.5.1:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/process/-/process-0.5.2.tgz#1638d8a8e34c2f440a91db95ab9aeb677fc185cf"
 
+progress@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.0.tgz#8a1be366bf8fc23db2bd23f10c6fe920b4389d1f"
+
 promise-props@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/promise-props/-/promise-props-1.0.0.tgz#e4c673e65a9b0339ded85b1c5ad47e34349c5a1c"
@@ -4570,9 +4574,9 @@ react-native-safe-module@^1.1.0:
   dependencies:
     dedent "^0.6.0"
 
-react-native-scripts@0.0.27:
-  version "0.0.27"
-  resolved "https://registry.yarnpkg.com/react-native-scripts/-/react-native-scripts-0.0.27.tgz#46ae2b312329cb5d7070a04ebe48f90a4e992a99"
+react-native-scripts@0.0.29:
+  version "0.0.29"
+  resolved "https://registry.yarnpkg.com/react-native-scripts/-/react-native-scripts-0.0.29.tgz#532f49befe6d9a9f2b0345b77a3503bec7b03a1f"
   dependencies:
     babel-runtime "^6.9.2"
     chalk "^1.1.3"
@@ -4583,8 +4587,9 @@ react-native-scripts@0.0.27:
     match-require "^2.0.0"
     minimist "^1.2.0"
     path-exists "^3.0.0"
+    progress "^2.0.0"
     qrcode-terminal "^0.11.0"
-    xdl "^37.0.0"
+    xdl "^40.0.0"
 
 "react-native-svg@https://github.com/exponent/react-native-svg/archive/4.4.1.tar.gz":
   version "4.4.1"
@@ -4593,9 +4598,11 @@ react-native-scripts@0.0.27:
     color "^0.11.1"
     lodash "^4.0.0"
 
-react-native-tab-view@^0.0.57:
-  version "0.0.57"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.57.tgz#715e2ea4100fa50168e134df3947dd76ebd55743"
+react-native-tab-view@^0.0.61:
+  version "0.0.61"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.61.tgz#9f5446c9ad33158b87f0bccf5004fbff79ca1f92"
+  dependencies:
+    prop-types "^15.5.8"
 
 react-native-vector-icons@4.0.0:
   version "4.0.0"
@@ -4684,9 +4691,9 @@ react-native@0.42.3:
     xmldoc "^0.4.0"
     yargs "^6.4.0"
 
-react-navigation@^1.0.0-beta.8:
-  version "1.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.0.0-beta.8.tgz#9d2aa41c465008b4392e309332b0dad13533e180"
+react-navigation@^1.0.0-beta.9:
+  version "1.0.0-beta.9"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.0.0-beta.9.tgz#9fb1f8e4d15cee70cc8b5d58719a986ca443664d"
   dependencies:
     clamp "^1.0.1"
     fbjs "^0.8.5"
@@ -4694,7 +4701,7 @@ react-navigation@^1.0.0-beta.8:
     path-to-regexp "^1.7.0"
     prop-types "^15.5.8"
     react-native-drawer-layout-polyfill "1.2.0"
-    react-native-tab-view "^0.0.57"
+    react-native-tab-view "^0.0.61"
 
 react-proxy@^1.1.7:
   version "1.1.8"
@@ -5860,7 +5867,7 @@ uuid@^2.0.1:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
 
-uuid@^3.0.0:
+uuid@^3.0.0, uuid@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
 
@@ -6014,9 +6021,9 @@ xcode@^0.8.9:
     pegjs "0.9.0"
     simple-plist "0.1.4"
 
-xdl@^37.0.0:
-  version "37.0.2"
-  resolved "https://registry.yarnpkg.com/xdl/-/xdl-37.0.2.tgz#4c8b72017bcabc3f4fa7bc922dcda719ca65d0e2"
+xdl@^40.0.0:
+  version "40.0.0"
+  resolved "https://registry.yarnpkg.com/xdl/-/xdl-40.0.0.tgz#9fee04de06012ecac1b543b10d49090f8accf78c"
   dependencies:
     "@ccheever/crayon" "^5.0.0"
     "@exponent/json-file" "^5.3.0"
@@ -6054,7 +6061,6 @@ xdl@^37.0.0:
     mkdirp-promise "^5.0.0"
     mz "^2.6.0"
     ncp "^2.0.0"
-    node-uuid "^1.4.7"
     opn "^4.0.2"
     promise-props "^1.0.0"
     react "^15.4.2"
@@ -6071,6 +6077,7 @@ xdl@^37.0.0:
     tar.gz "^1.0.5"
     tree-kill "^1.1.0"
     url "^0.11.0"
+    uuid "^3.0.1"
     xhr2 "^0.1.3"
     yesno "^0.0.1"
 
