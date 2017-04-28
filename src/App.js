@@ -13,6 +13,7 @@ import { connect, Provider } from 'react-redux';
 import Army from './component/Army';
 import ArmyList from './component/ArmyList';
 import Login from './component/login';
+import Logout from './component/login/Logout';
 import Squad from './component/Squad';
 import { Map } from 'immutable';
 import styled from 'styled-components/native';
@@ -22,6 +23,7 @@ import {
   NavigationActions,
   StackNavigator,
   TabNavigator,
+  DrawerItems,
 } from 'react-navigation';
 import sdk from './Sdk';
 import colors from './colors';
@@ -37,21 +39,45 @@ const Container = styled.View`
   background-color: ${colors.background};
 `;
 
-const MainScreenNavigator = DrawerNavigator({
-  Login: { screen: Login },
-  ArmyList: { screen: ArmyList },
-});
+const contentComponent = props => (
+  <Container>
+    <DrawerItems {...props} />
+  </Container>
+);
+
+const MainScreenNavigator = DrawerNavigator(
+  {
+    Login: { screen: Login },
+    ArmyList: { screen: ArmyList },
+    Logout: { screen: Logout },
+  },
+  {
+    contentComponent,
+  }
+);
+
 MainScreenNavigator.navigationOptions = {
   title: 'Army Creator',
+  headerStyle: {
+    backgroundColor: colors.secondary,
+  },
+  headerTitleStyle: {
+    color: colors.white,
+  },
 };
 
 const ArmyCreatorApp = {
-  Login: { screen: MainScreenNavigator },
+  ArmyList: { screen: MainScreenNavigator },
   Army: { screen: Army },
   Squad: { screen: Squad },
 };
 
-const AppNavigator = StackNavigator(ArmyCreatorApp);
+const AppNavigator = StackNavigator(ArmyCreatorApp, {
+  initialRouteName: 'ArmyList',
+  cardStyle: {
+    backgroundColor: colors.background,
+  },
+});
 
 class App extends React.Component {
   componentDidMount() {
@@ -82,12 +108,15 @@ const mapStateToProps = state => ({
 const AppWithNavigationState = connect(mapStateToProps)(App);
 
 const store = configureStore(initialState, AppNavigator);
+store.dispatch({ type: '@@ArmyCreator/INIT' });
 
 class Root extends React.Component {
   render() {
     return (
       <Provider store={this.props.store}>
-        <AppWithNavigationState />
+        <Container style={{ paddingTop: StatusBar.currentHeight }}>
+          <AppWithNavigationState />
+        </Container>
       </Provider>
     );
   }
