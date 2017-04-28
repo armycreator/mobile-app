@@ -45,28 +45,9 @@ const contentComponent = props => (
   </Container>
 );
 
-const MainScreenNavigator = DrawerNavigator(
-  {
-    ArmyList: { screen: ArmyList, navigationOptions: { title: 'Mes armées' } },
-    Login: { screen: Login, navigationOptions: { title: 'Connexion' } },
-    Logout: { screen: Logout, navigationOptions: { title: 'Déconnexion' } },
-  },
-  {
-    contentComponent,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: colors.secondary,
-      },
-      headerTitleStyle: {
-        color: colors.background,
-      },
-    },
-  }
-);
-
 const ArmyCreatorApp = {
   ArmyList: {
-    screen: MainScreenNavigator,
+    screen: ArmyList,
     navigationOptions: { title: 'Mes armées' },
   },
   Army: {
@@ -98,6 +79,28 @@ const AppNavigator = StackNavigator(ArmyCreatorApp, {
   },
 });
 
+const MainScreenNavigator = DrawerNavigator(
+  {
+    ArmyList: {
+      screen: AppNavigator,
+      navigationOptions: { title: 'Mes armées' },
+    },
+    Login: { screen: Login, navigationOptions: { title: 'Connexion' } },
+    Logout: { screen: Logout, navigationOptions: { title: 'Déconnexion' } },
+  },
+  {
+    contentComponent,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: colors.secondary,
+      },
+      headerTitleStyle: {
+        color: colors.background,
+      },
+    },
+  }
+);
+
 class App extends React.Component {
   componentDidMount() {
     this.sub = BackAndroid.addEventListener('backPress', () =>
@@ -111,7 +114,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <AppNavigator
+      <MainScreenNavigator
         navigation={addNavigationHelpers({
           dispatch: this.props.dispatch,
           state: this.props.nav,
@@ -126,7 +129,7 @@ const mapStateToProps = state => ({
 });
 const AppWithNavigationState = connect(mapStateToProps)(App);
 
-const store = configureStore(initialState, AppNavigator);
+const store = configureStore(initialState, MainScreenNavigator);
 store.dispatch({ type: '@@ArmyCreator/INIT' });
 
 class Root extends React.Component {
