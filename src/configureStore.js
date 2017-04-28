@@ -21,7 +21,6 @@ function checkAccessToken() {
 }
 
 const LoginMiddleware = store => next => action => {
-  console.log(action);
   if (action.type === '@@ArmyCreator/INIT') {
     return checkAccessToken()
       .then(hasAccessToken => {
@@ -46,14 +45,21 @@ const LoginMiddleware = store => next => action => {
     action.routeName === 'Login'
   ) {
     return checkAccessToken()
-      .then(() => next(NavigationActions.navigate({ routeName: 'ArmyList' })))
+      .then(() =>
+        next(
+          NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'ArmyList' })],
+          })
+        )
+      )
       .catch(() => next(action));
   }
 
   return next(action);
 };
 
-export default function configureStore(initialState: any, AppNavigator: any) {
+export default function configureStore(AppNavigator: any) {
   const composeEnhancers = composeWithDevTools(
     {
       // Specify here name, actionsBlacklist, actionsCreators and other options
@@ -64,7 +70,6 @@ export default function configureStore(initialState: any, AppNavigator: any) {
 
   return createStore(
     reducer(AppNavigator),
-    initialState,
     composeEnhancers(applyMiddleware(...middlewares))
   );
 }

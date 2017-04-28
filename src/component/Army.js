@@ -125,10 +125,6 @@ function SquadListByType({ squadListByType, onSelectSquad }) {
 class Army extends Component {
   props: ArmyProps;
 
-  constructor(props: ArmyProps) {
-    super(props);
-  }
-
   componentDidMount() {
     const { army, fetchArmyDetail } = this.props;
 
