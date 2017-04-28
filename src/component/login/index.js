@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   ActivityIndicator,
@@ -8,9 +8,9 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
   View,
 } from 'react-native';
+import styled from 'styled-components/native';
 import { login } from '../../action/login';
 import Button from '../Button';
 import colors from '../../colors';
@@ -22,6 +22,18 @@ type Props = {
 type NativeEvent = {
   nativeEvent: Object,
 };
+
+const Header = styled.Text`
+  color: ${colors.background};
+  font-weight: bold;
+  font-size: 18;
+`;
+
+const HeaderContainer = styled.View`
+  padding: 15;
+  margin-bottom: 15;
+  background-color: ${colors.secondary};
+`;
 
 class Login extends Component {
   props: Props;
@@ -57,13 +69,13 @@ class Login extends Component {
 
     event.preventDefault();
 
-    this.setState(prevProps => ({
+    this.setState(() => ({
       errorMessage: null,
       loginStatus: 'IN_PROGRESS',
     }));
 
     login(this.state.username, this.state.password).catch(e => {
-      this.setState(prevProps => ({
+      this.setState(() => ({
         errorMessage: e.error_description,
         loginStatus: 'FAILED',
       }));
@@ -93,75 +105,81 @@ class Login extends Component {
 
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.content}>
-        <View style={styles.loginForm}>
-          <Text style={styles.label}>Utilisateur</Text>
-          <TextInput
-            autoCapitalize="none"
-            autoFocus
-            style={styles.input}
-            defaultValue={this.state.username}
-            onChange={this.handleUsernameChange}
-            onSubmitEditing={this.handleUsernameSubmit}
-            returnKeyType="next"
-          />
-          <Text style={styles.label}>Mot de passe</Text>
-          <TextInput
-            ref={ref => this.passwordRef = ref}
-            autoCapitalize="none"
-            textDecorationLine="none"
-            style={styles.input}
-            secureTextEntry
-            defaultValue={this.state.password}
-            onChange={this.handlePasswordChange}
-            returnKeyType="go"
-            onSubmitEditing={this.handleLogin}
-          />
+        <HeaderContainer>
+          <Header>ArmyCreator - Connexion</Header>
+        </HeaderContainer>
 
-          {this.state.errorMessage &&
-            <View style={styles.errorMessage}>
-              <Text style={styles.errorMessageText}>
-                {this.state.errorMessage}
-              </Text>
-            </View>}
+        <View style={styles.content}>
+          <View style={styles.loginForm}>
+            <Text style={styles.label}>Utilisateur</Text>
+            <TextInput
+              autoCapitalize="none"
+              autoFocus
+              style={styles.input}
+              defaultValue={this.state.username}
+              onChange={this.handleUsernameChange}
+              onSubmitEditing={this.handleUsernameSubmit}
+              returnKeyType="next"
+            />
+            <Text style={styles.label}>Mot de passe</Text>
+            <TextInput
+              ref={ref => (this.passwordRef = ref)}
+              autoCapitalize="none"
+              textDecorationLine="none"
+              style={styles.input}
+              secureTextEntry
+              defaultValue={this.state.password}
+              onChange={this.handlePasswordChange}
+              returnKeyType="go"
+              onSubmitEditing={this.handleLogin}
+            />
 
-          <Button
-            color="primary"
-            onPress={this.handleLogin}
-            disabled={isLoginButtonDisabled}
-          >
-            {this.state.loginStatus !== 'IN_PROGRESS'
-              ? <Text
-                  style={[
-                    styles.primaryButtonText,
-                    isLoginButtonDisabled && styles.buttonDisabled,
-                  ]}
-                >
-                  Valider
+            {this.state.errorMessage &&
+              <View style={styles.errorMessage}>
+                <Text style={styles.errorMessageText}>
+                  {this.state.errorMessage}
                 </Text>
-              : <View>
-                  <ActivityIndicator color={colors.white} />
-                </View>}
-          </Button>
+              </View>}
 
-          <Button
-            color="danger"
-            onPress={() =>
-              this.setState({
-                username: 'testjdu',
-                password: 'testjdu',
-                loginStatus: null,
-              })}
-            disabled={this.state.loginStatus === 'IN_PROGRESS'}
-          >
-            <Text
-              style={[
-                styles.primaryButtonText,
-                isLoginButtonDisabled && styles.buttonDisabled,
-              ]}
+            <Button
+              color="primary"
+              onPress={this.handleLogin}
+              disabled={isLoginButtonDisabled}
             >
-              Debug Fill
-            </Text>
-          </Button>
+              {this.state.loginStatus !== 'IN_PROGRESS'
+                ? <Text
+                    style={[
+                      styles.primaryButtonText,
+                      isLoginButtonDisabled && styles.buttonDisabled,
+                    ]}
+                  >
+                    Valider
+                  </Text>
+                : <View>
+                    <ActivityIndicator color={colors.white} />
+                  </View>}
+            </Button>
+
+            <Button
+              color="danger"
+              onPress={() =>
+                this.setState({
+                  username: 'testjdu',
+                  password: 'testjdu',
+                  loginStatus: null,
+                })}
+              disabled={this.state.loginStatus === 'IN_PROGRESS'}
+            >
+              <Text
+                style={[
+                  styles.primaryButtonText,
+                  isLoginButtonDisabled && styles.buttonDisabled,
+                ]}
+              >
+                Debug Fill
+              </Text>
+            </Button>
+          </View>
         </View>
       </KeyboardAvoidingView>
     );

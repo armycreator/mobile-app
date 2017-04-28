@@ -4,6 +4,10 @@ import { Army, Squad, SquadLine, User } from '../entity';
 
 type State = Map<string, any>;
 
+function setSquadDetail(state: State, squad: Squad) {
+  return state.set('currentSquadDetail', squad);
+}
+
 function squadLineDetailReceived(state: State, squadLine: SquadLine) {
   const squad = state.get('currentSquadDetail');
   const squadLineList = squad.squadLineList;
@@ -26,11 +30,8 @@ function squadLineDetailReceived(state: State, squadLine: SquadLine) {
   return setSquadDetail(state, newSquad);
 }
 
-function setSquadDetail(state: State, squad: Squad) {
-  return state.set('currentSquadDetail', squad);
-}
-
 const initialState: State = Map({
+  initialized: false,
   me: null,
   lastArmyList: null,
   isMenuOpen: false,
@@ -39,12 +40,14 @@ const initialState: State = Map({
 });
 
 type ActionType = {
+  initialized: boolean,
   type: string,
   armyList?: List<Army>,
   armyDetail?: Army,
   squadDetail?: Squad,
   squadLine?: SquadLine,
   user: User,
+  isOpen?: boolean,
 };
 
 export default function armyCreatorReducer(
@@ -66,6 +69,10 @@ export default function armyCreatorReducer(
       return setSquadDetail(state, action.squadDetail);
     case 'SQUAD_LINE_DETAIL_RECEIVE':
       return squadLineDetailReceived(state, action.squadLine);
+    case 'TOGGLE_MENU':
+      return state.set('isMenuOpen', action.isOpen);
+    case 'LOGOUT':
+      return initialState;
     default:
       return state;
   }

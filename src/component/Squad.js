@@ -1,14 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import {
-  Animated,
-  Dimensions,
-  ScrollView,
-  Switch,
-  Text,
-  View,
-} from 'react-native';
+import { Animated, Dimensions, ScrollView, Switch, View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import colors from '../colors';
@@ -216,8 +209,9 @@ class Squad extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   squadDetail: state.app.get('currentSquadDetail'),
+  squad: ownProps.navigation.state.params.squad,
 });
 
 const mapDispatchToProps = {

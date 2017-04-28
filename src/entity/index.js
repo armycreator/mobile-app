@@ -11,4 +11,4 @@ export UnitStuff from './UnitStuff';
 export Stuff from './Stuff';
 export User from './User';
 export UnitGroup from './UnitGroup';
-export entityFactory from './entityFactory';
+export Serializer from './Serializer';

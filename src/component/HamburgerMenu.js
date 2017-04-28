@@ -1,7 +1,8 @@
+// TODEL
 // @flow
 
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import menuImage from '../images/hamburger-menu.png';
 

@@ -3,26 +3,25 @@ import { User } from '../entity';
 import sdk from '../Sdk';
 
 export function findArmyForUser(user: User) {
-  return (dispatch: Function) => {
-    return sdk.army
+  return (dispatch: Function) =>
+    sdk.army
       .findByUser(user)
       .then(armyList => {
         dispatch({
           type: 'LAST_ARMY_LIST_RECEIVE',
           armyList,
         });
-        //this.setState(() => ({
-        //armyList: this.dataSource.cloneWithRows(
+        // this.setState(() => ({
+        // armyList: this.dataSource.cloneWithRows(
         //  data.get('items').toArray()
-        //),
+        // ),
       })
       .catch(console.error);
-  };
 }
 
 export function fetchArmyDetail(id: number) {
-  return (dispatch: Function) => {
-    return sdk.army
+  return (dispatch: Function) =>
+    sdk.army
       .find(id)
       .then(armyDetail => {
         dispatch({
@@ -31,7 +30,6 @@ export function fetchArmyDetail(id: number) {
         });
       })
       .catch(console.error);
-  };
 }
 
 export function onArmyUnmount() {

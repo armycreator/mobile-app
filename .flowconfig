@@ -28,6 +28,11 @@
 .*/node_modules/styled-components/src/test/utils.js
 .*/src/component/Debug.js
 
+; ignore react navigation tests
+.*/node_modules/react-navigation/src/__tests__/*
+.*/node_modules/react-navigation/src/routers/__tests__/*
+.*/node_modules/react-navigation/src/views/__tests__/*
+
 ; Ignore missing expo-sdk dependencies (temporarily)
 ; https://github.com/exponent/exponent-sdk/issues/36
 .*/node_modules/expo/src/*

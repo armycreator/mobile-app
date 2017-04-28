@@ -1,30 +1,19 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  ActivityIndicator,
-  ListView,
-  Text,
-  TouchableHighlight,
-  View,
-} from 'react-native';
-import { List, Map } from 'immutable';
+import { ActivityIndicator, ListView, TouchableHighlight } from 'react-native';
 import styled from 'styled-components/native';
-import { push } from 'react-router-redux';
+import { NavigationActions } from 'react-navigation';
 import colors from '../colors';
 import { findArmyForUser } from '../action/army';
 import { Collection, User } from '../entity';
 
 type ArmyListProps = {
-  user: User,
-  armyList: Collection,
+  user: ?User,
+  armyList: ?Collection,
   onSelectArmy: Function,
   findArmyForUser: Function,
 };
-
-const Container = styled.View`
-  flex: 1;
-`;
 
 const ActivityIndicatorContainer = styled.View`
   flex: 1;
@@ -65,8 +54,22 @@ class ArmyList extends Component {
   componentDidMount() {
     const { armyList, findArmyForUser, user } = this.props;
 
-    if (!armyList) {
+    if (user && !armyList) {
       return findArmyForUser(user).catch(console.error);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { findArmyForUser, user } = this.props;
+
+    if (user && !prevProps.user) {
+      return this.props.findArmyForUser(user).catch(console.error);
+    }
+  }
+
+  getArmyListDataSource() {
+    if (this.props.armyList) {
+      return this.dataSource.cloneWithRows(this.props.armyList.items.toArray());
     }
   }
 
@@ -84,12 +87,8 @@ class ArmyList extends Component {
     );
   }
 
-  getArmyListDataSource() {
-    return this.dataSource.cloneWithRows(this.props.armyList.items.toArray());
-  }
-
   render() {
-    const { armyList, user } = this.props;
+    const { armyList } = this.props;
 
     if (!armyList) {
       return (
@@ -114,7 +113,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onSelectArmy: army => push(`/armies/${army.id}`, { army }),
+  onSelectArmy: army =>
+    NavigationActions.navigate({ routeName: 'Army', params: { army } }),
   findArmyForUser,
 };
 

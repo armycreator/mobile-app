@@ -1,6 +1,7 @@
 // @flow
 
 import { AbstractClient } from 'rest-client-sdk';
+import { Squad } from '../';
 
 class SquadClient extends AbstractClient {
   getPathBase(): string {
@@ -9,6 +10,10 @@ class SquadClient extends AbstractClient {
 
   getName(): string {
     return 'Squad';
+  }
+
+  getEntityURI(entity: Squad) {
+    return `${this.getPathBase()}/${entity.id}`;
   }
 }
 

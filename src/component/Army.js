@@ -1,10 +1,9 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
+import { View, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import RestClientSdk from 'rest-client-sdk';
+import { NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import colors from '../colors';
 import { fetchArmyDetail, onArmyUnmount } from '../action/army';
@@ -16,10 +15,6 @@ type ArmyProps = {
   fetchArmyDetail: Function,
   onArmyUnmount: Function,
   onSelectSquad: Function,
-};
-
-type ArmyState = {
-  armyDetail: ?Map<any, any>,
 };
 
 const TitleContainer = styled.View`
@@ -126,10 +121,6 @@ function SquadListByType({ squadListByType, onSelectSquad }) {
 class Army extends Component {
   props: ArmyProps;
 
-  constructor(props: ArmyProps) {
-    super(props);
-  }
-
   componentDidMount() {
     const { army, fetchArmyDetail } = this.props;
 
@@ -141,7 +132,7 @@ class Army extends Component {
   }
 
   render() {
-    const { army, armyDetail, onSelectSquad } = this.props;
+    const { armyDetail, onSelectSquad } = this.props;
 
     if (!armyDetail) {
       return null;
@@ -179,11 +170,12 @@ class Army extends Component {
 }
 
 function goToSquad(squad: SquadEntity) {
-  return push(`/squad/${squad.id}`, { squad });
+  return NavigationActions.navigate({ routeName: 'Squad', params: { squad } });
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   armyDetail: state.app.get('currentArmyDetail'),
+  army: ownProps.navigation.state.params.army,
 });
 
 const mapDispatchToProps = {

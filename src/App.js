@@ -1,77 +1,73 @@
 // @flow
 
-import React, { Component } from 'react';
-import { Text, TouchableHighlight, StatusBar, View } from 'react-native';
-import { AndroidBackButton } from 'react-router-native';
-import { Provider } from 'react-redux';
-import { ConnectedRouter, push } from 'react-router-redux';
-import { Map } from 'immutable';
-import SideMenu from 'react-native-side-menu';
-import createHistory from 'history/createMemoryHistory';
+import React from 'react';
+import { BackAndroid, StatusBar } from 'react-native';
+import { connect, Provider } from 'react-redux';
 import styled from 'styled-components/native';
-import Menu from './component/Menu';
-import sdk from './Sdk';
+import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import colors from './colors';
-import { MainView, NavigationBarTitle } from './routes';
+import MainScreenNavigator from './routes';
 import configureStore from './configureStore';
-import Layout from './component/Layout';
 
 // global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
-const history = createHistory();
-const initialState = {};
-const store = configureStore(initialState, history);
+const store = configureStore(MainScreenNavigator);
+store.dispatch({ type: '@@ArmyCreator/INIT' });
 
 const Container = styled.View`
   flex: 1;
   background-color: ${colors.background};
+  padding-top: ${StatusBar.currentHeight};
 `;
 
-class App extends Component {
-  state: {
-    isMenuOpen: boolean,
+class App extends React.Component {
+  componentDidMount() {
+    this.sub = BackAndroid.addEventListener('backPress', () =>
+      this.props.dispatch(NavigationActions.back())
+    );
+  }
+
+  componentWillUnmount() {
+    this.sub.remove();
+  }
+
+  props: {
+    dispatch: Function,
+    nav: any,
   };
 
-  constructor(props: {}) {
-    super(props);
-
-    (this: any).toggleMenu = this.toggleMenu.bind(this);
-
-    this.state = {
-      isMenuOpen: false,
-    };
-  }
-
-  toggleMenu(isOpen: boolean) {
-    this.setState({ isMenuOpen: isOpen });
-  }
+  sub: any;
 
   render() {
-    const { store, history } = this.props;
-
     return (
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <AndroidBackButton>
-            <Container>
-              <StatusBar hidden />
-              <SideMenu
-                menu={<Menu />}
-                isOpen={this.state.isMenuOpen}
-                onChange={this.toggleMenu}
-              >
-                <Layout>
-                  <NavigationBarTitle
-                    onMenuPress={() => this.setState({ isMenuOpen: true })}
-                  />
-                  <MainView />
-                </Layout>
-              </SideMenu>
-            </Container>
-          </AndroidBackButton>
-        </ConnectedRouter>
+      <MainScreenNavigator
+        navigation={addNavigationHelpers({
+          dispatch: this.props.dispatch,
+          state: this.props.nav,
+        })}
+      />
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  nav: state.nav,
+});
+const AppWithNavigationState = connect(mapStateToProps)(App);
+
+class Root extends React.Component {
+  props: {
+    store: store,
+  };
+
+  render() {
+    return (
+      <Provider store={this.props.store}>
+        <Container>
+          <AppWithNavigationState />
+        </Container>
       </Provider>
     );
   }
 }
 
-export default () => <App store={store} history={history} />;
+export default () => <Root store={store} />;
