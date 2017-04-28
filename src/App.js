@@ -47,8 +47,8 @@ const contentComponent = props => (
 
 const MainScreenNavigator = DrawerNavigator(
   {
-    Login: { screen: Login },
     ArmyList: { screen: ArmyList },
+    Login: { screen: Login },
     Logout: { screen: Logout },
   },
   {

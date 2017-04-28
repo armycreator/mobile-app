@@ -16,8 +16,8 @@ import { findArmyForUser } from '../action/army';
 import { Collection, User } from '../entity';
 
 type ArmyListProps = {
-  user: User,
-  armyList: Collection,
+  user: ?User,
+  armyList: ?Collection,
   onSelectArmy: Function,
   findArmyForUser: Function,
 };
@@ -65,8 +65,20 @@ class ArmyList extends Component {
   componentDidMount() {
     const { armyList, findArmyForUser, user } = this.props;
 
+    if (!user) {
+      return null;
+    }
+
     if (!armyList) {
       return findArmyForUser(user).catch(console.error);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { findArmyForUser, user } = this.props;
+
+    if (user && !prevProps.user) {
+      return this.props.findArmyForUser(user).catch(console.error);
     }
   }
 
@@ -89,7 +101,7 @@ class ArmyList extends Component {
   }
 
   render() {
-    const { armyList, user } = this.props;
+    const { armyList } = this.props;
 
     if (!armyList) {
       return (

@@ -28,18 +28,6 @@ export function login(username: string, password: string) {
   };
 }
 
-export function redirectIfLogged() {
-  return (dispatch: Function) => {
-    return sdk.tokenStorage.hasAccessToken().then(hasToken => {
-      if (hasToken) {
-        goToArmyList()(dispatch);
-      }
-
-      return hasToken;
-    });
-  };
-}
-
 export function logout() {
   return dispatch => {
     dispatch({ type: 'LOGOUT' });

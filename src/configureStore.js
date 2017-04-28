@@ -9,7 +9,7 @@ import sdk from './Sdk';
 
 const authorizedRoutes = ['DrawerOpen', 'DrawerClose', 'Login', 'Logout'];
 
-function checkAccessToken(next: Function) {
+function checkAccessToken() {
   // if we navigate, check if an access token is found
   return sdk.tokenStorage.hasAccessToken().then(hasAccessToken => {
     if (!hasAccessToken) {
@@ -23,7 +23,7 @@ function checkAccessToken(next: Function) {
 const LoginMiddleware = store => next => action => {
   console.log(action);
   if (action.type === '@@ArmyCreator/INIT') {
-    return checkAccessToken(next)
+    return checkAccessToken()
       .then(hasAccessToken => {
         return sdk.user.findMe().then(user => {
           store.dispatch({
@@ -33,14 +33,21 @@ const LoginMiddleware = store => next => action => {
         });
       })
       .then(() => next(action))
-      .catch(() => next(NavigationActions.navigate({ routeName: 'Login' })));
+      .catch(e => next(NavigationActions.navigate({ routeName: 'Login' })));
   } else if (
     action.type === 'Navigation/NAVIGATE' &&
     !authorizedRoutes.includes(action.routeName)
   ) {
-    return checkAccessToken(next)
+    return checkAccessToken()
       .then(() => next(action))
       .catch(() => next(NavigationActions.navigate({ routeName: 'Login' })));
+  } else if (
+    action.type === 'Navigation/NAVIGATE' &&
+    action.routeName === 'Login'
+  ) {
+    return checkAccessToken()
+      .then(() => next(NavigationActions.navigate({ routeName: 'ArmyList' })))
+      .catch(() => next(action));
   }
 
   return next(action);

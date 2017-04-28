@@ -11,7 +11,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import { login, redirectIfLogged } from '../../action/login';
+import { login } from '../../action/login';
 import Button from '../Button';
 import colors from '../../colors';
 
@@ -51,16 +51,6 @@ class Login extends Component {
       errorMessage: null,
       loginStatus: null,
     };
-  }
-
-  componentDidMount() {
-    this.props.redirectIfLogged().then(isLogged => {
-      if (!isLogged) {
-        this.setState(() => ({
-          waitForLogStatus: false,
-        }));
-      }
-    });
   }
 
   handleLogin(event: Event) {
@@ -232,7 +222,6 @@ const mapStateToProps = state => ({});
 
 const mapDispatchToProps = {
   login,
-  redirectIfLogged,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
