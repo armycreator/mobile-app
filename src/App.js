@@ -39,8 +39,23 @@ const Container = styled.View`
   background-color: ${colors.background};
 `;
 
+const DrawerHeaderContainer = styled.View`
+  backgroundColor: ${colors.secondary};
+  padding: 15;
+`;
+
+const DrawerHeader = styled.Text`
+  color: ${colors.background};
+  font-size: 18;
+  font-weight: bold;
+`;
+
 const contentComponent = props => (
   <Container>
+    <DrawerHeaderContainer>
+      <DrawerHeader>Army Creator</DrawerHeader>
+    </DrawerHeaderContainer>
+
     <DrawerItems {...props} />
   </Container>
 );
@@ -90,6 +105,10 @@ const MainScreenNavigator = DrawerNavigator(
   },
   {
     contentComponent,
+    contentOptions: {
+      activeTintColor: colors.secondary,
+      inactiveTintColor: colors.softGray,
+    },
     navigationOptions: {
       headerStyle: {
         backgroundColor: colors.secondary,
