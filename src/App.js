@@ -53,29 +53,46 @@ const MainScreenNavigator = DrawerNavigator(
   },
   {
     contentComponent,
+    navigationOptions: {
+      title: 'Army Creator',
+      headerStyle: {
+        backgroundColor: colors.secondary,
+      },
+      headerTitleStyle: {
+        color: colors.white,
+      },
+    },
   }
 );
 
-MainScreenNavigator.navigationOptions = {
-  title: 'Army Creator',
-  headerStyle: {
-    backgroundColor: colors.secondary,
-  },
-  headerTitleStyle: {
-    color: colors.white,
-  },
-};
-
 const ArmyCreatorApp = {
   ArmyList: { screen: MainScreenNavigator },
-  Army: { screen: Army },
-  Squad: { screen: Squad },
+  Army: {
+    screen: Army,
+    navigationOptions: ({ navigation }) => ({
+      title: navigation.state.params.army.name,
+    }),
+  },
+  Squad: {
+    screen: Squad,
+    navigationOptions: ({ navigation }) => ({
+      title: navigation.state.params.squad.name,
+    }),
+  },
 };
 
 const AppNavigator = StackNavigator(ArmyCreatorApp, {
   initialRouteName: 'ArmyList',
   cardStyle: {
     backgroundColor: colors.background,
+  },
+  navigationOptions: {
+    headerStyle: {
+      backgroundColor: colors.secondary,
+    },
+    headerTitleStyle: {
+      color: colors.white,
+    },
   },
 });
 

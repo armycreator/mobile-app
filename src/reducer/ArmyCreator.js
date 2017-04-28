@@ -55,8 +55,6 @@ export default function armyCreatorReducer(
   action: ActionType
 ) {
   switch (action.type) {
-    case '@@ArmyCreator/INIT':
-      return state.set('initialized', true);
     case 'RECEIVE_ME':
       return state.set('me', action.user);
     case 'LAST_ARMY_LIST_RECEIVE':

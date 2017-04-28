@@ -45,7 +45,6 @@ class Login extends Component {
     this.passwordRef = null;
 
     this.state = {
-      waitForLogStatus: true,
       username: '',
       password: '',
       errorMessage: null,
@@ -90,10 +89,6 @@ class Login extends Component {
   }
 
   render() {
-    if (this.state.waitForLogStatus) {
-      return null;
-    }
-
     const isLoginButtonDisabled = !(this.state.username && this.state.password);
 
     return (
