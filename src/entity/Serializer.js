@@ -1,5 +1,6 @@
+// @flow
 import { Serializer } from 'rest-client-sdk';
-import { fromJS, List, Record } from 'immutable';
+import { fromJS, List } from 'immutable';
 import * as entities from './';
 
 function convertItem(input, clientName) {

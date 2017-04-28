@@ -1,14 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  ActivityIndicator,
-  ListView,
-  Text,
-  TouchableHighlight,
-  View,
-} from 'react-native';
-import { List, Map } from 'immutable';
+import { ActivityIndicator, ListView, TouchableHighlight } from 'react-native';
 import styled from 'styled-components/native';
 import { NavigationActions } from 'react-navigation';
 import colors from '../colors';
@@ -21,10 +14,6 @@ type ArmyListProps = {
   onSelectArmy: Function,
   findArmyForUser: Function,
 };
-
-const Container = styled.View`
-  flex: 1;
-`;
 
 const ActivityIndicatorContainer = styled.View`
   flex: 1;
@@ -78,6 +67,12 @@ class ArmyList extends Component {
     }
   }
 
+  getArmyListDataSource() {
+    if (this.props.armyList) {
+      return this.dataSource.cloneWithRows(this.props.armyList.items.toArray());
+    }
+  }
+
   renderRow(army) {
     return (
       <TouchableHighlight onPress={() => this.props.onSelectArmy(army)}>
@@ -90,12 +85,6 @@ class ArmyList extends Component {
         </Army>
       </TouchableHighlight>
     );
-  }
-
-  getArmyListDataSource() {
-    if (this.props.armyList) {
-      return this.dataSource.cloneWithRows(this.props.armyList.items.toArray());
-    }
   }
 
   render() {

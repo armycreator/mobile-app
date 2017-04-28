@@ -4,6 +4,10 @@ import { Army, Squad, SquadLine, User } from '../entity';
 
 type State = Map<string, any>;
 
+function setSquadDetail(state: State, squad: Squad) {
+  return state.set('currentSquadDetail', squad);
+}
+
 function squadLineDetailReceived(state: State, squadLine: SquadLine) {
   const squad = state.get('currentSquadDetail');
   const squadLineList = squad.squadLineList;
@@ -24,10 +28,6 @@ function squadLineDetailReceived(state: State, squadLine: SquadLine) {
   });
 
   return setSquadDetail(state, newSquad);
-}
-
-function setSquadDetail(state: State, squad: Squad) {
-  return state.set('currentSquadDetail', squad);
 }
 
 const initialState: State = Map({

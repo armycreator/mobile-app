@@ -18,7 +18,7 @@ class Logout extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
   logout,

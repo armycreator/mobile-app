@@ -23,7 +23,7 @@ function checkAccessToken() {
 const LoginMiddleware = store => next => action => {
   if (action.type === '@@ArmyCreator/INIT') {
     return checkAccessToken()
-      .then(hasAccessToken =>
+      .then(() =>
         sdk.user.findMe().then(user => {
           store.dispatch({
             type: 'RECEIVE_ME',
@@ -32,7 +32,7 @@ const LoginMiddleware = store => next => action => {
         })
       )
       .then(() => next(action))
-      .catch(e => next(NavigationActions.navigate({ routeName: 'Login' })));
+      .catch(() => next(NavigationActions.navigate({ routeName: 'Login' })));
   } else if (
     action.type === 'Navigation/NAVIGATE' &&
     !authorizedRoutes.includes(action.routeName)

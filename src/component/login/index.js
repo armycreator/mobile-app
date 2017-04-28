@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   ActivityIndicator,
@@ -8,7 +8,6 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
   View,
 } from 'react-native';
 import styled from 'styled-components/native';
@@ -70,13 +69,13 @@ class Login extends Component {
 
     event.preventDefault();
 
-    this.setState(prevProps => ({
+    this.setState(() => ({
       errorMessage: null,
       loginStatus: 'IN_PROGRESS',
     }));
 
     login(this.state.username, this.state.password).catch(e => {
-      this.setState(prevProps => ({
+      this.setState(() => ({
         errorMessage: e.error_description,
         loginStatus: 'FAILED',
       }));

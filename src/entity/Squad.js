@@ -1,5 +1,5 @@
 // @flow
-import { fromJS, List, Map, Record } from 'immutable';
+import { List, Record } from 'immutable';
 import { SquadLine, UnitGroup } from './';
 
 type SquadProps = {

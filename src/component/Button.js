@@ -1,5 +1,4 @@
 import React from 'react';
-import { TouchableHighlight } from 'react-native';
 import styled from 'styled-components/native';
 import colors from '../colors';
 
