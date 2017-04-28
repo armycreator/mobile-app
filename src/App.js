@@ -47,26 +47,28 @@ const contentComponent = props => (
 
 const MainScreenNavigator = DrawerNavigator(
   {
-    ArmyList: { screen: ArmyList },
-    Login: { screen: Login },
-    Logout: { screen: Logout },
+    ArmyList: { screen: ArmyList, navigationOptions: { title: 'Mes armées' } },
+    Login: { screen: Login, navigationOptions: { title: 'Connexion' } },
+    Logout: { screen: Logout, navigationOptions: { title: 'Déconnexion' } },
   },
   {
     contentComponent,
     navigationOptions: {
-      title: 'Army Creator',
       headerStyle: {
         backgroundColor: colors.secondary,
       },
       headerTitleStyle: {
-        color: colors.white,
+        color: colors.background,
       },
     },
   }
 );
 
 const ArmyCreatorApp = {
-  ArmyList: { screen: MainScreenNavigator },
+  ArmyList: {
+    screen: MainScreenNavigator,
+    navigationOptions: { title: 'Mes armées' },
+  },
   Army: {
     screen: Army,
     navigationOptions: ({ navigation }) => ({
@@ -91,7 +93,7 @@ const AppNavigator = StackNavigator(ArmyCreatorApp, {
       backgroundColor: colors.secondary,
     },
     headerTitleStyle: {
-      color: colors.white,
+      color: colors.background,
     },
   },
 });
