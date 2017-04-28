@@ -3,8 +3,8 @@ import { NavigationActions } from 'react-navigation';
 import sdk from '../Sdk';
 
 function goToArmyList() {
-  return dispatch => {
-    return sdk.user
+  return (dispatch: Function) =>
+    sdk.user
       .findMe()
       .then(user => {
         dispatch({
@@ -15,7 +15,6 @@ function goToArmyList() {
       .then(() =>
         dispatch(NavigationActions.navigate({ routeName: 'ArmyList' }))
       );
-  };
 }
 
 export function login(username: string, password: string) {
@@ -29,7 +28,7 @@ export function login(username: string, password: string) {
 }
 
 export function logout() {
-  return dispatch => {
+  return (dispatch: Function) => {
     dispatch({ type: 'LOGOUT' });
     sdk.tokenStorage.logout().then(() => {
       dispatch(NavigationActions.navigate({ routeName: 'Login' }));

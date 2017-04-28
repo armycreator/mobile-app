@@ -1,36 +1,13 @@
 // @flow
 
-import React, { Component } from 'react';
-import {
-  BackAndroid,
-  Button,
-  Text,
-  TouchableHighlight,
-  StatusBar,
-  View,
-} from 'react-native';
+import React from 'react';
+import { BackAndroid, StatusBar } from 'react-native';
 import { connect, Provider } from 'react-redux';
-import Army from './component/Army';
-import ArmyList from './component/ArmyList';
-import Login from './component/login';
-import Logout from './component/login/Logout';
-import Squad from './component/Squad';
-import { Map } from 'immutable';
 import styled from 'styled-components/native';
-import {
-  addNavigationHelpers,
-  DrawerNavigator,
-  NavigationActions,
-  StackNavigator,
-  TabNavigator,
-  DrawerItems,
-} from 'react-navigation';
-import sdk from './Sdk';
+import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import colors from './colors';
-// import { MainView, NavigationBarTitle } from './routes';
 import MainScreenNavigator from './routes';
 import configureStore from './configureStore';
-import Layout from './component/Layout';
 
 // global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
 const store = configureStore(MainScreenNavigator);
@@ -43,8 +20,6 @@ const Container = styled.View`
 `;
 
 class App extends React.Component {
-  sub: any;
-
   componentDidMount() {
     this.sub = BackAndroid.addEventListener('backPress', () =>
       this.props.dispatch(NavigationActions.back())
@@ -54,6 +29,13 @@ class App extends React.Component {
   componentWillUnmount() {
     this.sub.remove();
   }
+
+  props: {
+    dispatch: Function,
+    nav: any,
+  };
+
+  sub: any;
 
   render() {
     return (
@@ -73,6 +55,10 @@ const mapStateToProps = state => ({
 const AppWithNavigationState = connect(mapStateToProps)(App);
 
 class Root extends React.Component {
+  props: {
+    store: store,
+  };
+
   render() {
     return (
       <Provider store={this.props.store}>

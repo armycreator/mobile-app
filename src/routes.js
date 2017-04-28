@@ -1,15 +1,8 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
-import {
-  addNavigationHelpers,
-  DrawerNavigator,
-  NavigationActions,
-  StackNavigator,
-  TabNavigator,
-  DrawerItems,
-} from 'react-navigation';
+import { DrawerNavigator, StackNavigator, DrawerItems } from 'react-navigation';
 import colors from './colors';
 import Army from './component/Army';
 import ArmyList from './component/ArmyList';
@@ -77,7 +70,7 @@ const AppNavigator = StackNavigator(ArmyCreatorApp, {
   },
 });
 
-export default (MainScreenNavigator = DrawerNavigator(
+export default DrawerNavigator(
   {
     ArmyList: {
       screen: AppNavigator,
@@ -101,4 +94,4 @@ export default (MainScreenNavigator = DrawerNavigator(
       },
     },
   }
-));
+);

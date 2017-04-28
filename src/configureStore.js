@@ -23,14 +23,14 @@ function checkAccessToken() {
 const LoginMiddleware = store => next => action => {
   if (action.type === '@@ArmyCreator/INIT') {
     return checkAccessToken()
-      .then(hasAccessToken => {
-        return sdk.user.findMe().then(user => {
+      .then(hasAccessToken =>
+        sdk.user.findMe().then(user => {
           store.dispatch({
             type: 'RECEIVE_ME',
             user,
           });
-        });
-      })
+        })
+      )
       .then(() => next(action))
       .catch(e => next(NavigationActions.navigate({ routeName: 'Login' })));
   } else if (
@@ -44,16 +44,7 @@ const LoginMiddleware = store => next => action => {
     action.type === 'Navigation/NAVIGATE' &&
     action.routeName === 'Login'
   ) {
-    return checkAccessToken()
-      .then(() =>
-        next(
-          NavigationActions.reset({
-            index: 0,
-            actions: [NavigationActions.navigate({ routeName: 'ArmyList' })],
-          })
-        )
-      )
-      .catch(() => next(action));
+    return checkAccessToken().catch(() => next(action));
   }
 
   return next(action);

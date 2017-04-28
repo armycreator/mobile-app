@@ -3,8 +3,8 @@ import sdk from '../Sdk';
 import { SquadLine } from '../entity';
 
 export function fetchSquadDetail(id: number) {
-  return (dispatch: Function) => {
-    return sdk.squad
+  return (dispatch: Function) =>
+    sdk.squad
       .find(id)
       .then(squadDetail => {
         dispatch({
@@ -13,7 +13,6 @@ export function fetchSquadDetail(id: number) {
         });
       })
       .catch(console.error);
-  };
 }
 
 export function changeSquadLineActiveStatus(
