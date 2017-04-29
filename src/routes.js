@@ -76,6 +76,7 @@ export default DrawerNavigator(
       screen: AppNavigator,
       navigationOptions: { title: 'Mes armées' },
     },
+    Test: { screen: () => null, navigationOptions: { title: 'Test' } },
     Login: { screen: Login, navigationOptions: { title: 'Connexion' } },
     Logout: { screen: Logout, navigationOptions: { title: 'Déconnexion' } },
   },
