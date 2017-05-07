@@ -43,8 +43,6 @@ class App extends React.Component {
       state: this.props.nav,
     });
 
-    console.log(navigation);
-
     return <MainScreenNavigator navigation={navigation} />;
   }
 }

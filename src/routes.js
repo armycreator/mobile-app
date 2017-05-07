@@ -9,6 +9,7 @@ import ArmyList from './component/ArmyList';
 import Login from './component/login';
 import Logout from './component/login/Logout';
 import Squad from './component/Squad';
+import sdk from './Sdk';
 
 const Container = styled.View`
   flex: 1;
@@ -26,15 +27,57 @@ const DrawerHeader = styled.Text`
   font-weight: bold;
 `;
 
-const contentComponent = props => (
-  <Container>
-    <DrawerHeaderContainer>
-      <DrawerHeader>Army Creator</DrawerHeader>
-    </DrawerHeaderContainer>
+const contentComponent = ({
+  navigation,
+  ...rest
+}: {
+  navigation: any,
+  rest: any,
+}) => {
+  console.log(navigation);
 
-    <DrawerItems {...props} />
-  </Container>
-);
+  const anonymousNavigation = navigation;
+  const loggedNavigation = navigation;
+  anonymousNavigation.state = Object.assign({}, navigation.state, {
+    routes: [
+      { key: 'ArmyList', routeName: 'ArmyList' },
+      // { key: 'Login', routeName: 'Login' },
+      { key: 'Logout', routeName: 'Logout' },
+    ],
+  });
+  loggedNavigation.state = Object.assign({}, navigation.state, {
+    routes: [
+      { key: 'ArmyList', routeName: 'ArmyList' },
+      { key: 'Login', routeName: 'Login' },
+    ],
+  });
+
+  return sdk.tokenStorage
+    .hasAccessToken()
+    .then(hasAccessToken => {
+      if (!hasAccessToken) {
+        throw new Error('No access token found');
+      }
+    })
+    .then(() => (
+        <Container>
+          <DrawerHeaderContainer>
+            <DrawerHeader>Army Creator</DrawerHeader>
+          </DrawerHeaderContainer>
+
+          <DrawerItems navigation={loggedNavigation} {...rest} />
+        </Container>
+      ))
+    .catch(() => (
+        <Container>
+          <DrawerHeaderContainer>
+            <DrawerHeader>Army Creator</DrawerHeader>
+          </DrawerHeaderContainer>
+
+          <DrawerItems navigation={anonymousNavigation} {...rest} />
+        </Container>
+      ));
+};
 
 const ArmyCreatorApp = {
   ArmyList: {
