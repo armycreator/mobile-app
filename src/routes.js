@@ -27,57 +27,65 @@ const DrawerHeader = styled.Text`
   font-weight: bold;
 `;
 
-const contentComponent = ({
-  navigation,
-  ...rest
-}: {
-  navigation: any,
-  rest: any,
-}) => {
-  console.log(navigation);
+type Route = { key: string, routeName: string };
 
-  const anonymousNavigation = navigation;
-  const loggedNavigation = navigation;
-  anonymousNavigation.state = Object.assign({}, navigation.state, {
-    routes: [
+class contentComponent extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      routes: [],
+    };
+
+    this.loggedRoutes = [
       { key: 'ArmyList', routeName: 'ArmyList' },
       // { key: 'Login', routeName: 'Login' },
       { key: 'Logout', routeName: 'Logout' },
-    ],
-  });
-  loggedNavigation.state = Object.assign({}, navigation.state, {
-    routes: [
+    ];
+    this.anonymousRoutes = [
       { key: 'ArmyList', routeName: 'ArmyList' },
       { key: 'Login', routeName: 'Login' },
-    ],
-  });
+    ];
+  }
 
-  return sdk.tokenStorage
-    .hasAccessToken()
-    .then(hasAccessToken => {
-      if (!hasAccessToken) {
-        throw new Error('No access token found');
-      }
-    })
-    .then(() => (
-        <Container>
-          <DrawerHeaderContainer>
-            <DrawerHeader>Army Creator</DrawerHeader>
-          </DrawerHeaderContainer>
+  state: { routes: Array<Route> };
+  loggedRoutes: Array<Route>;
+  anonymousRoutes: Array<Route>;
 
-          <DrawerItems navigation={loggedNavigation} {...rest} />
-        </Container>
-      ))
-    .catch(() => (
-        <Container>
-          <DrawerHeaderContainer>
-            <DrawerHeader>Army Creator</DrawerHeader>
-          </DrawerHeaderContainer>
+  componendDidMount() {
+    console.log('mount');
+    sdk.tokenStorage
+      .hasAccessToken()
+      .then(hasAccessToken => {
+        if (!hasAccessToken) {
+          throw new Error('No access token found');
+        }
+      })
+      .then(() => this.setState({ routes: this.loggedRoutes }))
+      .catch(() => this.setState({ routes: this.anonymousRoutes }));
+  }
 
-          <DrawerItems navigation={anonymousNavigation} {...rest} />
-        </Container>
-      ));
-};
+  render() {
+    const { navigation, ...rest } = this.props;
+    console.log(navigation);
+
+    const newNavigation = navigation;
+    newNavigation.state = Object.assign({}, navigation.state, {
+      routes: this.state.routes,
+    });
+    console.log(newNavigation);
+
+    return (
+      <Container>
+        <DrawerHeaderContainer>
+          <DrawerHeader>Army Creator</DrawerHeader>
+        </DrawerHeaderContainer>
+
+        <DrawerItems navigation={newNavigation} {...rest} />
+      </Container>
+    );
+  }
+}
 
 const ArmyCreatorApp = {
   ArmyList: {
