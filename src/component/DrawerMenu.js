@@ -1,10 +1,12 @@
 // @flow
 import React, { PureComponent } from 'react';
+import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { DrawerItems } from 'react-navigation';
 import colors from '../colors';
 import User from '../entity/User';
+import { findArmyGroupForUser } from '../action/armyGroup';
 
 const Container = styled.View`
   flex: 1;
@@ -25,6 +27,7 @@ const DrawerHeader = styled.Text`
 type Props = {
   me: ?User,
   navigation: any,
+  findArmyGroupForUser: Function,
 };
 type Route = { key: string, routeName: string };
 
@@ -48,25 +51,24 @@ class DrawerMenu extends PureComponent {
     this.anonymousRoutes = [{ key: 'Login', routeName: 'Login' }];
   }
 
-  // componentDidMount() {
-  //   console.log('mount');
-  //   sdk.tokenStorage
-  //     .hasAccessToken()
-  //     .then(hasAccessToken => {
-  //       if (!hasAccessToken) {
-  //         throw new Error('No access token found');
-  //       }
-  //     })
-  //     .then(() => this.setState({ routes: this.loggedRoutes }))
-  //     .catch(() => this.setState({ routes: this.anonymousRoutes }));
-  // }
+  componentDidMount() {
+    const { me } = this.props;
 
-  // componentDidUpdate() {
-  //   console.log('update');
-  // }
+    if (me) {
+      this.props.findArmyGroupForUser(me);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { me } = this.props;
+
+    if (!prevProps.me && me) {
+      this.props.findArmyGroupForUser(me);
+    }
+  }
 
   render() {
-    const { me, navigation, ...rest } = this.props;
+    const { armyGroupList, me, navigation, ...rest } = this.props;
 
     const newNavigation = navigation;
     newNavigation.state = Object.assign({}, navigation.state, {
@@ -80,6 +82,13 @@ class DrawerMenu extends PureComponent {
         </DrawerHeaderContainer>
 
         <DrawerItems navigation={newNavigation} {...rest} />
+
+        {armyGroupList &&
+          armyGroupList.items.map(armyGroup => (
+            <Text>
+              {armyGroup.name}
+            </Text>
+          ))}
       </Container>
     );
   }
@@ -87,6 +96,11 @@ class DrawerMenu extends PureComponent {
 
 const mapStateToProps = state => ({
   me: state.app.get('me'),
+  armyGroupList: state.app.get('armyGroupList'),
 });
 
-export default connect(mapStateToProps)(DrawerMenu);
+const mapDispatchToProps = {
+  findArmyGroupForUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerMenu);
