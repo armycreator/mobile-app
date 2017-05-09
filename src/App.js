@@ -52,9 +52,10 @@ const mapStateToProps = state => ({
 });
 const AppWithNavigationState = connect(mapStateToProps)(App);
 
+// eslint-disable-next-line react/no-multi-comp react/prefer-stateless-function
 class Root extends React.Component {
   props: {
-    store: store,
+    store: typeof store,
   };
 
   render() {

@@ -24,6 +24,7 @@ const DrawerHeader = styled.Text`
 
 type Props = {
   me: ?User,
+  navigation: any,
 };
 type Route = { key: string, routeName: string };
 

@@ -13,8 +13,6 @@
 ; "node_modules/react-native" but in the source repo it is in the root
 .*/Libraries/react-native/React.js
 .*/Libraries/react-native/ReactNative.js
-; .*/react-native/
-.*/react-native-fbads/
 
 ; Additional create-react-native-app ignores
 
@@ -24,18 +22,25 @@
 ; Ignore misbehaving dev-dependencies
 .*/node_modules/xdl/build/*
 .*/node_modules/reqwest/tests/*
-.*/node_modules/styled-components/dangerfile.js
-.*/node_modules/styled-components/src/test/utils.js
-.*/src/component/Debug.js
+
+; ignore styled-components tests
+.*/node_modules/styled-components/.*\.test\.js
+.*/node_modules/styled-components/.*/test/.*
 
 ; ignore react navigation tests
 .*/node_modules/react-navigation/src/__tests__/*
 .*/node_modules/react-navigation/src/routers/__tests__/*
 .*/node_modules/react-navigation/src/views/__tests__/*
 
+; ignore eslint-plugin-jsx-a11y
+.*/node_modules/eslint-plugin-jsx-a11y/.*
+
 ; Ignore missing expo-sdk dependencies (temporarily)
 ; https://github.com/exponent/exponent-sdk/issues/36
 .*/node_modules/expo/src/*
+
+; Ignore react-native-fbads dependency of the expo sdk
+.*/node_modules/react-native-fbads/*
 
 [include]
 
@@ -59,11 +64,12 @@ suppress_type=$FlowIssue
 suppress_type=$FlowFixMe
 suppress_type=$FixMe
 
-suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(>=0\\.\\(3[0-8]\\|[1-2][0-9]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*react_native_oss[a-z,_]*\\)?)\\)
-suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(>=0\\.\\(3[0-8]\\|1[0-9]\\|[1-2][0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*react_native_oss[a-z,_]*\\)?)\\)?:? #[0-9]+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(>=0\\.\\(4[0-0]\\|[1-3][0-9]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*react_native[a-z,_]*\\)?)\\)
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(>=0\\.\\(4[0-0]\\|[1-3][0-9]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*react_native[a-z,_]*\\)?)\\)?:? #[0-9]+
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
+suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
 unsafe.enable_getters_and_setters=true
 
 [version]
-^0.38.0
+^0.40.0
