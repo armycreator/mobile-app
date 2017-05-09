@@ -1,40 +1,14 @@
 // @flow
 
-import React from 'react';
-import styled from 'styled-components/native';
-import { DrawerNavigator, StackNavigator, DrawerItems } from 'react-navigation';
+// import React from 'react';
+import { DrawerNavigator, StackNavigator } from 'react-navigation';
 import colors from './colors';
 import Army from './component/Army';
 import ArmyList from './component/ArmyList';
 import Login from './component/login';
 import Logout from './component/login/Logout';
 import Squad from './component/Squad';
-
-const Container = styled.View`
-  flex: 1;
-  background-color: ${colors.background};
-`;
-
-const DrawerHeaderContainer = styled.View`
-  backgroundColor: ${colors.secondary};
-  padding: 15;
-`;
-
-const DrawerHeader = styled.Text`
-  color: ${colors.background};
-  font-size: 18;
-  font-weight: bold;
-`;
-
-const contentComponent = props => (
-  <Container>
-    <DrawerHeaderContainer>
-      <DrawerHeader>Army Creator</DrawerHeader>
-    </DrawerHeaderContainer>
-
-    <DrawerItems {...props} />
-  </Container>
-);
+import DrawerMenu from './component/DrawerMenu';
 
 const ArmyCreatorApp = {
   ArmyList: {
@@ -74,13 +48,13 @@ export default DrawerNavigator(
   {
     ArmyList: {
       screen: AppNavigator,
-      navigationOptions: { title: 'Mes armées' },
+      navigationOptions: { title: 'Mes dernières listes' },
     },
     Login: { screen: Login, navigationOptions: { title: 'Connexion' } },
     Logout: { screen: Logout, navigationOptions: { title: 'Déconnexion' } },
   },
   {
-    contentComponent,
+    contentComponent: DrawerMenu,
     contentOptions: {
       activeTintColor: colors.secondary,
       inactiveTintColor: colors.softGray,

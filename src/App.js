@@ -38,14 +38,12 @@ class App extends React.Component {
   sub: any;
 
   render() {
-    return (
-      <MainScreenNavigator
-        navigation={addNavigationHelpers({
-          dispatch: this.props.dispatch,
-          state: this.props.nav,
-        })}
-      />
-    );
+    const navigation = addNavigationHelpers({
+      dispatch: this.props.dispatch,
+      state: this.props.nav,
+    });
+
+    return <MainScreenNavigator navigation={navigation} />;
   }
 }
 

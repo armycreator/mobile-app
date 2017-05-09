@@ -13,5 +13,17 @@ module.exports = {
     'constructor-super': 'off',
     'class-methods-use-this': 'off',
     'no-use-before-define': 'off',
+    'react/sort-comp': [
+      1,
+      {
+        order: [
+          'type-annotations',
+          'static-methods',
+          'lifecycle',
+          'everything-else',
+          'render',
+        ],
+      },
+    ],
   },
 };
