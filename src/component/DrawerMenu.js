@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { Text, TouchableHighlight } from 'react-native';
+import { TouchableHighlight, View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { DrawerItems, NavigationActions } from 'react-navigation';
@@ -18,10 +18,25 @@ const DrawerHeaderContainer = styled.View`
   padding: 15;
 `;
 
+const ArmyGroupListHeader = styled.Text`
+  margin-horizontal: 15;
+  padding: 15;
+  color: ${colors.softGray};
+  text-align: center;
+  border-bottom-width: 1;
+  border-bottom-color: ${colors.secondary};
+`;
+
 const DrawerHeader = styled.Text`
   color: ${colors.background};
   font-size: 18;
   font-weight: bold;
+`;
+
+const DrawerItem = styled.Text`
+  color: ${colors.softGray};
+  font-weight: bold;
+  padding: 15;
 `;
 
 type Props = {
@@ -92,16 +107,21 @@ class DrawerMenu extends PureComponent {
         <DrawerItems navigation={newNavigation} {...rest} />
 
         {armyGroupList &&
-          armyGroupList.items.map(armyGroup => (
-            <TouchableHighlight
-              key={armyGroup.id}
-              onPress={() => onSelectArmyGroup(armyGroup)}
-            >
-              <Text>
-                {armyGroup.name}
-              </Text>
-            </TouchableHighlight>
-          ))}
+          armyGroupList.items.size > 0 &&
+          <View>
+            <ArmyGroupListHeader>Mes groupes</ArmyGroupListHeader>
+            {armyGroupList.items.map(armyGroup => (
+              <TouchableHighlight
+                key={armyGroup.id}
+                onPress={() => onSelectArmyGroup(armyGroup)}
+                underlayColor="rgba(0,0,0,0.3)"
+              >
+                <DrawerItem>
+                  {armyGroup.name}
+                </DrawerItem>
+              </TouchableHighlight>
+            ))}
+          </View>}
       </Container>
     );
   }
@@ -117,7 +137,10 @@ const mapDispatchToProps = {
   onSelectArmyGroup: armyGroup =>
     NavigationActions.navigate({
       routeName: 'ArmyList',
-      params: { armyList: armyGroup.armyList },
+      params: {
+        armyList: armyGroup.armyList,
+        title: armyGroup.name,
+      },
     }),
 };
 

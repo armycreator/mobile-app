@@ -50,7 +50,7 @@
     "lint-staged": "^3.4.1",
     "prettier-eslint": "^6.1.2",
     "prettier-eslint-cli": "^3.4.2",
-    "react-devtools": "^2.1.8",
+    "react-devtools": "^2.1.9",
     "react-native-scripts": "0.0.29",
     "react-test-renderer": "~15.4.1",
     "remote-redux-devtools": "^0.5.10"

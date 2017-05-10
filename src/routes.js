@@ -13,7 +13,11 @@ import DrawerMenu from './component/DrawerMenu';
 const ArmyCreatorApp = {
   ArmyList: {
     screen: ArmyList,
-    navigationOptions: { title: 'Mes armées' },
+    navigationOptions: ({ navigation }) => ({
+      title: navigation.state.params && navigation.state.params.title
+        ? navigation.state.params.title
+        : 'Mes armées',
+    }),
   },
   Army: {
     screen: Army,
