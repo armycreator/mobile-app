@@ -1,6 +1,6 @@
 // @flow
 import { List, Map } from 'immutable';
-import { Army, Squad, SquadLine, User } from '../entity';
+import { Army, Collection, Squad, SquadLine, User } from '../entity';
 
 type State = Map<string, any>;
 
@@ -48,6 +48,7 @@ type ActionType = {
   squadLine?: SquadLine,
   user: User,
   isOpen?: boolean,
+  armyGroupList?: Collection,
 };
 
 export default function armyCreatorReducer(

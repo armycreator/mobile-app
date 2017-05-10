@@ -41,7 +41,7 @@
     "eslint-config-prettier": "^2.0.0",
     "eslint-plugin-flowtype": "^2.32.1",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^5.0.1",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
     "flow-bin": "^0.40.0",
     "flow-typed": "^2.1.2",
@@ -50,6 +50,7 @@
     "lint-staged": "^3.4.1",
     "prettier-eslint": "^6.1.2",
     "prettier-eslint-cli": "^3.4.2",
+    "react-devtools": "^2.1.8",
     "react-native-scripts": "0.0.29",
     "react-test-renderer": "~15.4.1",
     "remote-redux-devtools": "^0.5.10"

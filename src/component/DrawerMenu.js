@@ -1,11 +1,11 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { DrawerItems } from 'react-navigation';
+import { DrawerItems, NavigationActions } from 'react-navigation';
 import colors from '../colors';
-import User from '../entity/User';
+import { Collection, User } from '../entity';
 import { findArmyGroupForUser } from '../action/armyGroup';
 
 const Container = styled.View`
@@ -28,6 +28,8 @@ type Props = {
   me: ?User,
   navigation: any,
   findArmyGroupForUser: Function,
+  armyGroupList: ?Collection,
+  onSelectArmyGroup: Function,
 };
 type Route = { key: string, routeName: string };
 
@@ -68,7 +70,13 @@ class DrawerMenu extends PureComponent {
   }
 
   render() {
-    const { armyGroupList, me, navigation, ...rest } = this.props;
+    const {
+      armyGroupList,
+      me,
+      navigation,
+      onSelectArmyGroup,
+      ...rest
+    } = this.props;
 
     const newNavigation = navigation;
     newNavigation.state = Object.assign({}, navigation.state, {
@@ -85,9 +93,14 @@ class DrawerMenu extends PureComponent {
 
         {armyGroupList &&
           armyGroupList.items.map(armyGroup => (
-            <Text>
-              {armyGroup.name}
-            </Text>
+            <TouchableHighlight
+              key={armyGroup.id}
+              onPress={() => onSelectArmyGroup(armyGroup)}
+            >
+              <Text>
+                {armyGroup.name}
+              </Text>
+            </TouchableHighlight>
           ))}
       </Container>
     );
@@ -101,6 +114,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   findArmyGroupForUser,
+  onSelectArmyGroup: armyGroup =>
+    NavigationActions.navigate({
+      routeName: 'ArmyList',
+      params: { armyList: armyGroup.armyList },
+    }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrawerMenu);

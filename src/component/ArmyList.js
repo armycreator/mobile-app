@@ -107,10 +107,21 @@ class ArmyList extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.app.get('me'),
-  armyList: state.app.get('lastArmyList'),
-});
+const mapStateToProps = (state, ownProps) => {
+  const armyList =
+    ownProps.navigation &&
+    ownProps.navigation.state &&
+    ownProps.navigation.state.params &&
+    ownProps.navigation.state.params.armyList &&
+    new Collection({
+      items: ownProps.navigation.state.params.armyList,
+    });
+
+  return {
+    user: state.app.get('me'),
+    armyList: armyList || state.app.get('lastArmyList'),
+  };
+};
 
 const mapDispatchToProps = {
   onSelectArmy: army =>
