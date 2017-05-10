@@ -9,11 +9,13 @@ import sdk from './Sdk';
 
 const authorizedRoutes = ['DrawerOpen', 'DrawerClose', 'Login', 'Logout'];
 
+class NoAccessTokenError extends Error {}
+
 function checkAccessToken() {
   // if we navigate, check if an access token is found
   return sdk.tokenStorage.hasAccessToken().then(hasAccessToken => {
     if (!hasAccessToken) {
-      throw new Error('No access token found');
+      throw new NoAccessTokenError('No access token found');
       // if no access token is found, then redirect to login
       // return next(NavigationActions.navigate({ routeName: 'Login' }));
     }
@@ -32,14 +34,24 @@ const LoginMiddleware = store => next => action => {
         })
       )
       .then(() => next(action))
-      .catch(() => next(NavigationActions.navigate({ routeName: 'Login' })));
+      .catch(error => {
+        if (error instanceof NoAccessTokenError) {
+          return next(NavigationActions.navigate({ routeName: 'Login' }));
+        }
+
+        throw error;
+      });
   } else if (
     action.type === 'Navigation/NAVIGATE' &&
     !authorizedRoutes.includes(action.routeName)
   ) {
-    return checkAccessToken()
-      .then(() => next(action))
-      .catch(() => next(NavigationActions.navigate({ routeName: 'Login' })));
+    return checkAccessToken().then(() => next(action)).catch(error => {
+      if (error instanceof NoAccessTokenError) {
+        return next(NavigationActions.navigate({ routeName: 'Login' }));
+      }
+
+      throw error;
+    });
   } else if (
     action.type === 'Navigation/NAVIGATE' &&
     action.routeName === 'Login'

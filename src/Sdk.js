@@ -6,6 +6,7 @@ import RestClientSdk, {
 } from 'rest-client-sdk';
 import { AsyncStorage } from 'react-native';
 import ArmyClient from './entity/client/ArmyClient';
+import ArmyGroupClient from './entity/client/ArmyGroupClient';
 import UserClient from './entity/client/UserClient';
 import SquadClient from './entity/client/SquadClient';
 import SquadLineClient from './entity/client/SquadLineClient';
@@ -34,6 +35,7 @@ const config = {
 const clients = {
   user: UserClient,
   army: ArmyClient,
+  armyGroup: ArmyGroupClient,
   squad: SquadClient,
   squadLine: SquadLineClient,
   // ...

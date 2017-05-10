@@ -1,18 +1,15 @@
 // @flow
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { PureComponent } from 'react';
 import { ActivityIndicator, ListView, TouchableHighlight } from 'react-native';
 import styled from 'styled-components/native';
-import { NavigationActions } from 'react-navigation';
-import colors from '../colors';
-import { findArmyForUser } from '../action/army';
-import { Collection, User } from '../entity';
+import colors from '../../colors';
+import { Army, Collection, User } from '../../entity';
 
 type ArmyListProps = {
   user: ?User,
   armyList: ?Collection,
   onSelectArmy: Function,
-  findArmyForUser: Function,
+  findArmyForUser: ?Function,
 };
 
 const ActivityIndicatorContainer = styled.View`
@@ -21,7 +18,7 @@ const ActivityIndicatorContainer = styled.View`
   align-items: center;
 `;
 
-const Army = styled.View`
+const ArmyRow = styled.View`
   background-color: ${colors.background};
   flex: 1;
   flex-direction: row;
@@ -37,7 +34,7 @@ const ArmyPoints = styled.Text`
   color: ${colors.softGray};
 `;
 
-class ArmyList extends Component {
+export default class ArmyListComponent extends PureComponent {
   props: ArmyListProps;
 
   dataSource: ListView.DataSource;
@@ -54,16 +51,16 @@ class ArmyList extends Component {
   componentDidMount() {
     const { armyList, findArmyForUser, user } = this.props;
 
-    if (user && !armyList) {
+    if (user && !armyList && findArmyForUser) {
       return findArmyForUser(user).catch(console.error);
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: ArmyListProps) {
     const { findArmyForUser, user } = this.props;
 
-    if (user && !prevProps.user) {
-      return this.props.findArmyForUser(user).catch(console.error);
+    if (user && !prevProps.user && findArmyForUser) {
+      return findArmyForUser(user).catch(console.error);
     }
   }
 
@@ -73,16 +70,16 @@ class ArmyList extends Component {
     }
   }
 
-  renderRow(army) {
+  renderRow(army: Army) {
     return (
       <TouchableHighlight onPress={() => this.props.onSelectArmy(army)}>
-        <Army key={army.id}>
+        <ArmyRow key={army.id}>
           <ArmyName>{army.name}</ArmyName>
           <ArmyPoints>
             {army.active_points}
             {' pts'}
           </ArmyPoints>
-        </Army>
+        </ArmyRow>
       </TouchableHighlight>
     );
   }
@@ -98,6 +95,16 @@ class ArmyList extends Component {
       );
     }
 
+    if (armyList.items.size === 0) {
+      return (
+        <ArmyRow>
+          <ArmyName>
+            Aucune armée trouvé
+          </ArmyName>
+        </ArmyRow>
+      );
+    }
+
     return (
       <ListView
         dataSource={this.getArmyListDataSource()}
@@ -106,16 +113,3 @@ class ArmyList extends Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  user: state.app.get('me'),
-  armyList: state.app.get('lastArmyList'),
-});
-
-const mapDispatchToProps = {
-  onSelectArmy: army =>
-    NavigationActions.navigate({ routeName: 'Army', params: { army } }),
-  findArmyForUser,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ArmyList);

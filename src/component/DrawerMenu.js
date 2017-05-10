@@ -1,10 +1,12 @@
 // @flow
 import React, { PureComponent } from 'react';
+import { TouchableHighlight, View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { DrawerItems } from 'react-navigation';
+import { DrawerItems, NavigationActions } from 'react-navigation';
 import colors from '../colors';
-import User from '../entity/User';
+import { Collection, User } from '../entity';
+import { findArmyGroupForUser } from '../action/armyGroup';
 
 const Container = styled.View`
   flex: 1;
@@ -16,15 +18,33 @@ const DrawerHeaderContainer = styled.View`
   padding: 15;
 `;
 
+const ArmyGroupListHeader = styled.Text`
+  margin-horizontal: 15;
+  padding: 15;
+  color: ${colors.softGray};
+  text-align: center;
+  border-bottom-width: 1;
+  border-bottom-color: ${colors.secondary};
+`;
+
 const DrawerHeader = styled.Text`
   color: ${colors.background};
   font-size: 18;
   font-weight: bold;
 `;
 
+const DrawerItem = styled.Text`
+  color: ${colors.softGray};
+  font-weight: bold;
+  padding: 15;
+`;
+
 type Props = {
   me: ?User,
   navigation: any,
+  findArmyGroupForUser: Function,
+  armyGroupList: ?Collection,
+  onSelectArmyGroup: Function,
 };
 type Route = { key: string, routeName: string };
 
@@ -42,31 +62,36 @@ class DrawerMenu extends PureComponent {
     };
 
     this.loggedRoutes = [
-      { key: 'ArmyList', routeName: 'ArmyList' },
+      { key: 'LastArmyList', routeName: 'LastArmyList' },
       { key: 'Logout', routeName: 'Logout' },
     ];
     this.anonymousRoutes = [{ key: 'Login', routeName: 'Login' }];
   }
 
-  // componentDidMount() {
-  //   console.log('mount');
-  //   sdk.tokenStorage
-  //     .hasAccessToken()
-  //     .then(hasAccessToken => {
-  //       if (!hasAccessToken) {
-  //         throw new Error('No access token found');
-  //       }
-  //     })
-  //     .then(() => this.setState({ routes: this.loggedRoutes }))
-  //     .catch(() => this.setState({ routes: this.anonymousRoutes }));
-  // }
+  componentDidMount() {
+    const { me } = this.props;
 
-  // componentDidUpdate() {
-  //   console.log('update');
-  // }
+    if (me) {
+      this.props.findArmyGroupForUser(me);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { me } = this.props;
+
+    if (!prevProps.me && me) {
+      this.props.findArmyGroupForUser(me);
+    }
+  }
 
   render() {
-    const { me, navigation, ...rest } = this.props;
+    const {
+      armyGroupList,
+      me,
+      navigation,
+      onSelectArmyGroup,
+      ...rest
+    } = this.props;
 
     const newNavigation = navigation;
     newNavigation.state = Object.assign({}, navigation.state, {
@@ -80,6 +105,23 @@ class DrawerMenu extends PureComponent {
         </DrawerHeaderContainer>
 
         <DrawerItems navigation={newNavigation} {...rest} />
+
+        {armyGroupList &&
+          armyGroupList.items.size > 0 &&
+          <View>
+            <ArmyGroupListHeader>Mes groupes</ArmyGroupListHeader>
+            {armyGroupList.items.map(armyGroup => (
+              <TouchableHighlight
+                key={armyGroup.id}
+                onPress={() => onSelectArmyGroup(armyGroup)}
+                underlayColor="rgba(0,0,0,0.3)"
+              >
+                <DrawerItem>
+                  {armyGroup.name}
+                </DrawerItem>
+              </TouchableHighlight>
+            ))}
+          </View>}
       </Container>
     );
   }
@@ -87,6 +129,19 @@ class DrawerMenu extends PureComponent {
 
 const mapStateToProps = state => ({
   me: state.app.get('me'),
+  armyGroupList: state.app.get('armyGroupList'),
 });
 
-export default connect(mapStateToProps)(DrawerMenu);
+const mapDispatchToProps = {
+  findArmyGroupForUser,
+  onSelectArmyGroup: armyGroup =>
+    NavigationActions.navigate({
+      routeName: 'ProvidedArmyList',
+      params: {
+        armyList: armyGroup.armyList,
+        title: armyGroup.name,
+      },
+    }),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerMenu);

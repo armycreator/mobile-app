@@ -4,16 +4,24 @@
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
 import colors from './colors';
 import Army from './component/Army';
-import ArmyList from './component/ArmyList';
+import { ProvidedArmyList, LastArmyList } from './component/ArmyList';
 import Login from './component/login';
 import Logout from './component/login/Logout';
 import Squad from './component/Squad';
 import DrawerMenu from './component/DrawerMenu';
 
 const ArmyCreatorApp = {
-  ArmyList: {
-    screen: ArmyList,
-    navigationOptions: { title: 'Mes armées' },
+  LastArmyList: {
+    screen: LastArmyList,
+    navigationOptions: {
+      title: 'Mes armées',
+    },
+  },
+  ProvidedArmyList: {
+    screen: ProvidedArmyList,
+    navigationOptions: ({ navigation }) => ({
+      title: navigation.state.params.title,
+    }),
   },
   Army: {
     screen: Army,
@@ -30,7 +38,7 @@ const ArmyCreatorApp = {
 };
 
 const AppNavigator = StackNavigator(ArmyCreatorApp, {
-  initialRouteName: 'ArmyList',
+  initialRouteName: 'LastArmyList',
   cardStyle: {
     backgroundColor: colors.background,
   },
@@ -46,9 +54,12 @@ const AppNavigator = StackNavigator(ArmyCreatorApp, {
 
 export default DrawerNavigator(
   {
-    ArmyList: {
+    LastArmyList: {
       screen: AppNavigator,
       navigationOptions: { title: 'Mes dernières listes' },
+    },
+    ProvidedArmyList: {
+      screen: AppNavigator,
     },
     Login: { screen: Login, navigationOptions: { title: 'Connexion' } },
     Logout: { screen: Logout, navigationOptions: { title: 'Déconnexion' } },

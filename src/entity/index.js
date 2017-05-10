@@ -1,4 +1,5 @@
 export Army from './Army';
+export ArmyGroup from './ArmyGroup';
 export Breed from './Breed';
 export Collection from './Collection';
 export Squad from './Squad';
