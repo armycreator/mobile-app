@@ -62,7 +62,7 @@ class DrawerMenu extends PureComponent {
     };
 
     this.loggedRoutes = [
-      { key: 'ArmyList', routeName: 'ArmyList' },
+      { key: 'LastArmyList', routeName: 'LastArmyList' },
       { key: 'Logout', routeName: 'Logout' },
     ];
     this.anonymousRoutes = [{ key: 'Login', routeName: 'Login' }];
@@ -136,7 +136,7 @@ const mapDispatchToProps = {
   findArmyGroupForUser,
   onSelectArmyGroup: armyGroup =>
     NavigationActions.navigate({
-      routeName: 'ArmyList',
+      routeName: 'ProvidedArmyList',
       params: {
         armyList: armyGroup.armyList,
         title: armyGroup.name,
