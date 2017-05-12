@@ -1,15 +1,23 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { ActivityIndicator, ListView, TouchableHighlight } from 'react-native';
+import {
+  ActivityIndicator,
+  ListView,
+  RefreshControl,
+  TouchableHighlight,
+} from 'react-native';
 import styled from 'styled-components/native';
 import colors from '../../colors';
 import { Army, Collection, User } from '../../entity';
 
 type ArmyListProps = {
-  user: ?User,
   armyList: ?Collection,
   onSelectArmy: Function,
-  findArmyForUser: ?Function,
+  fetchArmyList: Function,
+};
+
+type ArmyListStateProps = {
+  refreshing: boolean,
 };
 
 const ActivityIndicatorContainer = styled.View`
@@ -37,6 +45,8 @@ const ArmyPoints = styled.Text`
 export default class ArmyListComponent extends PureComponent {
   props: ArmyListProps;
 
+  state: ArmyListStateProps;
+
   dataSource: ListView.DataSource;
 
   constructor(props: ArmyListProps) {
@@ -46,21 +56,18 @@ export default class ArmyListComponent extends PureComponent {
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
     (this: any).renderRow = this.renderRow.bind(this);
+    (this: any).onRefresh = this.onRefresh.bind(this);
+
+    this.state = {
+      refreshing: false,
+    };
   }
 
   componentDidMount() {
-    const { armyList, findArmyForUser, user } = this.props;
+    const { armyList, fetchArmyList } = this.props;
 
-    if (user && !armyList && findArmyForUser) {
-      return findArmyForUser(user).catch(console.error);
-    }
-  }
-
-  componentDidUpdate(prevProps: ArmyListProps) {
-    const { findArmyForUser, user } = this.props;
-
-    if (user && !prevProps.user && findArmyForUser) {
-      return findArmyForUser(user).catch(console.error);
+    if (!armyList) {
+      fetchArmyList().catch(console.error);
     }
   }
 
@@ -68,6 +75,8 @@ export default class ArmyListComponent extends PureComponent {
     if (this.props.armyList) {
       return this.dataSource.cloneWithRows(this.props.armyList.items.toArray());
     }
+
+    return null;
   }
 
   renderRow(army: Army) {
@@ -82,6 +91,19 @@ export default class ArmyListComponent extends PureComponent {
         </ArmyRow>
       </TouchableHighlight>
     );
+  }
+
+  onRefresh() {
+    this.setState({
+      refreshing: true,
+    });
+
+    const stopRefreshing = () => this.setState({ refreshing: false });
+
+    this.props
+      .fetchArmyList()
+      .then(() => stopRefreshing())
+      .catch(() => stopRefreshing());
   }
 
   render() {
@@ -109,6 +131,12 @@ export default class ArmyListComponent extends PureComponent {
       <ListView
         dataSource={this.getArmyListDataSource()}
         renderRow={this.renderRow}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+          />
+        }
       />
     );
   }

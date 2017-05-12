@@ -138,6 +138,7 @@ const mapDispatchToProps = {
     NavigationActions.navigate({
       routeName: 'ProvidedArmyList',
       params: {
+        armyGroup,
         armyList: armyGroup.armyList,
         title: armyGroup.name,
       },
