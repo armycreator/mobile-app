@@ -10,7 +10,7 @@ import styled from 'styled-components/native';
 import colors from '../../colors';
 import { Army, Collection, User } from '../../entity';
 
-type ArmyListProps = {
+export type ArmyListProps = {
   armyList: ?Collection,
   onSelectArmy: Function,
   fetchArmyList: Function,

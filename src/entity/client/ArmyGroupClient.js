@@ -5,7 +5,7 @@ import { ArmyGroup, User } from '../';
 
 class ArmyGroupClient extends AbstractClient {
   getPathBase(): string {
-    return '/v1/armies';
+    return '/v1/armygroups';
   }
 
   findByUser(user: User): Promise<any> {

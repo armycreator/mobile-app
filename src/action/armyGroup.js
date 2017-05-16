@@ -16,9 +16,8 @@ export function findArmyGroupForUser(user: User) {
   };
 }
 
-export function findArmyGroup(id) {
-  return (dispatch: Function) => {
-    sdk.armyGroup
+export function findArmyGroup(id: string) {
+  return (dispatch: Function) => sdk.armyGroup
       .find(id)
       .then(armyGroup => {
         dispatch({
@@ -27,5 +26,4 @@ export function findArmyGroup(id) {
         });
       })
       .catch(console.error);
-  };
 }

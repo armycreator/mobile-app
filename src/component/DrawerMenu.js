@@ -139,7 +139,6 @@ const mapDispatchToProps = {
       routeName: 'ProvidedArmyList',
       params: {
         armyGroup,
-        armyList: armyGroup.armyList,
         title: armyGroup.name,
       },
     }),
