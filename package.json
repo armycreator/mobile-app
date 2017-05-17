@@ -1,5 +1,5 @@
 {
-  "name": "mobile-app",
+  "name": "Armycreator",
   "version": "0.1.0",
   "private": true,
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
@@ -43,6 +43,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
+    "exp": "^40.0.2",
     "flow-bin": "^0.40.0",
     "flow-typed": "^2.1.2",
     "husky": "^0.13.3",

@@ -1,6 +1,24 @@
 {
   "expo": {
     "name": "Armycreator",
-    "sdkVersion": "16.0.0"
+    "version": "1.0.0",
+    "sdkVersion": "16.0.0",
+    "slug": "armycreator",
+    "privacy": "unlisted",
+    "primaryColor": "#457F78",
+    "icon": "resources/icon-512.png",
+    "loading": {
+        "icon": "resources/icon-512.png",
+        "backgroundImage": "resources/splash.png",
+        "backgroundColor": "#181818",
+        "hideExponentText": true
+    },
+    "androidStatusBarColor": "#181818",
+    "androidShowExponentNotificationInShellApp": false,
+    "scheme": "armycreator",
+    "android": {
+        "package": "com.juliendeniau.armycreator",
+        "versionCode": 2003
+    }
   }
 }
