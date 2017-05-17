@@ -15,3 +15,15 @@ export function findArmyGroupForUser(user: User) {
       .catch(console.error);
   };
 }
+
+export function findArmyGroup(id: string) {
+  return (dispatch: Function) => sdk.armyGroup
+      .find(id)
+      .then(armyGroup => {
+        dispatch({
+          type: 'ARMY_GROUP_RECEIVE',
+          armyGroup,
+        });
+      })
+      .catch(console.error);
+}

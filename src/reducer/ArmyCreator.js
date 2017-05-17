@@ -1,6 +1,6 @@
 // @flow
 import { List, Map } from 'immutable';
-import { Army, Collection, Squad, SquadLine, User } from '../entity';
+import { Army, ArmyGroup, Collection, Squad, SquadLine, User } from '../entity';
 
 type State = Map<string, any>;
 
@@ -30,6 +30,14 @@ function squadLineDetailReceived(state: State, squadLine: SquadLine) {
   return setSquadDetail(state, newSquad);
 }
 
+function armyGroupReceived(state: State, armyGroup: ArmyGroup) {
+  return state.setIn(['refreshedArmyGroupList', armyGroup.id], armyGroup);
+}
+
+function armyGroupListReceive(state, armyGroupList) {
+  return state.set('armyGroupList', armyGroupList);
+}
+
 const initialState: State = Map({
   initialized: false,
   me: null,
@@ -37,6 +45,8 @@ const initialState: State = Map({
   isMenuOpen: false,
   currentArmyDetail: null,
   currentSquadDetail: null,
+  armyGroupList: null,
+  refreshedArmyGroupList: Map(),
 });
 
 type ActionType = {
@@ -49,6 +59,7 @@ type ActionType = {
   user: User,
   isOpen?: boolean,
   armyGroupList?: Collection,
+  armyGroup?: ArmyGroup,
 };
 
 export default function armyCreatorReducer(
@@ -59,7 +70,7 @@ export default function armyCreatorReducer(
     case 'RECEIVE_ME':
       return state.set('me', action.user);
     case 'ARMY_GROUP_LIST_RECEIVE':
-      return state.set('armyGroupList', action.armyGroupList);
+      return armyGroupListReceive(state, action.armyGroupList);
     case 'LAST_ARMY_LIST_RECEIVE':
       return state.set('lastArmyList', action.armyList);
     case 'ARMY_DETAIL_RECEIVE':
@@ -76,6 +87,8 @@ export default function armyCreatorReducer(
       return state.set('isMenuOpen', action.isOpen);
     case 'LOGOUT':
       return initialState;
+    case 'ARMY_GROUP_RECEIVE':
+      return armyGroupReceived(state, action.armyGroup);
     default:
       return state;
   }
