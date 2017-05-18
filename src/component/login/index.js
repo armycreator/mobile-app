@@ -31,7 +31,6 @@ const Header = styled.Text`
 
 const HeaderContainer = styled.View`
   padding: 15;
-  margin-bottom: 15;
   background-color: ${colors.secondary};
 `;
 
@@ -104,12 +103,12 @@ class Login extends Component {
     const isLoginButtonDisabled = !(this.state.username && this.state.password);
 
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.content}>
+      <View style={styles.content}>
         <HeaderContainer>
           <Header>ArmyCreator - Connexion</Header>
         </HeaderContainer>
 
-        <View style={styles.content}>
+        <View style={styles.body}>
           <View style={styles.loginForm}>
             <Text style={styles.label}>Utilisateur</Text>
             <TextInput
@@ -181,13 +180,18 @@ class Login extends Component {
             </Button>
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   content: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+
+  body: {
     flex: 1,
     justifyContent: 'center',
   },
