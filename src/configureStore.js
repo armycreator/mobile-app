@@ -6,10 +6,9 @@ import thunk from 'redux-thunk';
 import { NavigationActions } from 'react-navigation';
 import reducer from './reducer';
 import sdk from './Sdk';
+import { NoAccessTokenError } from './error';
 
 const authorizedRoutes = ['DrawerOpen', 'DrawerClose', 'Login', 'Logout'];
-
-class NoAccessTokenError extends Error {}
 
 function checkAccessToken() {
   // if we navigate, check if an access token is found

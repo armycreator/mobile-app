@@ -8,6 +8,7 @@
     "primaryColor": "#457F78",
     "icon": "resources/icon-512.png",
     "loading": {
+        "icon": "resources/pixel.png",
         "backgroundImage": "resources/splash.png",
         "backgroundColor": "#181818",
         "hideExponentText": true
