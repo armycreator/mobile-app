@@ -41,31 +41,22 @@ const DrawerItem = styled.Text`
 
 type Props = {
   me: ?User,
-  navigation: any,
+  items: Array<any>,
   findArmyGroupForUser: Function,
   armyGroupList: ?Collection,
   onSelectArmyGroup: Function,
 };
-type Route = { key: string, routeName: string };
 
 class DrawerMenu extends PureComponent {
   props: Props;
-  state: { routes: Array<Route> };
-  loggedRoutes: Array<Route>;
-  anonymousRoutes: Array<Route>;
+  loggedRoutes: Array<string>;
+  anonymousRoutes: Array<string>;
 
   constructor(props: Props) {
     super(props);
 
-    this.state = {
-      routes: [],
-    };
-
-    this.loggedRoutes = [
-      { key: 'LastArmyList', routeName: 'LastArmyList' },
-      { key: 'Logout', routeName: 'Logout' },
-    ];
-    this.anonymousRoutes = [{ key: 'Login', routeName: 'Login' }];
+    this.loggedRoutes = ['LastArmyList', 'Logout'];
+    this.anonymousRoutes = ['Login'];
   }
 
   componentDidMount() {
@@ -85,18 +76,15 @@ class DrawerMenu extends PureComponent {
   }
 
   render() {
-    const {
-      armyGroupList,
-      me,
-      navigation,
-      onSelectArmyGroup,
-      ...rest
-    } = this.props;
+    const { armyGroupList, me, onSelectArmyGroup, items, ...rest } = this.props;
 
-    const newNavigation = navigation;
-    newNavigation.state = Object.assign({}, navigation.state, {
-      routes: me ? this.loggedRoutes : this.anonymousRoutes,
-    });
+    const filteredItems = me
+      ? items.filter(item =>
+          this.loggedRoutes.find(tmp => tmp === item.routeName)
+        )
+      : items.filter(item =>
+          this.anonymousRoutes.find(tmp => tmp === item.routeName)
+        );
 
     return (
       <Container>
@@ -104,7 +92,7 @@ class DrawerMenu extends PureComponent {
           <DrawerHeader>Army Creator</DrawerHeader>
         </DrawerHeaderContainer>
 
-        <DrawerItems navigation={newNavigation} {...rest} />
+        <DrawerItems items={filteredItems} {...rest} />
 
         {armyGroupList &&
           armyGroupList.items.size > 0 &&
