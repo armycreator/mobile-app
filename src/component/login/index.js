@@ -30,7 +30,7 @@ const Header = styled.Text`
 `;
 
 const HeaderContainer = styled.View`
-  padding: 15;
+  padding: 15px;
   background-color: ${colors.secondary};
 `;
 

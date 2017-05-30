@@ -15,12 +15,12 @@ const Container = styled.View`
 
 const DrawerHeaderContainer = styled.View`
   backgroundColor: ${colors.secondary};
-  padding: 15;
+  padding: 15px;
 `;
 
 const ArmyGroupListHeader = styled.Text`
   margin-horizontal: 15;
-  padding: 15;
+  padding: 15px;
   color: ${colors.softGray};
   text-align: center;
   border-bottom-width: 1;
@@ -36,7 +36,7 @@ const DrawerHeader = styled.Text`
 const DrawerItem = styled.Text`
   color: ${colors.softGray};
   font-weight: bold;
-  padding: 15;
+  padding: 15px;
 `;
 
 type Props = {

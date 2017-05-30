@@ -13,7 +13,7 @@ function goToArmyList() {
         });
       })
       .then(() =>
-        dispatch(NavigationActions.navigate({ routeName: 'ArmyList' }))
+        dispatch(NavigationActions.navigate({ routeName: 'LastArmyList' }))
       );
 }
 

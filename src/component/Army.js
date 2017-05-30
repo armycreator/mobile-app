@@ -42,7 +42,7 @@ const Title = styled.Text`
 
 const ArmyDescription = styled.Text`
   color: ${colors.softGray};
-  padding: 15;
+  padding: 15px;
 `;
 
 const UnitTypeContainer = styled.View`
@@ -61,7 +61,7 @@ const UnitType = styled.Text`
 `;
 
 const SquadContainer = styled.View`
-  padding: 15;
+  padding: 15px;
   flex-direction: row;
   justify-content: space-between;
   border-top-width: ${({ isFirst }) => (isFirst ? 0 : 1)};

@@ -33,7 +33,7 @@ const ArmyRow = styled.View`
   justify-content: space-between;
   border-bottom-width: 1;
   border-bottom-color: ${colors.black};
-  padding: 15;
+  padding: 15px;
 `;
 const ArmyName = styled.Text`
   color: ${colors.white};

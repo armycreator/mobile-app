@@ -2,7 +2,7 @@
   "expo": {
     "name": "Armycreator",
     "version": "1.0.0",
-    "sdkVersion": "16.0.0",
+    "sdkVersion": "17.0.0",
     "slug": "armycreator",
     "privacy": "unlisted",
     "primaryColor": "#457F78",

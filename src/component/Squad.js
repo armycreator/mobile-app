@@ -58,7 +58,7 @@ const SquadLinePoints = styled.Text`
 const SquadLineStuffView = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  padding: 10;
+  padding: 10px;
   border-bottom-width: 1;
   border-bottom-color: ${colors.black};
 `;

@@ -14,7 +14,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "prettier-eslint --prettier.single-quote --prettier.trailing-comma es5 --write",
+      "prettier-eslint --single-quote --trailing-comma es5 --write",
       "git add"
     ]
   },
@@ -22,38 +22,38 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "expo": "^16.0.0",
+    "expo": "^17.0.0",
     "immutable": "^3.8.1",
     "prettier": "^1.1.0",
     "react": "16.0.0-alpha.6",
-    "react-native": "^0.43.0",
-    "react-navigation": "^1.0.0-beta.9",
-    "react-redux": "^5.0.4",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-17.0.0.tar.gz",
+    "react-navigation": "^1.0.0-beta.11",
+    "react-redux": "^5.0.5",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "rest-client-sdk": "^0.13.0",
-    "styled-components": "^1.4.5"
+    "styled-components": "^2.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-config-prettier": "^2.0.0",
-    "eslint-plugin-flowtype": "^2.32.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^7.0.0",
-    "exp": "^40.0.2",
-    "flow-bin": "^0.40.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-config-prettier": "^2.1.1",
+    "eslint-plugin-flowtype": "^2.34.0",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^5.0.0",
+    "eslint-plugin-react": "^7.0.1",
+    "exp": "^41.0.0",
+    "flow-bin": "^0.42.0",
     "flow-typed": "^2.1.2",
-    "husky": "^0.13.3",
-    "jest-expo": "^0.4.0",
-    "lint-staged": "^3.4.1",
-    "prettier-eslint": "^6.1.2",
-    "prettier-eslint-cli": "^3.4.2",
-    "react-devtools": "^2.1.9",
-    "react-native-scripts": "0.0.29",
-    "react-test-renderer": "~15.4.1",
-    "remote-redux-devtools": "^0.5.10"
+    "husky": "^0.13.4",
+    "jest-expo": "1.0.1",
+    "lint-staged": "^3.5.1",
+    "prettier-eslint": "^6.2.3",
+    "prettier-eslint-cli": "^3.6.1",
+    "react-devtools": "^2.2.1",
+    "react-native-scripts": "0.0.30",
+    "react-test-renderer": "^15.5.4",
+    "remote-redux-devtools": "^0.5.11"
   }
 }
