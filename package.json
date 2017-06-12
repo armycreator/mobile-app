@@ -47,7 +47,7 @@
     "flow-bin": "^0.42.0",
     "flow-typed": "^2.1.2",
     "husky": "^0.13.4",
-    "jest-expo": "1.0.1",
+    "jest-expo": "1.0.2",
     "lint-staged": "^3.5.1",
     "prettier-eslint": "^6.2.3",
     "prettier-eslint-cli": "^3.6.1",

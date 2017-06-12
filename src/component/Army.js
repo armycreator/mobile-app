@@ -1,7 +1,12 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, TouchableHighlight } from 'react-native';
+import {
+  RefreshControl,
+  ScrollView,
+  View,
+  TouchableHighlight,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
@@ -30,7 +35,8 @@ const TitleProgressBar = styled.View`
   bottom: 0;
   left: 0;
   width: ${({ percentage }) => `${percentage}%`}
-  background-color: ${({ active }) => (active ? colors.primary : colors.slateGray)};
+  background-color: ${({ active }) =>
+    active ? colors.primary : colors.slateGray};
 `;
 
 const Title = styled.Text`
@@ -101,7 +107,7 @@ function SquadListByType({ squadListByType, onSelectSquad }) {
         </SquadListPoints>
       </UnitTypeContainer>
 
-      {squadList.map((squad, key) => (
+      {squadList.map((squad, key) =>
         <TouchableHighlight key={squad.id} onPress={() => onSelectSquad(squad)}>
           <SquadContainer isFirst={key === 0}>
             <Squad>
@@ -113,13 +119,29 @@ function SquadListByType({ squadListByType, onSelectSquad }) {
             </SquadPoints>
           </SquadContainer>
         </TouchableHighlight>
-      ))}
+      )}
     </View>
   );
 }
 
+type ArmyStateProps = {
+  refreshing: boolean,
+};
+
 class Army extends Component {
   props: ArmyProps;
+
+  state: ArmyStateProps;
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      refreshing: false,
+    };
+
+    (this: any).onRefresh = this.onRefresh.bind(this);
+  }
 
   componentDidMount() {
     const { army, fetchArmyDetail } = this.props;
@@ -129,6 +151,18 @@ class Army extends Component {
 
   componentWillUnmount() {
     this.props.onArmyUnmount();
+  }
+
+  onRefresh() {
+    const { army, fetchArmyDetail } = this.props;
+
+    const stopRefreshing = () => this.setState({ refreshing: false });
+
+    this.setState({
+      refreshing: true,
+    });
+
+    fetchArmyDetail(army.id).then(stopRefreshing).catch(stopRefreshing);
   }
 
   render() {
@@ -143,7 +177,14 @@ class Army extends Component {
     const activePointsPercentage = 100 * armyDetail.active_points / maxPoints;
 
     return (
-      <View>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+          />
+        }
+      >
         <TitleContainer>
           {pointsPercentage > 0 &&
             <TitleProgressBar percentage={pointsPercentage} />}
@@ -157,14 +198,14 @@ class Army extends Component {
 
         <ArmyDescription>{armyDetail.description}</ArmyDescription>
 
-        {armyDetail.squadListByType.map(squadListByType => (
+        {armyDetail.squadListByType.map(squadListByType =>
           <SquadListByType
             key={squadListByType.unitType.id}
             squadListByType={squadListByType}
             onSelectSquad={onSelectSquad}
           />
-        ))}
-      </View>
+        )}
+      </ScrollView>
     );
   }
 }

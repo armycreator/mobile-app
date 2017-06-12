@@ -100,10 +100,7 @@ export default class ArmyListComponent extends PureComponent {
 
     const stopRefreshing = () => this.setState({ refreshing: false });
 
-    this.props
-      .fetchArmyList()
-      .then(() => stopRefreshing())
-      .catch(() => stopRefreshing());
+    this.props.fetchArmyList().then(stopRefreshing).catch(stopRefreshing);
   }
 
   render() {
