@@ -2,14 +2,15 @@
 import { User } from '../entity';
 import sdk from '../Sdk';
 
-export function findArmyForUser(user: User) {
+export function findArmyForUser(user: User, page: number = 1) {
   return (dispatch: Function) =>
     sdk.army
-      .findByUser(user)
+      .findByUser(user, page)
       .then(armyList => {
         dispatch({
           type: 'LAST_ARMY_LIST_RECEIVE',
           armyList,
+          page,
         });
         // this.setState(() => ({
         // armyList: this.dataSource.cloneWithRows(

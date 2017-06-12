@@ -60,6 +60,7 @@ type ActionType = {
   isOpen?: boolean,
   armyGroupList?: Collection,
   armyGroup?: ArmyGroup,
+  page?: number,
 };
 
 export default function armyCreatorReducer(
@@ -72,6 +73,16 @@ export default function armyCreatorReducer(
     case 'ARMY_GROUP_LIST_RECEIVE':
       return armyGroupListReceive(state, action.armyGroupList);
     case 'LAST_ARMY_LIST_RECEIVE':
+      if (action.page && action.page > 1) {
+        return state
+          .setIn(
+            ['lastArmyList', 'items'],
+            state
+              .getIn(['lastArmyList', 'items'])
+              .concat(action.armyList.get('items'))
+          )
+          .setIn(['lastArmyList', 'current_page_number'], action.page);
+      }
       return state.set('lastArmyList', action.armyList);
     case 'ARMY_DETAIL_RECEIVE':
       return state.set('currentArmyDetail', action.armyDetail);

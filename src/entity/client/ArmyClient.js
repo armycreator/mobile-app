@@ -8,8 +8,9 @@ class ArmyClient extends AbstractClient {
     return '/v1/armies';
   }
 
-  findByUser(user: User): Promise<any> {
-    const url = `${this.sdk.config.segment}/users/${user.id}/armies`;
+  findByUser(user: User, page: number = 1): Promise<any> {
+    const url = `${this.sdk.config
+      .segment}/users/${user.id}/armies?page=${page}`;
 
     return this.deserializeResponse(this.authorizedFetch(url), 'list');
   }

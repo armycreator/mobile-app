@@ -14,6 +14,7 @@ export type ArmyListProps = {
   armyList: ?Collection,
   onSelectArmy: Function,
   fetchArmyList: Function,
+  fetchNextPage: Function,
 };
 
 type ArmyListStateProps = {
@@ -80,6 +81,7 @@ export default class ArmyListComponent extends PureComponent {
   }
 
   renderRow(army: Army) {
+    console.log(army.id);
     return (
       <TouchableHighlight onPress={() => this.props.onSelectArmy(army)}>
         <ArmyRow key={army.id}>
@@ -126,6 +128,7 @@ export default class ArmyListComponent extends PureComponent {
 
     return (
       <ListView
+        onEndReached={this.props.fetchNextPage}
         dataSource={this.getArmyListDataSource()}
         renderRow={this.renderRow}
         refreshControl={
