@@ -15,6 +15,8 @@ import { login } from '../../action/login';
 import Button from '../Button';
 import colors from '../../colors';
 
+const debug = false;
+
 type Props = {
   login: Function,
 };
@@ -159,25 +161,26 @@ class Login extends Component {
                   </View>}
             </Button>
 
-            <Button
-              color="danger"
-              onPress={() =>
-                this.setState({
-                  username: 'testjdu',
-                  password: 'testjdu',
-                  loginStatus: null,
-                })}
-              disabled={this.state.loginStatus === 'IN_PROGRESS'}
-            >
-              <Text
-                style={[
-                  styles.primaryButtonText,
-                  isLoginButtonDisabled && styles.buttonDisabled,
-                ]}
+            {debug &&
+              <Button
+                color="danger"
+                onPress={() =>
+                  this.setState({
+                    username: 'testjdu',
+                    password: 'testjdu',
+                    loginStatus: null,
+                  })}
+                disabled={this.state.loginStatus === 'IN_PROGRESS'}
               >
-                Debug Fill
-              </Text>
-            </Button>
+                <Text
+                  style={[
+                    styles.primaryButtonText,
+                    isLoginButtonDisabled && styles.buttonDisabled,
+                  ]}
+                >
+                  Debug Fill
+                </Text>
+              </Button>}
           </View>
         </View>
       </View>
